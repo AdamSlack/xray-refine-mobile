@@ -25,6 +25,7 @@ public class AppDetailView extends AppCompatActivity {
 
     private String appPackageName = "";
     private Spinner dropdown;
+    private TextView totalUsageTextView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,10 +38,11 @@ public class AppDetailView extends AppCompatActivity {
         ImageView appIconImageView = (ImageView) findViewById(R.id.appIconImageView);
 
         dropdown = findViewById(R.id.timePediodSpinner);
+        totalUsageTextView = findViewById(R.id.timeUsageTextView);
 
         if(intent.hasExtra("appPackageName")){
             AppInfo app = new AppInfo(intent.getStringExtra("appPackageName"), getPackageManager());
-            appPackageName = app.getAppName();
+            appPackageName = app.getAppPackageName();
             appNameTextView.setText(app.getAppName());
             appPackageNameTextView.setText(app.getAppPackageName());
             appIconImageView.setImageDrawable(app.getAppIcon());
@@ -55,30 +57,48 @@ public class AppDetailView extends AppCompatActivity {
         });
 
         initialiseTimeWindowSpinner();
-        calculateAppTimeUsage("day", appPackageName);
-
+        long usageTime = calculateAppTimeUsage("day", appPackageName);
+        String usageString = formatUsageTime(usageTime);
+        totalUsageTextView.setText(usageString);
     }
 
-    private void calculateAppTimeUsage(String interval, String appPackageName) {
+    private long calculateAppTimeUsage(String interval, String appPackageName) {
         if(!MainActivity.checkForPermission(this)){
-            return;
+            return 0;
         }
         UsageStatsManager usageStatsManager = (UsageStatsManager) getSystemService(Context.USAGE_STATS_SERVICE);
 
         Calendar calendar = Calendar.getInstance();
-        if (interval.equals("week")){
+        if (interval.equals("Week")){
             calendar.add(Calendar.DATE, -7);
         }
-        else if (interval.equals("month")) {
-            calendar.add(Calendar.MONTH, -1);
+        else if (interval.equals("Month")) {
+            calendar.add(Calendar.DATE, -30);
         }
         else {
             calendar.add(Calendar.DATE, -1);
         }
         long start = calendar.getTimeInMillis();
         long end = System.currentTimeMillis();
-        Map<String, UsageStats> stats = usageStatsManager.queryAndAggregateUsageStats(start, end);
+        System.out.println(Long.toString(start) + "  " + Long.toString(end) + "  " + Long.toString(end-start));
 
+        Map<String, UsageStats> allStats = usageStatsManager.queryAndAggregateUsageStats(start, end);
+
+        long totalTime;
+        if(allStats.containsKey(appPackageName)){
+            UsageStats stats = allStats.get(appPackageName);
+            totalTime = stats.getTotalTimeInForeground();
+        }
+        else {
+            totalTime = 0;
+        }
+        return totalTime;
+    }
+
+    private String formatUsageTime(long usageTime) {
+        int minutes = (int) ((usageTime / (1000*60)) % 60);
+        int hours   = (int) ((usageTime / (1000*60*60)) % 24);
+        return Integer.toString(hours) + " Hrs, " + Integer.toString(minutes) +"min";
     }
 
     private void initialiseTimeWindowSpinner() {
@@ -88,12 +108,17 @@ public class AppDetailView extends AppCompatActivity {
         dropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                calculateAppTimeUsage((String) dropdown.getSelectedItem(), appPackageName);
+                long usageTime = calculateAppTimeUsage((String) dropdown.getSelectedItem(), appPackageName);
+                String usageString = formatUsageTime(usageTime);
+                totalUsageTextView.setText(usageString);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 dropdown.setSelection(0);
+                long usageTime = calculateAppTimeUsage((String) dropdown.getSelectedItem(), appPackageName);
+                String usageString = formatUsageTime(usageTime);
+                totalUsageTextView.setText(usageString);
             }
         });
     }

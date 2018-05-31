@@ -1,10 +1,13 @@
 package com.sociam.refine;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -23,8 +26,20 @@ public class ListApplications extends AppCompatActivity {
 
         ArrayList<AppInfo> apps = getAppInfo();
 
-        AppInfoAdapter appInfoAdapter = new AppInfoAdapter(this, apps);
+        final AppInfoAdapter appInfoAdapter = new AppInfoAdapter(this, apps);
         appListView.setAdapter(appInfoAdapter);
+
+        appListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                AppInfo app = (AppInfo) appInfoAdapter.getItem(position);
+
+                Intent viewApp = new Intent(getApplicationContext(),AppDetailView.class);
+                viewApp.putExtra("appPackageName", app.getAppPackageName());
+                startActivity(viewApp);
+            }
+        });
+
     }
 
     private List<ResolveInfo> getAppList() {

@@ -5,7 +5,9 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.drawable.Drawable;
 
-public class AppInfo {
+import java.io.Serializable;
+
+public class AppInfo implements Serializable {
 
     private String appName;
     private Drawable appIcon;
@@ -126,4 +128,6 @@ public class AppInfo {
     public Drawable getAppIcon() {
         return  appIcon;
     }
+
+
 }

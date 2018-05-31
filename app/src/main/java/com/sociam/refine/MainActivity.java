@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Process;
 import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -25,7 +26,8 @@ import java.util.Map;
 
 import static android.app.AppOpsManager.MODE_ALLOWED;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener{
 
     private DrawerLayout mDrawerLayout;
 
@@ -67,15 +69,8 @@ public class MainActivity extends AppCompatActivity {
                 }
         );
 
-//        Button viewAppBtn = (Button) findViewById(R.id.viewAppsBtn);
-//
-//        viewAppBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent findOwnApps = new Intent(getApplicationContext(), ListApplications.class);
-//                startActivity(findOwnApps);
-//            }
-//        });
+        setNavigationViewListener();
+
 
         if (!MainActivity.checkForPermission(this)) {
             startActivity(new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS));
@@ -84,7 +79,23 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        // Handle navigation view item clicks here.
+        switch (item.getItemId()) {
+
+            case R.id.nav_view_apps: {
+                navigateToViewApps();
+                break;
+            }
+        }
+        //close navigation drawer
+        mDrawerLayout.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        System.out.println(item.getItemId());
         switch (item.getItemId()) {
             case android.R.id.home:
                 mDrawerLayout.openDrawer(GravityCompat.START);
@@ -94,10 +105,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    private void navigateToViewApps() {
+        Intent findOwnApps = new Intent(getApplicationContext(), ListApplications.class);
+        startActivity(findOwnApps);
+    }
+
     static public boolean checkForPermission(Context context) {
         AppOpsManager appOps = (AppOpsManager) context.getSystemService(Context.APP_OPS_SERVICE);
         int mode = appOps.checkOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS, Process.myUid(), context.getPackageName());
         return mode == MODE_ALLOWED;
+    }
+
+    private void setNavigationViewListener() {
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
     }
 
 }

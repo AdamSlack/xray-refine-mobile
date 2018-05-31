@@ -2,12 +2,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_camera"
-            android:icon="@drawable/ic_menu_camera"
+            android:id="@+id/nav_view_apps"
+            android:icon="@drawable/ic_apps"
             android:title="@string/view_apps_on_phone" />
         <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
+            android:id="@+id/nav_view_usage"
+            android:icon="@drawable/ic_chart"
             android:title="@string/view_usage_statistics" />
 
     </group>

@@ -6,8 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    app:menu="@menu/drawer_menu"
-    app:headerLayout="@layout/nav_header">
+>
 
     <!-- Layout to contain contents of main body of screen (drawer will slide over this) -->
     <FrameLayout
@@ -30,7 +29,9 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:fitsSystemWindows="true" >
+        android:fitsSystemWindows="true"
+        app:menu="@menu/drawer_menu"
+        app:headerLayout="@layout/nav_header">
 
     </android.support.design.widget.NavigationView>
 

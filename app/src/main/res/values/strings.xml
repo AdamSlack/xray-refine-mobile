@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Refine</string>
+    <string name="app_intro">
+        Click the button below to find all apps on your phone, you can then select an app and
+        investigate the data sharing practices of that app.
+    </string>
+    <string name="find_app_button">View Your Apps</string>
+    <string name="search_app_button">Search For An App</string>
+</resources>

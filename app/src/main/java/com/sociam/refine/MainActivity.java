@@ -1,10 +1,21 @@
 package com.sociam.refine;
 
+import android.app.AppOpsManager;
+import android.app.usage.UsageStats;
+import android.app.usage.UsageStatsManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Process;
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+
+import java.util.Calendar;
+import java.util.Map;
+
+import static android.app.AppOpsManager.MODE_ALLOWED;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,6 +33,17 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(findOwnApps);
             }
         });
+
+        if (!MainActivity.checkForPermission(this)) {
+            startActivity(new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS));
+        }
+
+    }
+
+    static public boolean checkForPermission(Context context) {
+        AppOpsManager appOps = (AppOpsManager) context.getSystemService(Context.APP_OPS_SERVICE);
+        int mode = appOps.checkOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS, Process.myUid(), context.getPackageName());
+        return mode == MODE_ALLOWED;
     }
 
 }

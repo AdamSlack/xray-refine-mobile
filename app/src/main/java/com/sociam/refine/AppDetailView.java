@@ -1,5 +1,8 @@
 package com.sociam.refine;
 
+import android.app.usage.UsageStats;
+import android.app.usage.UsageStatsManager;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -7,13 +10,21 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
+import java.util.Calendar;
+import java.util.Map;
+
 public class AppDetailView extends AppCompatActivity {
 
+    private String appPackageName = "";
+    private Spinner dropdown;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,14 +36,15 @@ public class AppDetailView extends AppCompatActivity {
         TextView appPackageNameTextView = (TextView) findViewById(R.id.appPackageNameTextView);
         ImageView appIconImageView = (ImageView) findViewById(R.id.appIconImageView);
 
+        dropdown = findViewById(R.id.timePediodSpinner);
+
         if(intent.hasExtra("appPackageName")){
             AppInfo app = new AppInfo(intent.getStringExtra("appPackageName"), getPackageManager());
-
+            appPackageName = app.getAppName();
             appNameTextView.setText(app.getAppName());
             appPackageNameTextView.setText(app.getAppPackageName());
             appIconImageView.setImageDrawable(app.getAppIcon());
         }
-
 
         final WebView webView = (WebView) findViewById(R.id.appGraphWebView);
         webView.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
@@ -42,6 +54,48 @@ public class AppDetailView extends AppCompatActivity {
             }
         });
 
+        initialiseTimeWindowSpinner();
+        calculateAppTimeUsage("day", appPackageName);
+
+    }
+
+    private void calculateAppTimeUsage(String interval, String appPackageName) {
+        if(!MainActivity.checkForPermission(this)){
+            return;
+        }
+        UsageStatsManager usageStatsManager = (UsageStatsManager) getSystemService(Context.USAGE_STATS_SERVICE);
+
+        Calendar calendar = Calendar.getInstance();
+        if (interval.equals("week")){
+            calendar.add(Calendar.DATE, -7);
+        }
+        else if (interval.equals("month")) {
+            calendar.add(Calendar.MONTH, -1);
+        }
+        else {
+            calendar.add(Calendar.DATE, -1);
+        }
+        long start = calendar.getTimeInMillis();
+        long end = System.currentTimeMillis();
+        Map<String, UsageStats> stats = usageStatsManager.queryAndAggregateUsageStats(start, end);
+
+    }
+
+    private void initialiseTimeWindowSpinner() {
+        String[] items = new String[]{"Day", "Week", "Month"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
+        dropdown.setAdapter(adapter);
+        dropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                calculateAppTimeUsage((String) dropdown.getSelectedItem(), appPackageName);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                dropdown.setSelection(0);
+            }
+        });
     }
 
     private void loadWebView(WebView webView, int width) {

@@ -150,7 +150,7 @@ public class AppDetailView extends AppCompatActivity {
                 +"]);"
                 // Set chart options
                 +"var options = {'title':'Who Data is Shared With.',"
-                +"'width':" + Integer.toString(width)+","
+                +"'width':" + Integer.toString(400)+","
                 +"'height':300};"
                 // Instantiate and draw our chart, passing in some options.
                 +"var chart = new google.visualization.PieChart(document.getElementById('chart_div'));"

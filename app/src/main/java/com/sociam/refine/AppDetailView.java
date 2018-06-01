@@ -192,44 +192,7 @@ public class AppDetailView extends AppCompatActivity {
         webView.loadDataWithBaseURL("file://android_asset/", webViewContent, "text/html", "utf-8", null);
     }
 
-    /** Will be moved to API Service. **/
-    private void queryAPI(final String packageName, boolean fullDetails) {
-        AsyncTask.execute(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    URL APIEndpoint = new URL(getString(R.string.xray_apps) + "?appId=" + packageName ); //+ "&isFull=" + (fullDetails ? "true" : "false")
-                    HttpsURLConnection httpsURLConnection = (HttpsURLConnection) APIEndpoint.openConnection();
 
-                    httpsURLConnection.setRequestProperty("User-Agent", "com.refine.sociam");
-                    httpsURLConnection.setRequestProperty("Accept", "application/json");
-
-                    if (httpsURLConnection.getResponseCode() == 200) {
-                        InputStream responseBody = httpsURLConnection.getInputStream();
-                        InputStreamReader responseBodyReader = new InputStreamReader(responseBody, "UTF-8");
-                        XRayJsonReader xrayReader = new XRayJsonReader();
-                        List<XRayApp> apps = xrayReader.readAppArray(responseBodyReader);
-                        for(XRayApp app : apps) {
-                            System.out.println("This is a breakpoint.");
-                        }
-
-                    } else {
-                        System.out.println("Connection Failed");
-                    }
-                    httpsURLConnection.disconnect();
-
-                }
-                catch(MalformedURLException exc) {
-                    // URL was Dodge
-                }
-                catch (IOException exc) {
-                    // IO Failed here.
-                }
-
-            }
-
-        });
-    }
 
 
 }

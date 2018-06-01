@@ -25,8 +25,9 @@ import java.util.Set;
 public class ListApplications extends AppCompatActivity {
 
     AppInfoAdapter appInfoAdapter;
-    ArrayList<AppInfo> apps;
     ArrayList<AppInfo> filteredApps;
+    AppDataModel appDataModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,8 +41,8 @@ public class ListApplications extends AppCompatActivity {
 
         ListView appListView = (ListView) findViewById(R.id.appListView);
 
-        apps = getAppInfo();
-        filteredApps = new ArrayList<AppInfo>(apps);
+        appDataModel = AppDataModel.getInstance(getPackageManager(), getApplicationContext());
+        filteredApps = new ArrayList<AppInfo>(appDataModel.getAllPhoneAppInfos().values());
 
         appInfoAdapter = new AppInfoAdapter(this, filteredApps);
         appListView.setAdapter(appInfoAdapter);
@@ -74,7 +75,7 @@ public class ListApplications extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 filteredApps = new ArrayList<AppInfo>();
                 String searchString = appSearchEditText.getText().toString();
-                for(AppInfo app : apps) {
+                for(AppInfo app : appDataModel.getAllPhoneAppInfos().values()) {
                     if(app.getAppName().toLowerCase()
                             .contains(searchString.toLowerCase())){
                         filteredApps.add(app);
@@ -106,20 +107,4 @@ public class ListApplications extends AppCompatActivity {
         }
     }
 
-    private List<ResolveInfo> getAppList() {
-        Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
-        mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
-        List<ResolveInfo> pkgAppsList = getPackageManager().queryIntentActivities( mainIntent, 0);
-        return pkgAppsList;
-    }
-
-    private ArrayList<AppInfo> getAppInfo() {
-        List<ResolveInfo> appList = getAppList();
-        Set<AppInfo> appSet = new HashSet<AppInfo>();
-        PackageManager pm = getPackageManager();
-        for(ResolveInfo app : appList) {
-            appSet.add(new AppInfo(app, pm));
-        }
-        return new ArrayList<AppInfo>(appSet);
-    }
 }

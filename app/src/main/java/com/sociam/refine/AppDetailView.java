@@ -2,6 +2,7 @@ package com.sociam.refine;
 
 import android.app.usage.UsageStats;
 import android.app.usage.UsageStatsManager;
+import android.arch.core.util.Function;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -23,6 +24,7 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
+import java.io.Console;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -40,6 +42,8 @@ public class AppDetailView extends AppCompatActivity {
     private String appPackageName = "";
     private Spinner dropdown;
     private TextView totalUsageTextView;
+    private AppDataModel appDataModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,8 +85,8 @@ public class AppDetailView extends AppCompatActivity {
         String usageString = formatUsageTime(usageTime);
         totalUsageTextView.setText(usageString);
 
-        queryAPI(appPackageName, false);
-
+        appDataModel = AppDataModel.getInstance(getPackageManager(), getApplicationContext());
+        setDescriptionText(appPackageName);
     }
 
     private long calculateAppTimeUsage(String interval, String appPackageName) {
@@ -146,7 +150,20 @@ public class AppDetailView extends AppCompatActivity {
         });
     }
 
+    private void setDescriptionText(String appPackageName) {
+        TextView appDescTextView = (TextView) findViewById(R.id.appDescTextView);
+        if(appDataModel.getxRayApps().containsKey(appPackageName)) {
+            String summary = appDataModel.getxRayApps().get(appPackageName).appStoreInfo.summary;
+            appDescTextView.setText(summary == null ? "Description Unknown" : summary);
+        }
+        else {
+            appDescTextView.setText("Description Unknown");
+        }
+    }
+
+
     private void loadWebView(WebView webView, int width) {
+
         String webViewContent = "<html>"
                 +"<head>"
                 +"<!--Load the AJAX API-->"

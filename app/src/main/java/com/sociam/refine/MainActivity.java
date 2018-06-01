@@ -5,7 +5,9 @@ import android.app.usage.UsageStats;
 import android.app.usage.UsageStatsManager;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Process;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
@@ -17,8 +19,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.RotateAnimation;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import java.util.Calendar;
@@ -30,47 +36,75 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
 
     private DrawerLayout mDrawerLayout;
+    private AppDataModel appDataModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        appDataModel = AppDataModel.getInstance(getPackageManager(), getApplicationContext());
+        if(appDataModel.getxRayApps().keySet().size() != appDataModel.getAllPhoneAppInfos().keySet().size()) {
+            setContentView(R.layout.splash_screen);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+            RotateAnimation animation = new RotateAnimation(0f, 350f, 50f, 50f);
+            animation.setInterpolator(new LinearInterpolator());
+            animation.setRepeatCount(Animation.INFINITE);
+            animation.setDuration(700);
 
-        ActionBar actionbar = getSupportActionBar();
-        actionbar.setDisplayHomeAsUpEnabled(true);
-        actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
+            final ImageView splash = (ImageView) findViewById(R.id.splashIcon);
+            splash.startAnimation(animation);
+            AsyncTask.execute(new Runnable() {
+                @Override
+                public void run() {
+                    while (appDataModel.getxRayApps().keySet().size() != appDataModel.getAllPhoneAppInfos().keySet().size()) {
+                        System.out.println(appDataModel.getxRayApps().keySet().size() - appDataModel.getAllPhoneAppInfos().keySet().size());
+                        try {
+                            Thread.sleep(500);
+                        } catch (InterruptedException exc) {
 
-        mDrawerLayout = findViewById(R.id.drawer_layout);
-
-        mDrawerLayout.addDrawerListener(
-                new DrawerLayout.DrawerListener() {
-                    @Override
-                    public void onDrawerSlide(View drawerView, float slideOffset) {
-                        // Respond when the drawer's position changes
+                        }
                     }
-
-                    @Override
-                    public void onDrawerOpened(View drawerView) {
-                        // Respond when the drawer is opened
-                    }
-
-                    @Override
-                    public void onDrawerClosed(View drawerView) {
-                        // Respond when the drawer is closed
-                    }
-
-                    @Override
-                    public void onDrawerStateChanged(int newState) {
-                        // Respond when the drawer motion state changes
-                    }
+                    Intent mainIntent = new Intent(MainActivity.this, MainActivity.class);
+                    startActivity(mainIntent);
                 }
-        );
+            });
+        }
+        else {
+            setContentView(R.layout.activity_main);
 
-        setNavigationViewListener();
+            Toolbar toolbar = findViewById(R.id.toolbar);
+            setSupportActionBar(toolbar);
+            ActionBar actionbar = getSupportActionBar();
+            actionbar.setDisplayHomeAsUpEnabled(true);
+            actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
 
+            mDrawerLayout = findViewById(R.id.drawer_layout);
+
+            mDrawerLayout.addDrawerListener(
+                    new DrawerLayout.DrawerListener() {
+                        @Override
+                        public void onDrawerSlide(View drawerView, float slideOffset) {
+                            // Respond when the drawer's position changes
+                        }
+
+                        @Override
+                        public void onDrawerOpened(View drawerView) {
+                            // Respond when the drawer is opened
+                        }
+
+                        @Override
+                        public void onDrawerClosed(View drawerView) {
+                            // Respond when the drawer is closed
+                        }
+
+                        @Override
+                        public void onDrawerStateChanged(int newState) {
+                            // Respond when the drawer motion state changes
+                        }
+                    }
+            );
+
+            setNavigationViewListener();
+        }
 
         if (!MainActivity.checkForPermission(this)) {
             startActivity(new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS));

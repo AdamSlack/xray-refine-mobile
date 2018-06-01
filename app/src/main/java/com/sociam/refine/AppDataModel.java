@@ -74,7 +74,7 @@ public class AppDataModel {
             public void run() {
                 try {
                     String xrayAPIString = context.getResources().getString(R.string.xray_apps);
-                    URL APIEndpoint = new URL(xrayAPIString + "?appId=" + packageName); //+ "&isFull=" + (fullDetails ? "true" : "false")
+                    URL APIEndpoint = new URL(xrayAPIString + "?appId=" + packageName+ "&isFull=true");
                     HttpsURLConnection httpsURLConnection = (HttpsURLConnection) APIEndpoint.openConnection();
 
                     httpsURLConnection.setRequestProperty("User-Agent", "com.refine.sociam");
@@ -85,20 +85,29 @@ public class AppDataModel {
                         InputStreamReader responseBodyReader = new InputStreamReader(responseBody, "UTF-8");
                         XRayJsonReader xrayReader = new XRayJsonReader();
                         List<XRayApp> apps = xrayReader.readAppArray(responseBodyReader);
-                        for (XRayApp app : apps) {
-                            useXRayAppCallback.apply(app);
+                        if (apps.size() == 0) {
+                            useXRayAppCallback.apply(new XRayApp(packageName, new XRayAppStoreInfo("Unknown", "Unknown")));
+                        }
+                        else {
+                            for (XRayApp app : apps) {
+                                useXRayAppCallback.apply(app);
+                            }
                         }
 
                     } else {
                         // Failed to connect
-                        System.out.println("Connection Failed");
+                        useXRayAppCallback.apply(new XRayApp(packageName, new XRayAppStoreInfo("Unknown", "Unknown")));
                     }
                     httpsURLConnection.disconnect();
 
                 } catch (MalformedURLException exc) {
                     // URL was Dodge
+
                 } catch (IOException exc) {
                     // IO Failed here.
+                }
+                finally {
+
                 }
             }
         });

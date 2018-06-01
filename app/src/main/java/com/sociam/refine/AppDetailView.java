@@ -4,11 +4,14 @@ import android.app.usage.UsageStats;
 import android.app.usage.UsageStatsManager;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
+import android.os.Message;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
+import android.util.JsonReader;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -20,8 +23,17 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Map;
+
+import javax.net.ssl.HttpsURLConnection;
 
 public class AppDetailView extends AppCompatActivity {
 
@@ -68,6 +80,9 @@ public class AppDetailView extends AppCompatActivity {
         long usageTime = calculateAppTimeUsage("day", appPackageName);
         String usageString = formatUsageTime(usageTime);
         totalUsageTextView.setText(usageString);
+
+        queryAPI(appPackageName, false);
+
     }
 
     private long calculateAppTimeUsage(String interval, String appPackageName) {
@@ -176,4 +191,87 @@ public class AppDetailView extends AppCompatActivity {
         webView.requestFocusFromTouch();
         webView.loadDataWithBaseURL("file://android_asset/", webViewContent, "text/html", "utf-8", null);
     }
+
+    /** Will be moved to API Service. **/
+    private void queryAPI(final String packageName, boolean fullDetails) {
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    URL APIEndpoint = new URL(getString(R.string.xray_apps) + "?appId=" + packageName ); //+ "&isFull=" + (fullDetails ? "true" : "false")
+                    HttpsURLConnection httpsURLConnection = (HttpsURLConnection) APIEndpoint.openConnection();
+
+                    httpsURLConnection.setRequestProperty("User-Agent", "com.refine.sociam");
+                    httpsURLConnection.setRequestProperty("Accept", "application/json");
+
+                    if (httpsURLConnection.getResponseCode() == 200) {
+                        InputStream responseBody = httpsURLConnection.getInputStream();
+                        InputStreamReader responseBodyReader = new InputStreamReader(responseBody, "UTF-8");
+
+                        List<XRayApp> apps = readXRayArray(responseBodyReader);
+                        for(XRayApp app : apps) {
+                            System.out.println(app.app + " -- " + app.title);
+                        }
+
+                    } else {
+                        System.out.println("Connection Failed");
+                    }
+                    httpsURLConnection.disconnect();
+
+                }
+                catch(MalformedURLException exc) {
+                    // URL was Dodge
+                }
+                catch (IOException exc) {
+                    // IO Failed here.
+                }
+
+            }
+
+        });
+    }
+
+    private List<XRayApp> readXRayArray(InputStreamReader ISR) {
+        JsonReader jsonReader = new JsonReader(ISR);
+        List<XRayApp> apps = new ArrayList<XRayApp>();
+
+        try {
+            jsonReader.beginArray();
+            while (jsonReader.hasNext()) {
+                apps.add(readXRayApp(jsonReader));
+            }
+            jsonReader.endArray();
+        }
+        catch (IOException exc) {
+            // Failed To Read.
+        }
+        return apps;
+    }
+
+    private XRayApp readXRayApp(JsonReader jsonReader) {
+        String title = "";
+        String app = "";
+
+        try {
+            jsonReader.beginObject();
+            while (jsonReader.hasNext()) {
+                String name = jsonReader.nextName();
+                if(name.equals("title")) {
+                    title = jsonReader.nextString();
+                }
+                else if (name.equals("app")) {
+                    app = jsonReader.nextString();
+                }
+                else{
+                    jsonReader.skipValue();
+                }
+            }
+            jsonReader.endObject();
+        }
+        catch (IOException exc) {
+
+        }
+        return new XRayApp(title, app);
+    }
+
 }

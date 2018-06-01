@@ -295,7 +295,7 @@ public class AppDetailView extends AppCompatActivity {
                     appStoreInfo.title = jsonReader.nextString();
                 }
                 else if(name.equals("summary")) {
-                    appStoreInfo.summary = jsonReader.nextString()
+                    appStoreInfo.summary = jsonReader.nextString();
                 }
                 else {
                     jsonReader.skipValue();

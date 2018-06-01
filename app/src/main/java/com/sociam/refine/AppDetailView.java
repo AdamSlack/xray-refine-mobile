@@ -207,8 +207,8 @@ public class AppDetailView extends AppCompatActivity {
                     if (httpsURLConnection.getResponseCode() == 200) {
                         InputStream responseBody = httpsURLConnection.getInputStream();
                         InputStreamReader responseBodyReader = new InputStreamReader(responseBody, "UTF-8");
-
-                        List<XRayApp> apps = readXRayArray(responseBodyReader);
+                        XRayJsonReader xrayReader = new XRayJsonReader();
+                        List<XRayApp> apps = xrayReader.readAppArray(responseBodyReader);
                         for(XRayApp app : apps) {
                             System.out.println("This is a breakpoint.");
                         }
@@ -231,82 +231,5 @@ public class AppDetailView extends AppCompatActivity {
         });
     }
 
-    private List<XRayApp> readXRayArray(InputStreamReader ISR) {
-        JsonReader jsonReader = new JsonReader(ISR);
-        List<XRayApp> apps = new ArrayList<XRayApp>();
-
-        try {
-            jsonReader.beginArray();
-            while (jsonReader.hasNext()) {
-                apps.add(readXRayApp(jsonReader));
-            }
-            jsonReader.endArray();
-        }
-        catch (IOException exc) {
-            // Failed To Read.
-        }
-        return apps;
-    }
-
-    private XRayApp readXRayApp(JsonReader jsonReader) {
-        String title = "";
-        String app = "";
-        XRayAppStoreInfo appStoreInfo = new XRayAppStoreInfo();
-
-        try {
-            jsonReader.beginObject();
-            while (jsonReader.hasNext()) {
-                String name = jsonReader.nextName();
-                if(name.equals("title")) {
-                    title = jsonReader.nextString();
-                }
-                else if (name.equals("app")) {
-                    app = jsonReader.nextString();
-                }
-                else if (name.equals("storeinfo")){
-                    appStoreInfo = readXrayAppStoreInfo(jsonReader);
-                }
-                else{
-                    jsonReader.skipValue();
-                }
-            }
-            jsonReader.endObject();
-        }
-        catch (IOException exc) {
-
-        }
-
-        if(!title.equals("")) {
-            return new XRayApp(title, app);
-        }
-        else if (!appStoreInfo.title.equals("")) {
-            return new XRayApp(app, appStoreInfo);
-        }
-        else return new XRayApp();
-    }
-
-    private XRayAppStoreInfo readXrayAppStoreInfo(JsonReader jsonReader) {
-        XRayAppStoreInfo appStoreInfo = new XRayAppStoreInfo();
-        try{
-            jsonReader.beginObject();
-            while (jsonReader.hasNext()) {
-                String name =jsonReader.nextName();
-                if(name.equals("title")) {
-                    appStoreInfo.title = jsonReader.nextString();
-                }
-                else if(name.equals("summary")) {
-                    appStoreInfo.summary = jsonReader.nextString();
-                }
-                else {
-                    jsonReader.skipValue();
-                }
-            }
-            jsonReader.endObject();
-        }
-        catch (IOException exc) {
-
-        }
-        return appStoreInfo;
-    }
 
 }

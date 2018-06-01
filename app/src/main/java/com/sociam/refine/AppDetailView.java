@@ -210,7 +210,7 @@ public class AppDetailView extends AppCompatActivity {
 
                         List<XRayApp> apps = readXRayArray(responseBodyReader);
                         for(XRayApp app : apps) {
-                            System.out.println(app.app + " -- " + app.title);
+                            System.out.println("This is a breakpoint.");
                         }
 
                     } else {
@@ -251,6 +251,7 @@ public class AppDetailView extends AppCompatActivity {
     private XRayApp readXRayApp(JsonReader jsonReader) {
         String title = "";
         String app = "";
+        XRayAppStoreInfo appStoreInfo = new XRayAppStoreInfo();
 
         try {
             jsonReader.beginObject();
@@ -262,6 +263,9 @@ public class AppDetailView extends AppCompatActivity {
                 else if (name.equals("app")) {
                     app = jsonReader.nextString();
                 }
+                else if (name.equals("storeinfo")){
+                    appStoreInfo = readXrayAppStoreInfo(jsonReader);
+                }
                 else{
                     jsonReader.skipValue();
                 }
@@ -271,7 +275,38 @@ public class AppDetailView extends AppCompatActivity {
         catch (IOException exc) {
 
         }
-        return new XRayApp(title, app);
+
+        if(!title.equals("")) {
+            return new XRayApp(title, app);
+        }
+        else if (!appStoreInfo.title.equals("")) {
+            return new XRayApp(app, appStoreInfo);
+        }
+        else return new XRayApp();
+    }
+
+    private XRayAppStoreInfo readXrayAppStoreInfo(JsonReader jsonReader) {
+        XRayAppStoreInfo appStoreInfo = new XRayAppStoreInfo();
+        try{
+            jsonReader.beginObject();
+            while (jsonReader.hasNext()) {
+                String name =jsonReader.nextName();
+                if(name.equals("title")) {
+                    appStoreInfo.title = jsonReader.nextString();
+                }
+                else if(name.equals("summary")) {
+                    appStoreInfo.summary = jsonReader.nextString()
+                }
+                else {
+                    jsonReader.skipValue();
+                }
+            }
+            jsonReader.endObject();
+        }
+        catch (IOException exc) {
+
+        }
+        return appStoreInfo;
     }
 
 }

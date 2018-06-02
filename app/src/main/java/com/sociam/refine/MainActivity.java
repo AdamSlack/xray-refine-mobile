@@ -18,13 +18,10 @@ package com.sociam.refine;
 
 
 import android.app.AppOpsManager;
-import android.app.usage.UsageStats;
-import android.app.usage.UsageStatsManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.Process;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
@@ -40,31 +37,19 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListView;
 
 import com.github.mikephil.charting.charts.HorizontalBarChart;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.formatter.DefaultValueFormatter;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
-import com.github.mikephil.charting.utils.ViewPortHandler;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 import static android.app.AppOpsManager.MODE_ALLOWED;
 
@@ -74,12 +59,15 @@ public class MainActivity extends AppCompatActivity
     private DrawerLayout mDrawerLayout;
     private AppDataModel appDataModel;
     private GraphDataModel graphDataModel;
+    private AppPreferences appPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         appDataModel = AppDataModel.getInstance(getPackageManager(), getApplicationContext());
         graphDataModel = GraphDataModel.getInstance();
+
+        appPreferences = AppPreferences.getInstance(getApplicationContext());
 
         if(appDataModel.getxRayApps().keySet().size() != appDataModel.getAllPhoneAppInfos().keySet().size()) {
             setContentView(R.layout.splash_screen);
@@ -113,6 +101,8 @@ public class MainActivity extends AppCompatActivity
 
             Toolbar toolbar = findViewById(R.id.toolbar);
             setSupportActionBar(toolbar);
+            getSupportActionBar().setTitle("Overall Host Exposure");
+
             ActionBar actionbar = getSupportActionBar();
             actionbar.setDisplayHomeAsUpEnabled(true);
             actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
@@ -183,7 +173,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void navigateToStudyOptIn() {
-        Intent navToStudy = new Intent(getApplicationContext(), StudyOptIn.class);
+        Intent navToStudy = new Intent(getApplicationContext(), PreferencesActivity.class);
         startActivity(navToStudy);
     }
 

@@ -52,7 +52,7 @@ public class AppDetailView extends AppCompatActivity {
 
         ActionBar actionbar = getSupportActionBar();
         actionbar.setDisplayHomeAsUpEnabled(true);
-
+        actionbar.setTitle("App Details");
         Intent intent = getIntent();
 
         TextView appNameTextView = (TextView) findViewById(R.id.appNameTextView);

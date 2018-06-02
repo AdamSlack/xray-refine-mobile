@@ -45,6 +45,7 @@ public class ListApplications extends AppCompatActivity {
 
         ActionBar actionbar = getSupportActionBar();
         actionbar.setDisplayHomeAsUpEnabled(true);
+        actionbar.setTitle("Your Apps");
 
         ListView appListView = (ListView) findViewById(R.id.appListView);
 

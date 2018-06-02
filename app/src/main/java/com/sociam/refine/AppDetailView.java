@@ -164,6 +164,23 @@ public class AppDetailView extends AppCompatActivity {
 
     private void loadWebView(WebView webView, int width) {
 
+        String dataString = "";
+        int numLegendEntries = 2;
+        if(appDataModel.getxRayApps().containsKey(appPackageName)) {
+            dataString = "[[";
+            for(String s : appDataModel.getxRayApps().get(appPackageName).hosts) {
+
+                dataString = dataString +"'" + s + "' ,1],[";
+            }
+            dataString = dataString + "]]";
+            dataString = dataString.replace(",[]]", "]");
+            numLegendEntries = appDataModel.getxRayApps().get(appPackageName).hosts.size() * 2;
+        }
+        else {
+            dataString = "[['No Hosts', 1]]";
+        }
+        System.out.println(dataString);
+
         String webViewContent = "<html>"
                 +"<head>"
                 +"<!--Load the AJAX API-->"
@@ -181,17 +198,12 @@ public class AppDetailView extends AppCompatActivity {
                 +"var data = new google.visualization.DataTable();"
                 +"data.addColumn('string', '3rd Party');"
                 +"data.addColumn('number', 'Number of Occurences');"
-                +"data.addRows(["
-                +"['Google', " + Integer.toString((int)(Math.random()*10))+"],"
-                +"['Facebook', "+ Integer.toString((int)(Math.random()*10))+" ],"
-                +"['AdMob', "+ Integer.toString((int)(Math.random()*10))+"],"
-                +"['DodgeyDave', "+ Integer.toString((int)(Math.random()*10))+"],"
-                +"['Paul from down the street', "+ Integer.toString((int)(Math.random()*10))+"]"
-                +"]);"
+                +"data.addRows(" + dataString +");"
                 // Set chart options
                 +"var options = {'title':'Who Data is Shared With.',"
                 +"'width':" + Integer.toString(400)+","
-                +"'height':300};"
+                +"'height':300,"
+                +"'legend':{'position':'top', 'maxLines':" + Integer.toString(numLegendEntries) +"}};"
                 // Instantiate and draw our chart, passing in some options.
                 +"var chart = new google.visualization.PieChart(document.getElementById('chart_div'));"
                 +"chart.draw(data, options);"

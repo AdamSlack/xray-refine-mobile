@@ -1,6 +1,9 @@
 package com.sociam.refine;
 
 import android.util.JsonReader;
+import android.util.JsonToken;
+
+import org.json.JSONArray;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -32,7 +35,13 @@ public class XRayJsonReader {
         try {
             jsonReader.beginObject();
             while (jsonReader.hasNext()) {
-                String name = jsonReader.nextName();
+
+                // Check next JSON token is a Name...
+                String name = "";
+                if (jsonReader.peek() == JsonToken.NAME) {
+                    name = jsonReader.nextName();
+                }
+
                 if(name.equals("title")) {
                     xRayApp.title = jsonReader.nextString();
                 }
@@ -60,11 +69,13 @@ public class XRayJsonReader {
     public ArrayList<String> readStringArray(JsonReader jsonReader) {
         ArrayList<String> strings = new ArrayList<String>();
         try {
-            jsonReader.beginArray();
-            while(jsonReader.hasNext()) {
-                strings.add(jsonReader.nextString());
+            if(jsonReader.peek() == JsonToken.BEGIN_ARRAY) {
+                jsonReader.beginArray();
+                while(jsonReader.hasNext()) {
+                    strings.add(jsonReader.nextString());
+                }
+                jsonReader.endArray();
             }
-            jsonReader.endArray();
         }
         catch (IOException exc) {
 

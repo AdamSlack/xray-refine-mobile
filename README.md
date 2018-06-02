@@ -28,6 +28,13 @@ A somewhat typical app structure, there are 3 main activities at the moment, as 
 
 ```XRayApp```: A data class holding app information requested from the XRay API. Uses ```XRayAppStoreInfo``` to hold the store info data requested for an app from the XRay API. Note: This class will replace the ```AppInfo``` class.
 
+## API Requests
+
+API Requests are currently using Cached data located at [negi.io](negi.io). The string used to indicate where the app should direct requests is in the ```string.xml``` file. To change where the app requests data from, edit the ```xray_apps``` entry
+
+```
+<string name="xray_apps">https://negi.io/api/apps</string>
+```
 
 ## App Screenshots
 Listing of All apps installed on the user's phone:

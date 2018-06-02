@@ -27,8 +27,19 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 
+import com.github.mikephil.charting.charts.HorizontalBarChart;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.utils.ColorTemplate;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static android.app.AppOpsManager.MODE_ALLOWED;
 
@@ -63,6 +74,7 @@ public class MainActivity extends AppCompatActivity
 
                         }
                     }
+                    appDataModel.trackedPhoneAppInfos = new HashMap<>(appDataModel.getAllPhoneAppInfos());
                     Intent mainIntent = new Intent(MainActivity.this, MainActivity.class);
                     startActivity(mainIntent);
                 }
@@ -104,6 +116,7 @@ public class MainActivity extends AppCompatActivity
             );
 
             setNavigationViewListener();
+            buildHostsChart();
         }
 
         if (!MainActivity.checkForPermission(this)) {
@@ -155,4 +168,41 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
     }
 
+    private void buildHostsChart() {
+        HashMap<String, Long> hostTimes = new HashMap<>();
+
+        for(String appPackageName : appDataModel.getTrackedPhoneAppInfos().keySet()) {
+            long usageTime = AppUsageManager.calculateAppTimeUsage("week", appPackageName, getApplicationContext())/100000;
+            if(appDataModel.getxRayApps().containsKey(appPackageName)) {
+                ArrayList<String> hosts = appDataModel.getxRayApps().get(appPackageName).hosts;
+                for(String host : hosts ) {
+                    if(hostTimes.containsKey(host)) {
+                        hostTimes.put(host, hostTimes.get(host) + usageTime);
+                    }
+                    else{
+                        hostTimes.put(host, usageTime);
+                    }
+                }
+            }
+        }
+        HorizontalBarChart hbc = (HorizontalBarChart) findViewById(R.id.hostBarChart);
+
+        ArrayList<BarEntry> barEntries = new ArrayList<>();
+
+        for(String host : hostTimes.keySet()) {
+            if(hostTimes.get(host) > 0) {
+                barEntries.add(new BarEntry(barEntries.size(), (float) hostTimes.get(host)));
+            }
+        }
+
+        BarDataSet bds = new BarDataSet(barEntries, "Weekly Host Exposure");
+
+        bds.setColors(ColorTemplate.COLORFUL_COLORS);
+        BarData barData = new BarData(bds);
+        barData.setBarWidth(1f);
+        hbc.setData(barData);
+        hbc.setFitBars(true);
+        hbc.invalidate();
+        return;
+    }
 }

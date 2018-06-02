@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class XRayAppStoreInfo {
     /**
-     *  EXAMPLE API JSON RESPONSE
+     *  EXAMPLE API JSON RESPONSE FOR STORE INFO
      *
      {"title":"Messenger",
      "summary":"Messenger — a faster way to message.",

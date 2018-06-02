@@ -1,9 +1,12 @@
 package com.sociam.refine;
 
+import java.util.ArrayList;
+
 public class XRayApp {
     public String title;
     public String app;
     public XRayAppStoreInfo appStoreInfo;
+    public ArrayList<String> hosts;
 
     public XRayApp() {
         title = "";

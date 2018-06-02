@@ -27,22 +27,23 @@ public class XRayJsonReader {
     }
 
     public XRayApp readApp(JsonReader jsonReader) {
-        String title = "";
-        String app = "";
-        XRayAppStoreInfo appStoreInfo = new XRayAppStoreInfo();
+        XRayApp xRayApp = new XRayApp();
 
         try {
             jsonReader.beginObject();
             while (jsonReader.hasNext()) {
                 String name = jsonReader.nextName();
                 if(name.equals("title")) {
-                    title = jsonReader.nextString();
+                    xRayApp.title = jsonReader.nextString();
                 }
                 else if (name.equals("app")) {
-                    app = jsonReader.nextString();
+                    xRayApp.app = jsonReader.nextString();
                 }
                 else if (name.equals("storeinfo")){
-                    appStoreInfo = readAppStoreInfo(jsonReader);
+                    xRayApp.appStoreInfo = readAppStoreInfo(jsonReader);
+                }
+                else if(name.equals("hosts")) {
+                    xRayApp.hosts = readStringArray(jsonReader);
                 }
                 else{
                     jsonReader.skipValue();
@@ -53,14 +54,22 @@ public class XRayJsonReader {
         catch (IOException exc) {
 
         }
+        return xRayApp;
+    }
 
-        if(!title.equals("")) {
-            return new XRayApp(title, app);
+    public ArrayList<String> readStringArray(JsonReader jsonReader) {
+        ArrayList<String> strings = new ArrayList<String>();
+        try {
+            jsonReader.beginArray();
+            while(jsonReader.hasNext()) {
+                strings.add(jsonReader.nextString());
+            }
+            jsonReader.endArray();
         }
-        else if (!appStoreInfo.title.equals("")) {
-            return new XRayApp(app, appStoreInfo);
+        catch (IOException exc) {
+
         }
-        else return new XRayApp();
+        return strings;
     }
 
     public XRayAppStoreInfo readAppStoreInfo(JsonReader jsonReader) {
@@ -74,6 +83,9 @@ public class XRayJsonReader {
                 }
                 else if(name.equals("summary")) {
                     appStoreInfo.summary = jsonReader.nextString();
+                }
+                else if(name.equals("storeURL")) {
+                    appStoreInfo.storeURL = jsonReader.nextString();
                 }
                 else {
                     jsonReader.skipValue();

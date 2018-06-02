@@ -22,6 +22,13 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.utils.ColorTemplate;
+
 import org.w3c.dom.Text;
 
 import java.io.Console;
@@ -43,6 +50,8 @@ public class AppDetailView extends AppCompatActivity {
     private Spinner dropdown;
     private TextView totalUsageTextView;
     private AppDataModel appDataModel;
+
+    // Chart Variables
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,14 +81,6 @@ public class AppDetailView extends AppCompatActivity {
             appIconImageView.setImageDrawable(app.getAppIcon());
         }
 
-        final WebView webView = (WebView) findViewById(R.id.appGraphWebView);
-        webView.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
-            @Override
-            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
-                loadWebView(webView, (int) (webView.getWidth()/3.33));
-            }
-        });
-
         initialiseTimeWindowSpinner();
         long usageTime = calculateAppTimeUsage("day", appPackageName);
         String usageString = formatUsageTime(usageTime);
@@ -87,6 +88,7 @@ public class AppDetailView extends AppCompatActivity {
 
         appDataModel = AppDataModel.getInstance(getPackageManager(), getApplicationContext());
         setDescriptionText(appPackageName);
+        loadHostsPieChart();
     }
 
     private long calculateAppTimeUsage(String interval, String appPackageName) {
@@ -162,66 +164,27 @@ public class AppDetailView extends AppCompatActivity {
     }
 
 
-    private void loadWebView(WebView webView, int width) {
+    private void loadHostsPieChart() {
 
         String dataString = "";
         int numLegendEntries = 2;
-        if(appDataModel.getxRayApps().containsKey(appPackageName)) {
-            dataString = "[[";
-            for(String s : appDataModel.getxRayApps().get(appPackageName).hosts) {
 
-                dataString = dataString +"'" + s + "' ,1],[";
-            }
-            dataString = dataString + "]]";
-            dataString = dataString.replace(",[]]", "]");
-            numLegendEntries = appDataModel.getxRayApps().get(appPackageName).hosts.size() * 2;
+        ArrayList<String> hosts = new ArrayList<>();
+        if (appDataModel.getxRayApps().containsKey(appPackageName)) {
+            hosts = appDataModel.getxRayApps().get(appPackageName).hosts;
         }
-        else {
-            dataString = "[['No Hosts', 1]]";
+
+        PieChart pieChart = (PieChart) findViewById(R.id.hostPieChart);
+        ArrayList<PieEntry> dataEntries = new ArrayList<>();
+
+        for(String host : hosts) {
+            dataEntries.add(new PieEntry(1f, host));
         }
-        System.out.println(dataString);
 
-        String webViewContent = "<html>"
-                +"<head>"
-                +"<!--Load the AJAX API-->"
-                +"<script type=\"text/javascript\" src=\"https://www.gstatic.com/charts/loader.js\"></script>"
-                +"<script type=\"text/javascript\">"
-                // Load the Visualization API and the corechart package.
-                +"google.charts.load('current', {'packages':['corechart']});"
-                +// Set a callback to run when the Google Visualization API is loaded.
-                "google.charts.setOnLoadCallback(drawChart);"
-                // Callback that creates and populates a data table,
-                // instantiates the pie chart, passes in the data and
-                // draws it.
-                +"function drawChart() {"
-                // Create the data table.
-                +"var data = new google.visualization.DataTable();"
-                +"data.addColumn('string', '3rd Party');"
-                +"data.addColumn('number', 'Number of Occurences');"
-                +"data.addRows(" + dataString +");"
-                // Set chart options
-                +"var options = {'title':'Who Data is Shared With.',"
-                +"'width':" + Integer.toString(400)+","
-                +"'height':300,"
-                +"'legend':{'position':'top', 'maxLines':" + Integer.toString(numLegendEntries) +"}};"
-                // Instantiate and draw our chart, passing in some options.
-                +"var chart = new google.visualization.PieChart(document.getElementById('chart_div'));"
-                +"chart.draw(data, options);"
-                +"}"
-                +"</script>"
-                +"</head>"
-                +"<body>"
-                +"<!--Div that will hold the pie chart-->"
-                +"<div id=\"chart_div\"></div>"
-                +"</body>"
-                +"</html>";
+        PieDataSet pieDataSet = new PieDataSet(dataEntries, "Hosts Found in App.");
+        pieDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
+        pieChart.setData(new PieData(pieDataSet));
 
-        webView.getSettings().setJavaScriptEnabled(true);
-        webView.requestFocusFromTouch();
-        webView.loadDataWithBaseURL("file://android_asset/", webViewContent, "text/html", "utf-8", null);
     }
-
-
-
 
 }

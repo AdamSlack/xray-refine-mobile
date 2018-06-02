@@ -92,11 +92,11 @@
         app:layout_constraintTop_toBottomOf="@+id/textView3"
         tools:layout_editor_absoluteX="30dp">
 
-        <WebView
-            android:id="@+id/appGraphWebView"
+        <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/hostPieChart"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_centerInParent="true" />
+            android:layout_height="match_parent" />
+
     </RelativeLayout>
 
     <TextView

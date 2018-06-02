@@ -12,6 +12,7 @@ import android.os.Process;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.util.Pair;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -31,11 +32,18 @@ import com.github.mikephil.charting.charts.HorizontalBarChart;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.formatter.DefaultValueFormatter;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.github.mikephil.charting.utils.ViewPortHandler;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -171,6 +179,7 @@ public class MainActivity extends AppCompatActivity
     private void buildHostsChart() {
         HashMap<String, Long> hostTimes = new HashMap<>();
 
+        // Get Host Usage Times
         for(String appPackageName : appDataModel.getTrackedPhoneAppInfos().keySet()) {
             long usageTime = AppUsageManager.calculateAppTimeUsage("week", appPackageName, getApplicationContext())/100000;
             if(appDataModel.getxRayApps().containsKey(appPackageName)) {
@@ -185,24 +194,51 @@ public class MainActivity extends AppCompatActivity
                 }
             }
         }
-        HorizontalBarChart hbc = (HorizontalBarChart) findViewById(R.id.hostBarChart);
 
-        ArrayList<BarEntry> barEntries = new ArrayList<>();
+        // Filter hosts with usage time and separate time and hostname.
+        ArrayList<String> hosts = new ArrayList<>();
+        ArrayList<Pair<Float, Integer>> usageTimes = new ArrayList<>();
 
         for(String host : hostTimes.keySet()) {
             if(hostTimes.get(host) > 0) {
-                barEntries.add(new BarEntry(barEntries.size(), (float) hostTimes.get(host)));
+                usageTimes.add(new Pair<Float, Integer>((float) hostTimes.get(host), hosts.size()));
+                hosts.add(host);
+
             }
         }
 
-        BarDataSet bds = new BarDataSet(barEntries, "Weekly Host Exposure");
+        // sort pairs out.
+        Collections.sort(usageTimes, new Comparator<Pair<Float, Integer>>() {
+            @Override
+            public int compare(Pair<Float, Integer> o1, Pair<Float, Integer> o2) {
+                return o1.first < o2.first ? -1 : o1.first.equals(o2.first)? 0 : 1;
+            }
+        });
 
-        bds.setColors(ColorTemplate.COLORFUL_COLORS);
+        HorizontalBarChart hbc = (HorizontalBarChart) findViewById(R.id.hostBarChart);
+        ArrayList<BarEntry> barEntries = new ArrayList<>();
+        ArrayList<String> axisValues = new ArrayList<>();
+
+        for(Pair<Float, Integer> usageTime : usageTimes) {
+            barEntries.add(new BarEntry(barEntries.size(), usageTime.first));
+            axisValues.add(hosts.get(usageTime.second));
+        }
+
+
+        BarDataSet bds = new BarDataSet(barEntries, "Weekly Host Exposure");
+        bds.setColors(ColorTemplate.JOYFUL_COLORS);
+
         BarData barData = new BarData(bds);
         barData.setBarWidth(1f);
+
         hbc.setData(barData);
         hbc.setFitBars(true);
+        hbc.getXAxis().setGranularityEnabled(false);
+        hbc.getXAxis().setValueFormatter(new IndexAxisValueFormatter(axisValues));
+        hbc.zoom(1.0f,4.0f, 0, hosts.size());
+
         hbc.invalidate();
+
         return;
     }
 }

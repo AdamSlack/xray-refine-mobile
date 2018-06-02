@@ -34,7 +34,7 @@
             android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/content_frame">
+            app:layout_constraintTop_toBottomOf="@+id/textView5">
 
             <com.github.mikephil.charting.charts.HorizontalBarChart
                 android:id="@+id/hostBarChart"
@@ -44,6 +44,19 @@
                 app:layout_constraintTop_toBottomOf="@+id/content_frame"
                 tools:layout_editor_absoluteX="8dp" />
         </FrameLayout>
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="All Host Exposure"
+            android:textSize="25sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/content_frame" />
 
 
     </android.support.constraint.ConstraintLayout>

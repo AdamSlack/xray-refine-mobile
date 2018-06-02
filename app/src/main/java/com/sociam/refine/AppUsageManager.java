@@ -27,7 +27,6 @@ public class AppUsageManager {
         }
         long start = calendar.getTimeInMillis();
         long end = System.currentTimeMillis();
-        System.out.println(Long.toString(start) + "  " + Long.toString(end) + "  " + Long.toString(end-start));
 
         Map<String, UsageStats> allStats = usageStatsManager.queryAndAggregateUsageStats(start, end);
 

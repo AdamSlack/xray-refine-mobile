@@ -37,6 +37,10 @@ API Requests are currently using Cached data located at [negi.io](negi.io). The 
 ```
 
 ## App Screenshots
+Graph of All Hosts and exposure based on App Usage Times
+
+<img src="https://raw.githubusercontent.com/AdamSlack/RefineMobile/master/reameimages/allhostsview.png" width=250>
+
 Listing of All apps installed on the user's phone:
 
 <img src="https://raw.githubusercontent.com/AdamSlack/RefineMobile/master/reameimages/applistview.png" width=250>

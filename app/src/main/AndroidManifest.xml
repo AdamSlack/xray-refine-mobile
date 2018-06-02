@@ -30,10 +30,6 @@
                 android:value=".MainActivity" />
         </activity>
 
-        <service
-            android:name=".XRayAPI"
-            android:enabled="true"
-            android:exported="true"></service>
     </application>
 
 </manifest>

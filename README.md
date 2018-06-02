@@ -1,5 +1,5 @@
 # RefineMobile
-A Demo Mobile app for X-Ray Refine
+A Demo Mobile app for X-Ray Refine. This application complies a model of the apps installed on a phone that consists of Usage statistics as well as 3rd party data requested from [SOCIAM's](sociam.org) App Observatory. It provides the users with the opportunity to investigate their exposure to 3rd parties, whilst providing the chance to see how alternative applications may change and improve their exposure to data sharing practices.
 
 ## Project Structure
 A somewhat typical app structure, there are 3 main activities at the moment, as well as some supporting Layouts. There are also additional Java Classes used to provide some structure to the app, including an ```AppDataModel``` and ```XRayJsonReader```.

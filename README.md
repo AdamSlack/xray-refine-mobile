@@ -12,4 +12,4 @@ Filtering list of installed apps with search:
 
 Detail view of selected app (Total usage time for the past day):
 
-<img src="https://raw.githubusercontent.com/AdamSlack/RefineMobile/master/reameimages/appdetailday.png" width=250>
+<img src="https://raw.githubusercontent.com/AdamSlack/RefineMobile/master/reameimages/appdetailmonth.png" width=250>

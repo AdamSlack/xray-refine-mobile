@@ -1,5 +1,13 @@
 package com.sociam.refine;
 
+/**
+ * AppInfo - Data Class
+ *
+ *  Essentially a set of constructors used to encapsulate an app's Name, Package Name, and App Icon.
+ *  The intention is to move the methods making use of ResolveInfo objects into the other XRayApp
+ *  data class.
+ */
+
 import android.app.usage.UsageStats;
 import android.app.usage.UsageStatsManager;
 import android.content.Context;

@@ -1,4 +1,11 @@
 package com.sociam.refine;
+/**
+ *  List Applications - Activity
+ *
+ *  Provides a searchable list of all apps on the user's device, the collection of apps (their
+ *  names, package names, and icons) are retrieved from the app data model and used with the
+ *  AppInfoAdapter to fill a List View.
+*/
 
 import android.app.Activity;
 import android.content.Intent;
@@ -38,6 +45,7 @@ public class ListApplications extends AppCompatActivity {
 
         ActionBar actionbar = getSupportActionBar();
         actionbar.setDisplayHomeAsUpEnabled(true);
+        actionbar.setTitle("Your Apps");
 
         ListView appListView = (ListView) findViewById(R.id.appListView);
 

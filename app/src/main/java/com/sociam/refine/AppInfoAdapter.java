@@ -1,5 +1,9 @@
 package com.sociam.refine;
-
+/**
+ * App Info Adapter
+ *
+ * ListView adapter for rendering app info objects in a list view.
+*/
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;

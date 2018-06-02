@@ -16,6 +16,7 @@
     <string name="title_activity_nav_drawer">NavDrawer</string>
     <string name="view_apps_on_phone">View Apps On Phone</string>
     <string name="view_usage_statistics">View Usage Statistics</string>
+    <string name="study_opt_in">Study Opt-in</string>
 
     <!-- API Shizzle-->
     <string name="xray_apps">https://negi.io/api/apps</string>

@@ -1,4 +1,21 @@
 package com.sociam.refine;
+/**
+ * Main Activity - Activity
+ *
+ * The main activity for the application, where the app starts when it is launched from the device.
+ *
+ * If the main activity is started without first populating the app data model, then the activity
+ * uses a splash screen layout, otherwise it uses the activity_main layout.
+ *
+ * This activity also determines what actions are performed within the navigation drawer attached to
+ * the main view.
+ *
+ * A Host-Usage graph is built using the MPAndroidChart library, the resulting dataset is then put
+ * into the Graph Data Model, methods for building graphs should really be put in a separate
+ * Graph Building Factory.
+ *
+*/
+
 
 import android.app.AppOpsManager;
 import android.app.usage.UsageStats;
@@ -56,11 +73,14 @@ public class MainActivity extends AppCompatActivity
 
     private DrawerLayout mDrawerLayout;
     private AppDataModel appDataModel;
+    private GraphDataModel graphDataModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         appDataModel = AppDataModel.getInstance(getPackageManager(), getApplicationContext());
+        graphDataModel = GraphDataModel.getInstance();
+
         if(appDataModel.getxRayApps().keySet().size() != appDataModel.getAllPhoneAppInfos().keySet().size()) {
             setContentView(R.layout.splash_screen);
 
@@ -142,6 +162,10 @@ public class MainActivity extends AppCompatActivity
                 navigateToViewApps();
                 break;
             }
+            case R.id.study_opt_in: {
+                navigateToStudyOptIn();
+                break;
+            }
         }
         //close navigation drawer
         mDrawerLayout.closeDrawer(GravityCompat.START);
@@ -150,7 +174,6 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        System.out.println(item.getItemId());
         switch (item.getItemId()) {
             case android.R.id.home:
                 mDrawerLayout.openDrawer(GravityCompat.START);
@@ -159,6 +182,10 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+    private void navigateToStudyOptIn() {
+        Intent navToStudy = new Intent(getApplicationContext(), StudyOptIn.class);
+        startActivity(navToStudy);
+    }
 
     private void navigateToViewApps() {
         Intent findOwnApps = new Intent(getApplicationContext(), ListApplications.class);
@@ -177,6 +204,20 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void buildHostsChart() {
+        HorizontalBarChart hbc = (HorizontalBarChart) findViewById(R.id.hostBarChart);
+
+        if(graphDataModel.hostDataHorizontalDataSet != null) {
+            hbc.setData(graphDataModel.hostDataHorizontalDataSet);
+            hbc.invalidate();
+            return;
+        }
+
+        if(hbc.getData() != null) {
+            if(hbc.getData().getEntryCount() != 0) {
+                return;
+            }
+        }
+
         HashMap<String, Long> hostTimes = new HashMap<>();
 
         // Get Host Usage Times
@@ -215,7 +256,6 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        HorizontalBarChart hbc = (HorizontalBarChart) findViewById(R.id.hostBarChart);
         ArrayList<BarEntry> barEntries = new ArrayList<>();
         ArrayList<String> axisValues = new ArrayList<>();
 
@@ -230,6 +270,8 @@ public class MainActivity extends AppCompatActivity
 
         BarData barData = new BarData(bds);
         barData.setBarWidth(1f);
+
+        graphDataModel.hostDataHorizontalDataSet = barData;
 
         hbc.setData(barData);
         hbc.setFitBars(true);

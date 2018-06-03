@@ -16,9 +16,17 @@
     <string name="title_activity_nav_drawer">NavDrawer</string>
     <string name="view_apps_on_phone">View Apps On Phone</string>
     <string name="view_usage_statistics">View Usage Statistics</string>
-    <string name="study_opt_in">Study Opt-in</string>
+
+    <!-- Study Opt-In-->
+    <string name="study_opt_in_t_and_c">
+        By clicking accept you are providing consent for this application to collect and send
+        statistics about what apps are installed on this device, as well as how you utilise other
+        features of the application.
+    </string>
+    <string name="study_opt_in_title">Study Opt-in</string>
 
     <!-- API Shizzle-->
     <string name="xray_apps">https://negi.io/api/apps</string>
+
 
 </resources>

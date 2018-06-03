@@ -9,11 +9,14 @@ package com.sociam.refine;
 
 import com.github.mikephil.charting.data.BarData;
 
+import java.util.ArrayList;
+
 public class GraphDataModel {
 
     private static GraphDataModel INSTANCE = null;
 
     public BarData hostDataHorizontalDataSet;
+    public ArrayList<String> hostDataAxisLabels;
 
     private GraphDataModel() {
 

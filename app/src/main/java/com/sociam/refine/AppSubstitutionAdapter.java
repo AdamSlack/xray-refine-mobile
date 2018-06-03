@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.data.BarData;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -32,21 +33,26 @@ public class AppSubstitutionAdapter extends ArrayAdapter{
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.app_substitution, parent, false);
         }
 
-        TextView appNameTextView = (TextView) convertView.findViewById(R.id.appNameTextView);
+        TextView appNameTextView = (TextView) convertView.findViewById(R.id.altAppTitleTextView);
 
         BarChart hostBarChart = (BarChart) convertView.findViewById(R.id.altAppBarChart);
 
-        appNameTextView.setText(app.title);
+        appNameTextView.setText(app.appStoreInfo.title);
         ImageView appIconImageView = (ImageView) convertView.findViewById(R.id.appIconImageView);
         new DownloadImageTask((ImageView) convertView.findViewById(R.id.altAppIcon))
-                .execute(R.string.xray_api + app.iconURI);
+                .execute(getContext().getString(R.string.xray_api_icons)+ app.iconURI);
 
         return convertView;
     }
 
+//    BarData createHostBarData(String appPackageName) {
+//
+//    }
+
 
     // From: stackoverflow, URL: https://stackoverflow.com/questions/2471935/how-to-load-an-imageview-by-url-in-android
     // User: AndroidDeveloper, URL: https://stackoverflow.com/users/1196072/android-developer
+    // This works great, i should use this when fetching XRay app data for sure.
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
         ImageView bmImage;
 

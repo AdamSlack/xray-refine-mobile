@@ -34,7 +34,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
-        <activity android:name=".StubstituteAppActivity"></activity>
+        <activity android:name=".SubstituteAppActivity"></activity>
     </application>
 
 </manifest>

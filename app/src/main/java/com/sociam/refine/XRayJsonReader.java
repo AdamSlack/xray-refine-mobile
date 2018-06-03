@@ -55,7 +55,7 @@ public class XRayJsonReader {
                     xRayApp.hosts = readStringArray(jsonReader);
                 }
                 else if(name.equals("icon")) {
-                    xRayApp.icon = jsonReader.nextString();
+                    xRayApp.iconURI = jsonReader.nextString();
                 }
                 else{
                     jsonReader.skipValue();

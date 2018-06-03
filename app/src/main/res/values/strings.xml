@@ -26,9 +26,9 @@
     <string name="study_opt_in_title">Study Opt-in</string>
 
     <!-- API Shizzle-->
-    <string name="xray_api">https://negi.io/api</string>
+    <string name="xray_api_icons">https://negi.io/api/icons</string>
     <string name="xray_apps">https://negi.io/api/apps</string>
-    <string name="alt_xray_app">http://negi.io/api/alt/</string>
+    <string name="alt_xray_app">https://negi.io/api/alt/</string>
 
 
 </resources>

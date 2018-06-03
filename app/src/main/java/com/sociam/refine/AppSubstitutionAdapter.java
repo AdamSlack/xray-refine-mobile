@@ -102,8 +102,9 @@ public class AppSubstitutionAdapter extends ArrayAdapter{
             }
         }
         ArrayList<BarEntry> jointEntries = new ArrayList<>();
-        for(String host : combinedHosts) {
-            jointEntries.add(originalData.get(originalLabels.indexOf(host)));
+        for(int i=0; i <combinedHosts.size(); i++) {
+            BarEntry be = originalData.get(originalLabels.indexOf(combinedHosts.get(i)));
+            jointEntries.add(new BarEntry(i, be.getY()));
         }
         BarDataSet bds = new BarDataSet(jointEntries, "New HostExposure");
         bds.setColors(ColorTemplate.COLORFUL_COLORS);

@@ -12,7 +12,7 @@
         <item
             android:id="@+id/study_opt_in"
             android:icon="@drawable/ic_info"
-            android:title="@string/study_opt_in" />
+            android:title="@string/study_opt_in_title" />
 
     </group>
 </menu>

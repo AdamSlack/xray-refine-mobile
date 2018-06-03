@@ -43,6 +43,7 @@ import com.github.mikephil.charting.charts.HorizontalBarChart;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.DataSet;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
@@ -134,10 +135,10 @@ public class MainActivity extends AppCompatActivity
             );
 
             setNavigationViewListener();
-            buildHostsChart();
+            buildUsageHostDataset();
         }
 
-        if (!MainActivity.checkForPermission(this)) {
+        if (!MainActivity.appHasUsageDataPermission(this)) {
             startActivity(new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS));
         }
 
@@ -182,7 +183,7 @@ public class MainActivity extends AppCompatActivity
         startActivity(findOwnApps);
     }
 
-    static public boolean checkForPermission(Context context) {
+    static public boolean appHasUsageDataPermission(Context context) {
         AppOpsManager appOps = (AppOpsManager) context.getSystemService(Context.APP_OPS_SERVICE);
         int mode = appOps.checkOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS, Process.myUid(), context.getPackageName());
         return mode == MODE_ALLOWED;
@@ -193,15 +194,27 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
     }
 
-    private void buildHostsChart() {
+
+    private void buildUsageHostBarChart(BarData barData, ArrayList<String> axisValues){
         HorizontalBarChart hbc = (HorizontalBarChart) findViewById(R.id.hostBarChart);
 
-        if(graphDataModel.hostDataHorizontalDataSet != null) {
-            hbc.setData(graphDataModel.hostDataHorizontalDataSet);
-            hbc.invalidate();
+        hbc.setData(barData);
+        hbc.setFitBars(true);
+        hbc.getXAxis().setGranularityEnabled(false);
+        hbc.getXAxis().setValueFormatter(new IndexAxisValueFormatter(axisValues));
+        hbc.zoom(1.0f,4.0f, 0, axisValues.size());
+
+        hbc.invalidate();
+    }
+
+    private void buildUsageHostDataset() {
+
+        if(graphDataModel.hostDataHorizontalDataSet != null && graphDataModel.hostDataAxisLabels != null) {
+            buildUsageHostBarChart(graphDataModel.hostDataHorizontalDataSet, graphDataModel.hostDataAxisLabels);
             return;
         }
 
+        HorizontalBarChart hbc = (HorizontalBarChart) findViewById(R.id.hostBarChart);
         if(hbc.getData() != null) {
             if(hbc.getData().getEntryCount() != 0) {
                 return;
@@ -209,7 +222,6 @@ public class MainActivity extends AppCompatActivity
         }
 
         HashMap<String, Long> hostTimes = new HashMap<>();
-
         // Get Host Usage Times
         for(String appPackageName : appDataModel.getTrackedPhoneAppInfos().keySet()) {
             long usageTime = AppUsageManager.calculateAppTimeUsage("week", appPackageName, getApplicationContext())/100000;
@@ -262,14 +274,9 @@ public class MainActivity extends AppCompatActivity
         barData.setBarWidth(1f);
 
         graphDataModel.hostDataHorizontalDataSet = barData;
+        graphDataModel.hostDataAxisLabels = axisValues;
 
-        hbc.setData(barData);
-        hbc.setFitBars(true);
-        hbc.getXAxis().setGranularityEnabled(false);
-        hbc.getXAxis().setValueFormatter(new IndexAxisValueFormatter(axisValues));
-        hbc.zoom(1.0f,4.0f, 0, hosts.size());
-
-        hbc.invalidate();
+        buildUsageHostBarChart(barData, axisValues);
 
         return;
     }

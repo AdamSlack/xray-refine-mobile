@@ -18,7 +18,7 @@ import java.util.Map;
 public class AppUsageManager {
 
     static long calculateAppTimeUsage(String interval, String appPackageName, Context context) {
-        if(!MainActivity.checkForPermission(context)){
+        if(!MainActivity.appHasUsageDataPermission(context)){
             return 0;
         }
         UsageStatsManager usageStatsManager = (UsageStatsManager)context.getSystemService(Context.USAGE_STATS_SERVICE);

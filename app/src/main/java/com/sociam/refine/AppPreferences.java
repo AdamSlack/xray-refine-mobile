@@ -4,8 +4,6 @@ package com.sociam.refine;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import java.io.FileOutputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 public class AppPreferences implements Serializable{

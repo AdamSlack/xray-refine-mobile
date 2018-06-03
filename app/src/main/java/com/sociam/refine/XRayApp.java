@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class XRayApp {
     public String title;
     public String app;
+    public String iconURI;
     public XRayAppStoreInfo appStoreInfo;
     public ArrayList<String> hosts;
 

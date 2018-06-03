@@ -54,7 +54,7 @@ Detail view of selected app (Total usage time for the past day):
 <img src="https://raw.githubusercontent.com/AdamSlack/RefineMobile/master/reameimages/appdetailmonth.png" width=250>
 
 ## Graphs and Visualisations :bar_chart:
-Graphs for this project are implemented using [MPAndroidChart](https://github.com/PhilJay/MPAndroidChart), and Open Source (Apache 2.0) plotting library for Android.
+Graphs for this project are implemented using [MPAndroidChart](https://github.com/PhilJay/MPAndroidChart), an Open Source (Apache 2.0) plotting library for Android.
 
 ## License 📄
 Copyright 2018 Adam Slack

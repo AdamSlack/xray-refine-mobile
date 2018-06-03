@@ -224,7 +224,7 @@ public class MainActivity extends AppCompatActivity
         HashMap<String, Long> hostTimes = new HashMap<>();
         // Get Host Usage Times
         for(String appPackageName : appDataModel.getTrackedPhoneAppInfos().keySet()) {
-            long usageTime = AppUsageManager.calculateAppTimeUsage("week", appPackageName, getApplicationContext())/100000;
+            long usageTime = AppUsageManager.calculateAppTimeUsage("week", appPackageName, getApplicationContext());
             if(appDataModel.getxRayApps().containsKey(appPackageName)) {
                 ArrayList<String> hosts = appDataModel.getxRayApps().get(appPackageName).hosts;
                 for(String host : hosts ) {
@@ -274,6 +274,7 @@ public class MainActivity extends AppCompatActivity
         barData.setBarWidth(1f);
 
         graphDataModel.hostDataHorizontalDataSet = barData;
+        graphDataModel.hostDataHorizontalDataEntries = barEntries;
         graphDataModel.hostDataAxisLabels = axisValues;
 
         buildUsageHostBarChart(barData, axisValues);

@@ -40,7 +40,7 @@ public class SubstituteAppActivity extends AppCompatActivity {
         }
 
         altAppListView = (ListView) findViewById(R.id.altAppListView);
-        altAppAdapter = new AppSubstitutionAdapter(getApplicationContext(), altApps);
+        altAppAdapter = new AppSubstitutionAdapter(getApplicationContext(), altApps, appPackageName);
         altAppListView.setAdapter(altAppAdapter);
 
         if(appInfo != null) {

@@ -8,6 +8,7 @@ package com.sociam.refine;
 */
 
 import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarEntry;
 
 import java.util.ArrayList;
 
@@ -17,6 +18,7 @@ public class GraphDataModel {
 
     public BarData hostDataHorizontalDataSet;
     public ArrayList<String> hostDataAxisLabels;
+    public ArrayList<BarEntry> hostDataHorizontalDataEntries;
 
     private GraphDataModel() {
 

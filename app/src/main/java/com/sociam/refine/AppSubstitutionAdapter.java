@@ -14,11 +14,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.formatter.DefaultValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.github.mikephil.charting.utils.ViewPortHandler;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -51,7 +54,20 @@ public class AppSubstitutionAdapter extends ArrayAdapter{
         BarChart hostBarChart = (BarChart) convertView.findViewById(R.id.altAppBarChart);
         if(hostBarChart.getData() == null) {
             hostBarChart.setData(createHostBarData(originalAppPackageName));
-            hostBarChart.getAxisLeft().setStartAtZero(false);
+
+            hostBarChart.setDrawValueAboveBar(false);
+            hostBarChart.getAxisLeft().setAxisMaximum(hostBarChart.getYMax());
+            hostBarChart.getAxisLeft().setAxisMinimum(hostBarChart.getYMin());
+            hostBarChart.getXAxis().setDrawLabels(false);
+            hostBarChart.getXAxis().setDrawAxisLine(false);
+            hostBarChart.getXAxis().setDrawGridLines(false);
+            hostBarChart.getXAxis().setLabelCount(hostBarChart.getData().getEntryCount());
+            System.out.println(hostBarChart.getXAxis().getLabelRotationAngle());
+            hostBarChart.getXAxis().setLabelRotationAngle(90);
+            System.out.println(hostBarChart.getXAxis().getLabelRotationAngle());
+            System.out.println("  ");
+            hostBarChart.setScaleEnabled(false);
+
             hostBarChart.invalidate();
         }
 
@@ -99,14 +115,26 @@ public class AppSubstitutionAdapter extends ArrayAdapter{
         }
 
         ArrayList<BarEntry> jointEntries = new ArrayList<>();
-        for(Float exposure : exposureChanges) {
-            jointEntries.add(new BarEntry(jointEntries.size(), exposure));
+
+        for(int i=0; i < exposureChanges.size(); i++){
+            BarEntry be = new BarEntry(jointEntries.size(), exposureChanges.get(i), combinedHosts.get(i));
+            jointEntries.add(be);
+
         }
-        BarDataSet bds = new BarDataSet(jointEntries, "New HostExposure");
+
+        BarDataSet bds = new BarDataSet(jointEntries, "New Host Exposure");
         bds.setColors(colours);
+
+        bds.setValueFormatter(new DefaultValueFormatter(0) {
+            @Override
+            public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
+                return entry.getData().toString();
+            }
+        });
 
         BarData bd = new BarData(bds);
         bd.setBarWidth(0.9f);
+
         return bd;
     }
 

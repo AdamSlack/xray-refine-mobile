@@ -40,12 +40,18 @@ import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 
 import com.github.mikephil.charting.charts.HorizontalBarChart;
+import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.DataSet;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.formatter.DefaultValueFormatter;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.github.mikephil.charting.utils.ViewPortHandler;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -200,9 +206,11 @@ public class MainActivity extends AppCompatActivity
 
         hbc.setData(barData);
         hbc.setFitBars(true);
-        hbc.getXAxis().setGranularityEnabled(false);
-        hbc.getXAxis().setValueFormatter(new IndexAxisValueFormatter(axisValues));
-        hbc.zoom(1.0f,4.0f, 0, axisValues.size());
+        hbc.getXAxis().setDrawLabels(false);
+        hbc.getXAxis().setDrawAxisLine(false);
+        hbc.getXAxis().setDrawGridLines(false);
+        hbc.zoom(1.0f,3.0f, 0, axisValues.size());
+        hbc.getXAxis().setLabelCount(barData.getEntryCount());
 
         hbc.invalidate();
     }
@@ -262,12 +270,17 @@ public class MainActivity extends AppCompatActivity
         ArrayList<String> axisValues = new ArrayList<>();
 
         for(Pair<Float, Integer> usageTime : usageTimes) {
-            barEntries.add(new BarEntry(barEntries.size(), usageTime.first));
-            axisValues.add(hosts.get(usageTime.second));
+            barEntries.add(new BarEntry(barEntries.size(), usageTime.first,hosts.get(usageTime.second)));
         }
 
 
         BarDataSet bds = new BarDataSet(barEntries, "Weekly Host Exposure");
+        bds.setValueFormatter(new DefaultValueFormatter(0) {
+            @Override
+            public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
+                return entry.getData().toString();
+            }
+        });
         bds.setColors(ColorTemplate.JOYFUL_COLORS);
 
         BarData barData = new BarData(bds);

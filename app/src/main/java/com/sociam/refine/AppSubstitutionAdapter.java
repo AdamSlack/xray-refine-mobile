@@ -51,6 +51,7 @@ public class AppSubstitutionAdapter extends ArrayAdapter{
         BarChart hostBarChart = (BarChart) convertView.findViewById(R.id.altAppBarChart);
         if(hostBarChart.getData() == null) {
             hostBarChart.setData(createHostBarData(originalAppPackageName));
+            hostBarChart.getAxisLeft().setStartAtZero(false);
             hostBarChart.invalidate();
         }
 
@@ -67,47 +68,42 @@ public class AppSubstitutionAdapter extends ArrayAdapter{
         ArrayList<BarEntry> originalData = new ArrayList<BarEntry>(GraphDataModel.getInstance().hostDataHorizontalDataEntries);
         ArrayList<String> originalLabels = new ArrayList<>(GraphDataModel.getInstance().hostDataAxisLabels);
 
-        ArrayList<String> originalAppHosts = AppDataModel
+        HashSet<String> originalAppHosts = new HashSet<>(AppDataModel
                 .getInstance(context.getPackageManager(), context)
-                        .getxRayApps().get(originalAppPackageName).hosts;
+                        .getxRayApps().get(originalAppPackageName).hosts);
 
-        ArrayList<String> altAppHosts = app.hosts;
+        HashSet<String> altAppHosts = new HashSet<>(app.hosts);
 
         Set<String> combinedHostSet = new HashSet<>();
         combinedHostSet.addAll(originalAppHosts);
         combinedHostSet.addAll(altAppHosts);
+
         ArrayList<String> combinedHosts = new ArrayList<String>(combinedHostSet);
-
-        // Reduce host exposure from original app
-        for(int i = 0; i < originalAppHosts.size(); i++) {
-            int entryIdx = originalLabels.indexOf(originalAppHosts.get(i));
-            if(entryIdx > -1) {
-                BarEntry entry = originalData.get(entryIdx);
-                float[] reducedVals = {(float) entryIdx, (float) (entry.getY() - usageTime)};
-                entry.setVals(reducedVals);
+        ArrayList<Float> exposureChanges = new ArrayList<>();
+        ArrayList<Integer> colours = new ArrayList<>();
+        for(String host : combinedHosts) {
+            exposureChanges.add(0f);
+            int total = exposureChanges.size()-1;
+            if(altAppHosts.contains(host)) {
+                exposureChanges.set(total, exposureChanges.get(total) + usageTime);
             }
-        }
-
-        // increase host exposure from alternative app
-        for(int i=0; i < altAppHosts.size(); i++) {
-            int entryIdx = originalLabels.indexOf(altAppHosts.get(i));
-            if (entryIdx > -1) {
-                BarEntry entry = originalData.get(entryIdx);
-                float[] increased = {(float) entryIdx, (float) (entry.getY()+usageTime)};
-                entry.setVals(increased);
+            if(originalAppHosts.contains(host)) {
+                exposureChanges.set(total, exposureChanges.get(total) - usageTime);
+            }
+            if(exposureChanges.get(total) >= 0) {
+                colours.add(context.getResources().getColor(R.color.increased_exposure));
             }
             else {
-                originalData.add(new BarEntry(originalLabels.size(), usageTime));
-                originalLabels.add(altAppHosts.get(i));
+                colours.add(context.getResources().getColor(R.color.decreased_exposure));
             }
         }
+
         ArrayList<BarEntry> jointEntries = new ArrayList<>();
-        for(int i=0; i <combinedHosts.size(); i++) {
-            BarEntry be = originalData.get(originalLabels.indexOf(combinedHosts.get(i)));
-            jointEntries.add(new BarEntry(i, be.getY()));
+        for(Float exposure : exposureChanges) {
+            jointEntries.add(new BarEntry(jointEntries.size(), exposure));
         }
         BarDataSet bds = new BarDataSet(jointEntries, "New HostExposure");
-        bds.setColors(ColorTemplate.COLORFUL_COLORS);
+        bds.setColors(colours);
 
         BarData bd = new BarData(bds);
         bd.setBarWidth(1f);

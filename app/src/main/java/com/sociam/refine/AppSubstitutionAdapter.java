@@ -115,16 +115,16 @@ public class AppSubstitutionAdapter extends ArrayAdapter{
         }
 
         ArrayList<BarEntry> jointEntries = new ArrayList<>();
+        ArrayList<String> axisLables = new ArrayList<>();
 
         for(int i=0; i < exposureChanges.size(); i++){
             BarEntry be = new BarEntry(jointEntries.size(), exposureChanges.get(i), combinedHosts.get(i));
             jointEntries.add(be);
-
+            axisLables.add(combinedHosts.get(i));
         }
 
         BarDataSet bds = new BarDataSet(jointEntries, "New Host Exposure");
         bds.setColors(colours);
-
         bds.setValueFormatter(new DefaultValueFormatter(0) {
             @Override
             public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
@@ -133,6 +133,7 @@ public class AppSubstitutionAdapter extends ArrayAdapter{
         });
 
         BarData bd = new BarData(bds);
+
         bd.setBarWidth(0.9f);
 
         return bd;

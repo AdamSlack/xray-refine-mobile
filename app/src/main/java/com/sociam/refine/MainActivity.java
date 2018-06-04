@@ -282,7 +282,7 @@ public class MainActivity extends AppCompatActivity
                 return entry.getData().toString();
             }
         });
-        bds.setColor(R.color.medium_blue);
+        bds.setColors(ColorTemplate.JOYFUL_COLORS);
         BarData barData = new BarData(bds);
         barData.setBarWidth(0.9f);
 

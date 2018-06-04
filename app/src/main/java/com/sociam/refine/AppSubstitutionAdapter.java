@@ -106,7 +106,7 @@ public class AppSubstitutionAdapter extends ArrayAdapter{
         bds.setColors(colours);
 
         BarData bd = new BarData(bds);
-        bd.setBarWidth(1f);
+        bd.setBarWidth(0.9f);
         return bd;
     }
 

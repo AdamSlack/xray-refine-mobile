@@ -211,6 +211,7 @@ public class MainActivity extends AppCompatActivity
         hbc.getXAxis().setDrawGridLines(false);
         hbc.zoom(1.0f,3.0f, 0, axisValues.size());
         hbc.getXAxis().setLabelCount(barData.getEntryCount());
+        hbc.setScaleEnabled(false);
 
         hbc.invalidate();
     }
@@ -281,10 +282,9 @@ public class MainActivity extends AppCompatActivity
                 return entry.getData().toString();
             }
         });
-        bds.setColors(ColorTemplate.JOYFUL_COLORS);
-
+        //bds.setColors(R.color.colorPrimary);
         BarData barData = new BarData(bds);
-        barData.setBarWidth(1f);
+        barData.setBarWidth(0.9f);
 
         graphDataModel.hostDataHorizontalDataSet = barData;
         graphDataModel.hostDataHorizontalDataEntries = barEntries;

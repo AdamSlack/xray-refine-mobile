@@ -85,7 +85,7 @@ public class AppSubstitutionAdapter extends ArrayAdapter{
         ArrayList<String> originalLabels = new ArrayList<>(GraphDataModel.getInstance().hostDataAxisLabels);
 
         HashSet<String> originalAppHosts = new HashSet<>(AppDataModel
-                .getInstance(context.getPackageManager(), context)
+                .getInstance(context.getPackageManager())
                         .getxRayApps().get(originalAppPackageName).hosts);
 
         HashSet<String> altAppHosts = new HashSet<>(app.hosts);

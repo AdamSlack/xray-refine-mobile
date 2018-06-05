@@ -44,7 +44,7 @@ public class AppDataModel {
         trackedPhoneAppInfos = new HashMap<>(allPhoneAppInfos);
 
         for(String key : allPhoneAppInfos.keySet()) {
-            requestXRayAppData(allPhoneAppInfos.get(key).getAppPackageName(), context, new Function<XRayApp, Void>() {
+            XRayAPIService.getInstance().requestXRayAppData(allPhoneAppInfos.get(key).getAppPackageName(), context, new Function<XRayApp, Void>() {
                 @Override
                 public Void apply(XRayApp app) {
                     xRayApps.put(app.app, app);
@@ -77,50 +77,7 @@ public class AppDataModel {
         return phoneAppInfos;
     }
 
-    private void requestXRayAppData(final String packageName, final Context context, final Function<XRayApp, Void> useXRayAppCallback ) {
-        AsyncTask.execute(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    String xrayAPIString = context.getResources().getString(R.string.xray_apps);
-                    URL APIEndpoint = new URL(xrayAPIString + "?appId=" + packageName+ "&isFull=true");
-                    HttpsURLConnection httpsURLConnection = (HttpsURLConnection) APIEndpoint.openConnection();
 
-                    httpsURLConnection.setRequestProperty("User-Agent", "com.refine.sociam");
-                    httpsURLConnection.setRequestProperty("Accept", "application/json");
-
-                    if (httpsURLConnection.getResponseCode() == 200) {
-                        InputStream responseBody = httpsURLConnection.getInputStream();
-                        InputStreamReader responseBodyReader = new InputStreamReader(responseBody, "UTF-8");
-                        XRayJsonReader xrayReader = new XRayJsonReader();
-                        List<XRayApp> apps = xrayReader.readAppArray(responseBodyReader);
-                        if (apps.size() == 0) {
-                            useXRayAppCallback.apply(new XRayApp(packageName, new XRayAppStoreInfo("Unknown", "Unknown")));
-                        }
-                        else {
-                            for (XRayApp app : apps) {
-                                useXRayAppCallback.apply(app);
-                            }
-                        }
-
-                    } else {
-                        // Failed to connect
-                        useXRayAppCallback.apply(new XRayApp(packageName, new XRayAppStoreInfo("Unknown", "Unknown")));
-                    }
-                    httpsURLConnection.disconnect();
-
-                } catch (MalformedURLException exc) {
-                    // URL was Dodge
-
-                } catch (IOException exc) {
-                    // IO Failed here.
-                }
-                finally {
-
-                }
-            }
-        });
-    }
 
     /**
      *

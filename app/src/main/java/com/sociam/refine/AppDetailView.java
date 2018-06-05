@@ -20,6 +20,7 @@ import android.view.View;
 
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -62,6 +63,7 @@ public class AppDetailView extends AppCompatActivity {
         dropdown = findViewById(R.id.timePediodSpinner);
         totalUsageTextView = findViewById(R.id.timeUsageTextView);
 
+
         if(intent.hasExtra("appPackageName")){
             AppInfo app = new AppInfo(intent.getStringExtra("appPackageName"), getPackageManager());
             appPackageName = app.getAppPackageName();
@@ -78,6 +80,20 @@ public class AppDetailView extends AppCompatActivity {
         appDataModel = AppDataModel.getInstance(getPackageManager(), getApplicationContext());
         setDescriptionText(appPackageName);
         loadHostsPieChart();
+
+        initialiseSubstituteButton();
+    }
+
+    private void initialiseSubstituteButton() {
+        final Button subButton = (Button) findViewById(R.id.substituteAppButton);
+        subButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent subIntent = new Intent(getApplicationContext(), SubstituteAppActivity.class);
+                subIntent.putExtra("appPackageName", appPackageName);
+                startActivity(subIntent);
+            }
+        });
     }
 
     private void initialiseTimeWindowSpinner() {

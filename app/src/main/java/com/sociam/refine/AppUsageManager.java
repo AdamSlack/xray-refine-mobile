@@ -46,12 +46,12 @@ public class AppUsageManager {
         else {
             totalTime = 0;
         }
-        return totalTime;
+        return totalTime/1000;
     }
 
     static String formatUsageTime(long usageTime) {
-        int minutes = (int) ((usageTime / (1000*60)) % 60);
-        int hours   = (int) ((usageTime / (1000*60*60)) % 24);
+        int minutes = (int) ((usageTime / (60)) % 60);
+        int hours   = (int) ((usageTime / (60*60)) % 24);
         return Integer.toString(hours) + " Hrs, " + Integer.toString(minutes) +" min";
     }
 }

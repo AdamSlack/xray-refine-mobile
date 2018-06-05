@@ -39,19 +39,39 @@ API Requests are currently using Cached data located at [negi.io](negi.io). The 
 ## App Screenshots :iphone:
 Graph of All Hosts and exposure based on App Usage Times
 
-<img src="https://raw.githubusercontent.com/AdamSlack/RefineMobile/master/reameimages/allhostsview.png" width=250>
+<img src="https://raw.githubusercontent.com/AdamSlack/RefineMobile/master/reameimages/apphostchar.png" width=250>
 
-Listing of All apps installed on the user's phone:
+App inspection page
 
-<img src="https://raw.githubusercontent.com/AdamSlack/RefineMobile/master/reameimages/applistview.png" width=250>
+<img src="https://raw.githubusercontent.com/AdamSlack/RefineMobile/master/reameimages/appinspect.png" width=250>
 
-Filtering list of installed apps with search:
+List of apps on user's phone
 
-<img src="https://raw.githubusercontent.com/AdamSlack/RefineMobile/master/reameimages/applistfilter.png" width=250>
+<img src="https://raw.githubusercontent.com/AdamSlack/RefineMobile/master/reameimages/applist.png" width=250>
 
-Detail view of selected app (Total usage time for the past day):
+Filtered list of apps on user's phpne
 
-<img src="https://raw.githubusercontent.com/AdamSlack/RefineMobile/master/reameimages/appdetailmonth.png" width=250>
+App loading screen
+
+<img src="https://raw.githubusercontent.com/AdamSlack/RefineMobile/master/reameimages/apploadingscreen.png" width=250>
+
+App Permissions/preferences page
+
+<img src="https://raw.githubusercontent.com/AdamSlack/RefineMobile/master/reameimages/appperms.png" width=250>
+
+App substitution page
+
+<img src="https://raw.githubusercontent.com/AdamSlack/RefineMobile/master/reameimages/appsub.png" width=250>
+
+Study Agreement Window
+
+<img src="https://raw.githubusercontent.com/AdamSlack/RefineMobile/master/reameimages/apphostcbhar.png" width=250>
+
+App Nav menu
+
+<img src="https://raw.githubusercontent.com/AdamSlack/RefineMobile/master/reameimages/navbar.png" width=250>
+
+
 
 ## Graphs and Visualisations :bar_chart:
 Graphs for this project are implemented using [MPAndroidChart](https://github.com/PhilJay/MPAndroidChart), an Open Source (Apache 2.0) plotting library for Android.

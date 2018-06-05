@@ -38,6 +38,9 @@ public class AppDataModel {
     private HashMap<String, AppInfo> allPhoneAppInfos;
     public HashMap<String, AppInfo> trackedPhoneAppInfos;
 
+    public HashMap<String, String> domainCompanyPairs;
+    public HashMap<String, CompanyDetails> companyDetails;
+
     private AppDataModel(PackageManager packageManager, Context context) {
         xRayApps = new HashMap<String, XRayApp>();
         allPhoneAppInfos = getAppInfos(packageManager);

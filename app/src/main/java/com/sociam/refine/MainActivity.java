@@ -102,6 +102,12 @@ public class MainActivity extends AppCompatActivity
                     startActivity(mainIntent);
                 }
             });
+            AsyncTask.execute(new Runnable() {
+                @Override
+                public void run() {
+
+                }
+            });
         }
         else {
             setContentView(R.layout.activity_main);

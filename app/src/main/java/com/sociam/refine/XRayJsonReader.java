@@ -2,6 +2,7 @@ package com.sociam.refine;
 
 import android.util.JsonReader;
 import android.util.JsonToken;
+import android.widget.ListView;
 
 import org.json.JSONArray;
 
@@ -29,7 +30,7 @@ public class XRayJsonReader {
         return apps;
     }
 
-    public XRayApp readApp(JsonReader jsonReader) {
+    private XRayApp readApp(JsonReader jsonReader) {
         XRayApp xRayApp = new XRayApp();
 
         try {
@@ -86,7 +87,7 @@ public class XRayJsonReader {
         return strings;
     }
 
-    public XRayAppStoreInfo readAppStoreInfo(JsonReader jsonReader) {
+    private XRayAppStoreInfo readAppStoreInfo(JsonReader jsonReader) {
         XRayAppStoreInfo appStoreInfo = new XRayAppStoreInfo();
         try{
             jsonReader.beginObject();
@@ -111,5 +112,56 @@ public class XRayJsonReader {
 
         }
         return appStoreInfo;
+    }
+
+    public ArrayList<CompanyDetails> readCompanyDetails(InputStreamReader ISR) {
+        JsonReader jsonReader = new JsonReader(ISR);
+        ArrayList<CompanyDetails> details = new ArrayList<CompanyDetails>();
+
+        try {
+            if(jsonReader.peek().equals(JsonToken.BEGIN_ARRAY)) {
+                jsonReader.beginArray();
+                while(jsonReader.hasNext()) {
+                    details.add(readCompanyDetails(jsonReader));
+                }
+                jsonReader.endArray();
+            }
+        }
+        catch (IOException exc) {
+
+        }
+        return details;
+    }
+
+    private CompanyDetails readCompanyDetails(JsonReader jsonReader) {
+        CompanyDetails details = new CompanyDetails();
+
+        try {
+            if (jsonReader.peek().equals(JsonToken.BEGIN_OBJECT)) {
+                jsonReader.beginObject();
+                while(jsonReader.hasNext()) {
+                   if (jsonReader.peek().equals(JsonToken.BEGIN_OBJECT)) {
+                       while(jsonReader.hasNext()) {
+                           if(jsonReader.nextName().equals("id")) {
+                               details.companyID = jsonReader.nextString();
+                           }
+                           else if(jsonReader.nextName().equals("company")) {
+                               details.companyName = jsonReader.nextString();
+                           }
+                           else if(jsonReader.nextName().equals("domains")) {
+                               details.companyDomains = readStringArray(jsonReader);
+                           }
+                           else if (jsonReader.nextName().equals("description")) {
+                               details.companyDescription = jsonReader.nextString();
+                           }
+                       }
+                   }
+                }
+            }
+        }
+        catch (IOException exc) {
+
+        }
+        return details;
     }
 }

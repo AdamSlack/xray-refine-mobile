@@ -41,11 +41,16 @@ public class AppDataModel {
     public HashMap<String, String> domainCompanyPairs;
     public HashMap<String, CompanyDetails> companyDetails;
 
-    private AppDataModel(PackageManager packageManager, Context context) {
+    private AppDataModel(PackageManager packageManager) {
         xRayApps = new HashMap<String, XRayApp>();
         allPhoneAppInfos = getAppInfos(packageManager);
         trackedPhoneAppInfos = new HashMap<>(allPhoneAppInfos);
+    }
 
+    public void buildXRayAppDataModel(Context context) {
+        if(xRayApps.size() == allPhoneAppInfos.size()) {
+            return ;
+        }
         for(String key : allPhoneAppInfos.keySet()) {
             XRayAPIService.getInstance().requestXRayAppData(allPhoneAppInfos.get(key).getAppPackageName(), context, new Function<XRayApp, Void>() {
                 @Override
@@ -57,9 +62,9 @@ public class AppDataModel {
         }
     }
 
-    public static AppDataModel getInstance(PackageManager packageManager, Context context) {
+    public static AppDataModel getInstance(PackageManager packageManager) {
         if(INSTANCE == null) {
-            INSTANCE = new AppDataModel(packageManager, context);
+            INSTANCE = new AppDataModel(packageManager);
         }
         return INSTANCE;
     }

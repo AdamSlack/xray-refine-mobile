@@ -77,7 +77,7 @@ public class AppDetailView extends AppCompatActivity {
         String usageString = AppUsageManager.formatUsageTime(usageTime);
         totalUsageTextView.setText(usageString);
 
-        appDataModel = AppDataModel.getInstance(getPackageManager(), getApplicationContext());
+        appDataModel = AppDataModel.getInstance(getPackageManager());
         setDescriptionText(appPackageName);
         loadHostsPieChart();
 

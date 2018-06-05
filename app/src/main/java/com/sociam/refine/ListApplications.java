@@ -49,7 +49,7 @@ public class ListApplications extends AppCompatActivity {
 
         ListView appListView = (ListView) findViewById(R.id.appListView);
 
-        appDataModel = AppDataModel.getInstance(getPackageManager(), getApplicationContext());
+        appDataModel = AppDataModel.getInstance(getPackageManager());
         filteredApps = new ArrayList<AppInfo>(appDataModel.getAllPhoneAppInfos().values());
 
         appInfoAdapter = new AppInfoAdapter(this, filteredApps);

@@ -5,10 +5,15 @@ import android.util.JsonToken;
 import android.widget.ListView;
 
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 public class XRayJsonReader {
@@ -114,52 +119,47 @@ public class XRayJsonReader {
         return appStoreInfo;
     }
 
-    public ArrayList<CompanyDetails> readCompanyDetails(InputStreamReader ISR) {
-        JsonReader jsonReader = new JsonReader(ISR);
-        ArrayList<CompanyDetails> details = new ArrayList<CompanyDetails>();
-
+    public ArrayList<CompanyDetails> readCompanyDetails(BufferedReader BR) throws IOException {
+        ArrayList<CompanyDetails> companyDetails = new ArrayList<CompanyDetails>();
+        StringBuilder sb = new StringBuilder();
+        String line;
+        while ((line = BR.readLine()) != null) {
+            sb.append(line);
+        }
         try {
-            if(jsonReader.peek().equals(JsonToken.BEGIN_ARRAY)) {
-                jsonReader.beginArray();
-                while(jsonReader.hasNext()) {
-                    details.add(readCompanyDetails(jsonReader));
-                }
-                jsonReader.endArray();
+            JSONObject json = new JSONObject(sb.toString());
+            Iterator<String> keyIter = json.keys();
+            while(keyIter.hasNext()){
+                companyDetails.add(readCompanyDetails(json.getJSONObject(keyIter.next())));
             }
-        }
-        catch (IOException exc) {
+        } catch (JSONException exc) {
 
         }
-        return details;
+        return companyDetails;
     }
 
-    private CompanyDetails readCompanyDetails(JsonReader jsonReader) {
+    private CompanyDetails readCompanyDetails(JSONObject json) {
         CompanyDetails details = new CompanyDetails();
-
         try {
-            if (jsonReader.peek().equals(JsonToken.BEGIN_OBJECT)) {
-                jsonReader.beginObject();
-                while(jsonReader.hasNext()) {
-                   if (jsonReader.peek().equals(JsonToken.BEGIN_OBJECT)) {
-                       while(jsonReader.hasNext()) {
-                           if(jsonReader.nextName().equals("id")) {
-                               details.companyID = jsonReader.nextString();
-                           }
-                           else if(jsonReader.nextName().equals("company")) {
-                               details.companyName = jsonReader.nextString();
-                           }
-                           else if(jsonReader.nextName().equals("domains")) {
-                               details.companyDomains = readStringArray(jsonReader);
-                           }
-                           else if (jsonReader.nextName().equals("description")) {
-                               details.companyDescription = jsonReader.nextString();
-                           }
-                       }
-                   }
+            if (json.has("id")) {
+                details.companyID = json.getString("id");
+            }
+            if(json.has("company")) {
+                details.companyName = json.getString("company");
+            }
+            if(json.has("description")) {
+                details.companyDescription = json.getString("description");
+            }
+            if(json.has("domains")) {
+                JSONArray domainsJson = json.getJSONArray("domains");
+                String[] domains = new String[domainsJson.length()];
+                for (int i = 0; i < domainsJson.length(); i++) {
+                    domains[i] = domainsJson.getString(i);
                 }
+                details.companyDomains = new ArrayList<String>(Arrays.asList(domains));
             }
         }
-        catch (IOException exc) {
+        catch (JSONException exc) {
 
         }
         return details;

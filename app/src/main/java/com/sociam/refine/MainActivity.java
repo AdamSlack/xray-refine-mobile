@@ -18,6 +18,7 @@ package com.sociam.refine;
 
 
 import android.app.AppOpsManager;
+import android.arch.core.util.Function;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -38,6 +39,7 @@ import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.HorizontalBarChart;
 import com.github.mikephil.charting.components.AxisBase;
@@ -53,6 +55,9 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.utils.ViewPortHandler;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -71,14 +76,27 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        appDataModel = AppDataModel.getInstance(getPackageManager(), getApplicationContext());
+        appDataModel = AppDataModel.getInstance(getPackageManager());
         graphDataModel = GraphDataModel.getInstance();
 
         appPreferences = AppPreferences.getInstance(getApplicationContext());
-
-        if(appDataModel.getxRayApps().keySet().size() != appDataModel.getAllPhoneAppInfos().keySet().size()) {
+        if(appDataModel.companyDetails == null) {
             setContentView(R.layout.splash_screen);
+            TextView loadingMessage = (TextView) findViewById(R.id.loadingMessage);
+            loadingMessage.setText("Loading Company Details");
+            RotateAnimation animation = new RotateAnimation(0f, 350f, 50f, 50f);
+            animation.setInterpolator(new LinearInterpolator());
+            animation.setRepeatCount(Animation.INFINITE);
+            animation.setDuration(700);
 
+            new ReadCompanyDetails().execute();
+
+        }
+        else if(appDataModel.getxRayApps().keySet().size() != appDataModel.getAllPhoneAppInfos().keySet().size()) {
+            appDataModel.buildXRayAppDataModel(getApplicationContext());
+            setContentView(R.layout.splash_screen);
+            TextView loadingMessage = (TextView) findViewById(R.id.loadingMessage);
+            loadingMessage.setText("Loading Application Data");
             RotateAnimation animation = new RotateAnimation(0f, 350f, 50f, 50f);
             animation.setInterpolator(new LinearInterpolator());
             animation.setRepeatCount(Animation.INFINITE);
@@ -90,7 +108,6 @@ public class MainActivity extends AppCompatActivity
                 @Override
                 public void run() {
                     while (appDataModel.getxRayApps().keySet().size() != appDataModel.getAllPhoneAppInfos().keySet().size()) {
-                        System.out.println(appDataModel.getxRayApps().keySet().size() - appDataModel.getAllPhoneAppInfos().keySet().size());
                         try {
                             Thread.sleep(500);
                         } catch (InterruptedException exc) {
@@ -100,12 +117,6 @@ public class MainActivity extends AppCompatActivity
                     appDataModel.trackedPhoneAppInfos = new HashMap<>(appDataModel.getAllPhoneAppInfos());
                     Intent mainIntent = new Intent(MainActivity.this, MainActivity.class);
                     startActivity(mainIntent);
-                }
-            });
-            AsyncTask.execute(new Runnable() {
-                @Override
-                public void run() {
-
                 }
             });
         }
@@ -240,13 +251,13 @@ public class MainActivity extends AppCompatActivity
         for(String appPackageName : appDataModel.getTrackedPhoneAppInfos().keySet()) {
             long usageTime = AppUsageManager.calculateAppTimeUsage("week", appPackageName, getApplicationContext());
             if(appDataModel.getxRayApps().containsKey(appPackageName)) {
-                ArrayList<String> hosts = appDataModel.getxRayApps().get(appPackageName).hosts;
-                for(String host : hosts ) {
+                HashMap<String, Integer> hosts = appDataModel.getxRayApps().get(appPackageName).companies;
+                for(String host : hosts.keySet() ) {
                     if(hostTimes.containsKey(host)) {
-                        hostTimes.put(host, hostTimes.get(host) + usageTime);
+                        hostTimes.put(host, hostTimes.get(host) + usageTime*hosts.get(host));
                     }
                     else{
-                        hostTimes.put(host, usageTime);
+                        hostTimes.put(host, usageTime*hosts.get(host));
                     }
                 }
             }
@@ -298,5 +309,41 @@ public class MainActivity extends AppCompatActivity
         buildUsageHostBarChart(barData, axisValues);
 
         return;
+    }
+
+    private class ReadCompanyDetails extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            appDataModel.domainCompanyPairs = new HashMap<String, String>();
+            appDataModel.companyDetails = new HashMap<String, CompanyDetails>();
+        }
+
+        protected Void doInBackground(Void ...params){
+            try {
+                XRayJsonReader jsonReader = new XRayJsonReader();
+                BufferedReader br = new BufferedReader(new InputStreamReader(getAssets().open("company_details.json")));
+                for (CompanyDetails c :jsonReader.readCompanyDetails(br)) {
+                    appDataModel.companyDetails.put(c.companyName.toLowerCase(), c);
+                    for(String domain : c.companyDomains) {
+                        appDataModel.domainCompanyPairs.put(domain.toLowerCase(), c.companyName.toLowerCase());
+                    }
+                }
+
+                System.out.println("Just chillin");
+
+            }
+            catch (IOException exc) {
+
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+            Intent mainIntent = new Intent(MainActivity.this, MainActivity.class);
+            startActivity(mainIntent);
+        }
     }
 }

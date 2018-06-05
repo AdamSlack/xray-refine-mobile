@@ -29,7 +29,7 @@ public class SubstituteAppActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_substitute_app);
 
-        appDataModel = AppDataModel.getInstance(getPackageManager(), getApplicationContext());
+        appDataModel = AppDataModel.getInstance(getPackageManager());
         //Get Extra..
         Intent intent = getIntent();
         if(intent.hasExtra("appPackageName")) {

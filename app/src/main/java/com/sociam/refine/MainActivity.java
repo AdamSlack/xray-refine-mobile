@@ -203,7 +203,6 @@ public class MainActivity extends AppCompatActivity
 
     private void buildUsageHostBarChart(BarData barData, ArrayList<String> axisValues){
         HorizontalBarChart hbc = (HorizontalBarChart) findViewById(R.id.hostBarChart);
-
         hbc.setData(barData);
         hbc.setFitBars(true);
         hbc.getXAxis().setDrawLabels(false);

@@ -1,13 +1,11 @@
 package com.sociam.refine;
 
 import android.app.DialogFragment;
-import android.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.CompoundButton;
 import android.widget.ToggleButton;
 
 public class PreferencesActivity extends AppCompatActivity {

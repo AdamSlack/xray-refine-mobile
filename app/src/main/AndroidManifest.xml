@@ -34,7 +34,11 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
-        <activity android:name=".SubstituteAppActivity"></activity>
+        <activity android:name=".SubstituteAppActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".AppDetailView" />
+        </activity>
     </application>
 
 </manifest>

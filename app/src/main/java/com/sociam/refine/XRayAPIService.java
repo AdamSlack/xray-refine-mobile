@@ -58,30 +58,23 @@ public class XRayAPIService {
         Map<String, String> hostCompanyPairs = AppDataModel.getInstance(context.getPackageManager()).domainCompanyPairs;
         for(String host : hosts) {
             boolean match = false;
-            String matchString = "";
             String hostName = host.toLowerCase();
-            String hostNameShorter = hostName.replaceFirst("^[^.]*.", "");
-            String hostNameEvenShorter = hostNameShorter.replaceFirst("^[^.]*.", "");
-
-            if(hostCompanyPairs.containsKey(hostName.toLowerCase())) {
-                match = true;
-                matchString = hostName;
-            }
-            else if(hostCompanyPairs.containsKey(hostNameShorter)) {
-                match = true;
-                matchString = hostNameShorter;
-            }
-            else if(hostCompanyPairs.containsKey(hostNameEvenShorter)) {
-                match =true;
-                matchString = hostNameEvenShorter;
+            String previousHostName = "";
+            while(!previousHostName.equals(hostName) && !hostName.equals("")) {
+                if(hostCompanyPairs.containsKey(hostName)) {
+                    match = true;
+                    break;
+                }
+                previousHostName = hostName;
+                hostName = hostName.replaceFirst("^[^.]*.", "");
             }
 
             if(match) {
-                if(companyCounts.containsKey(matchString)) {
-                    companyCounts.put(hostCompanyPairs.get(matchString), companyCounts.get(matchString) + 1);
+                if(companyCounts.containsKey(hostName)) {
+                    companyCounts.put(hostCompanyPairs.get(hostName), companyCounts.get(hostName) + 1);
                 }
                 else{
-                    companyCounts.put(hostCompanyPairs.get(matchString), 1);
+                    companyCounts.put(hostCompanyPairs.get(hostName), 1);
                 }
             }
             else{

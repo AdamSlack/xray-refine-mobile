@@ -62,6 +62,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Set;
 
 import static android.app.AppOpsManager.MODE_ALLOWED;
 
@@ -81,19 +82,7 @@ public class MainActivity extends AppCompatActivity
 
         appPreferences = AppPreferences.getInstance(getApplicationContext());
         if(appDataModel.companyDetails == null) {
-            setContentView(R.layout.splash_screen);
-            TextView loadingMessage = (TextView) findViewById(R.id.loadingMessage);
-            loadingMessage.setText("Loading Company Details");
-            RotateAnimation animation = new RotateAnimation(0f, 350f, 50f, 50f);
-            animation.setInterpolator(new LinearInterpolator());
-            animation.setRepeatCount(Animation.INFINITE);
-            animation.setDuration(700);
 
-            new ReadCompanyDetails().execute();
-
-        }
-        else if(appDataModel.getxRayApps().keySet().size() != appDataModel.getAllPhoneAppInfos().keySet().size()) {
-            appDataModel.buildXRayAppDataModel(getApplicationContext());
             setContentView(R.layout.splash_screen);
             TextView loadingMessage = (TextView) findViewById(R.id.loadingMessage);
             loadingMessage.setText("Loading Application Data");
@@ -104,21 +93,45 @@ public class MainActivity extends AppCompatActivity
 
             final ImageView splash = (ImageView) findViewById(R.id.splashIcon);
             splash.startAnimation(animation);
-            AsyncTask.execute(new Runnable() {
-                @Override
-                public void run() {
-                    while (appDataModel.getxRayApps().keySet().size() != appDataModel.getAllPhoneAppInfos().keySet().size()) {
-                        try {
-                            Thread.sleep(500);
-                        } catch (InterruptedException exc) {
 
+            new ReadCompanyDetails().execute();
+
+        }
+        else if(appDataModel.getxRayApps().keySet().size() != appDataModel.getAllPhoneAppInfos().keySet().size()) {
+
+            // Change this to use list of app ids and the api request xray app class.
+            Set<String> appNames = appDataModel.getAllPhoneAppInfos().keySet();
+            new XRayAPIService.XRayAppData(
+                    new Function<Void, Void>() {
+                        @Override
+                        public Void apply(Void thisIsVoid) {
+                            appDataModel.trackedPhoneAppInfos = new HashMap<>(appDataModel.getAllPhoneAppInfos());
+                            Intent mainIntent = new Intent(MainActivity.this, MainActivity.class);
+                            startActivity(mainIntent);
+                            return null;
                         }
-                    }
-                    appDataModel.trackedPhoneAppInfos = new HashMap<>(appDataModel.getAllPhoneAppInfos());
-                    Intent mainIntent = new Intent(MainActivity.this, MainActivity.class);
-                    startActivity(mainIntent);
-                }
-            });
+                    },
+                    new Function<XRayApp, Void>() {
+                        @Override
+                        public Void apply(XRayApp app) {
+                            appDataModel.addXRayApp(app);
+                            return null;
+                        }
+                    },
+                    getApplicationContext()
+            ).execute(appNames.toArray(new String[appNames.size()]));
+
+            setContentView(R.layout.splash_screen);
+            TextView loadingMessage = (TextView) findViewById(R.id.loadingMessage);
+            loadingMessage.setText("Loading Application Data");
+            RotateAnimation animation = new RotateAnimation(0f, 350f, 50f, 50f);
+            animation.setInterpolator(new LinearInterpolator());
+            animation.setRepeatCount(Animation.INFINITE);
+            animation.setDuration(700);
+
+            final ImageView splash = (ImageView) findViewById(R.id.splashIcon);
+            splash.startAnimation(animation);
+
         }
         else {
             setContentView(R.layout.activity_main);
@@ -311,6 +324,8 @@ public class MainActivity extends AppCompatActivity
         return;
     }
 
+
+    // This needs moving to XRAY API SERVICE.
     private class ReadCompanyDetails extends AsyncTask<Void, Void, Void> {
         @Override
         protected void onPreExecute() {

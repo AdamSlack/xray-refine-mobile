@@ -47,20 +47,20 @@ public class AppDataModel {
         trackedPhoneAppInfos = new HashMap<>(allPhoneAppInfos);
     }
 
-    public void buildXRayAppDataModel(Context context) {
-        if(xRayApps.size() == allPhoneAppInfos.size()) {
-            return ;
-        }
-        for(String key : allPhoneAppInfos.keySet()) {
-            XRayAPIService.getInstance().requestXRayAppData(allPhoneAppInfos.get(key).getAppPackageName(), context, new Function<XRayApp, Void>() {
-                @Override
-                public Void apply(XRayApp app) {
-                    xRayApps.put(app.app, app);
-                    return null;
-                }
-            });
-        }
-    }
+//    public void buildXRayAppDataModel(Context context) {
+//        if(xRayApps.size() == allPhoneAppInfos.size()) {
+//            return ;
+//        }
+//        for(String key : allPhoneAppInfos.keySet()) {
+//            XRayAPIService.getInstance().requestXRayAppData(allPhoneAppInfos.get(key).getAppPackageName(), context, new Function<XRayApp, Void>() {
+//                @Override
+//                public Void apply(XRayApp app) {
+//                    xRayApps.put(app.app, app);
+//                    return null;
+//                }
+//            });
+//        }
+//    }
 
     public static AppDataModel getInstance(PackageManager packageManager) {
         if(INSTANCE == null) {
@@ -102,5 +102,8 @@ public class AppDataModel {
 
     public HashMap<String, XRayApp> getxRayApps() {
         return xRayApps;
+    }
+    public void addXRayApp(XRayApp app) {
+        xRayApps.put(app.app, app);
     }
 }

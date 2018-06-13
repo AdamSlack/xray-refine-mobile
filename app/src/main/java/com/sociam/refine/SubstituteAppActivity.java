@@ -59,6 +59,8 @@ public class SubstituteAppActivity extends AppCompatActivity {
         }
     }
 
+
+    // NEED TO REFACTOR WITH NEW REQUEST METHOD.
     private class RequestXRayAltApps extends AsyncTask<String, XRayApp, Integer> {
 
         AppSubstitutionAdapter adapter;
@@ -68,26 +70,26 @@ public class SubstituteAppActivity extends AppCompatActivity {
         }
 
         protected Integer doInBackground(String... appPackageNames){
-            int count = appPackageNames.length;
-            int total = 0;
-            for(int i = 0; i < count; i++) {
-                XRayAPIService.requestXRayAltApps(appPackageName, getApplicationContext(), new Function<String, Void>() {
-                    @Override
-                    public Void apply(String input) {
-                        XRayAPIService.requestXRayAppData(input, getApplicationContext(), new Function<XRayApp, Void>() {
-                            @Override
-                            public Void apply(XRayApp input) {
-                                altApps.add(input);
-                                publishProgress();
-                                return null;
-                            }
-                        });
-                        return null;
-                    }
-                });
-                total += 1;
-            }
-            return total;
+//            int count = appPackageNames.length;
+//            int total = 0;
+//            for(int i = 0; i < count; i++) {
+//                XRayAPIService.requestXRayAltApps(appPackageName, getApplicationContext(), new Function<String, Void>() {
+//                    @Override
+//                    public Void apply(String input) {
+//                        new XRayAPIService.requestXRayAppData(input, getApplicationContext(), new Function<XRayApp, Void>() {
+//                            @Override
+//                            public Void apply(XRayApp input) {
+//                                altApps.add(input);
+//                                publishProgress();
+//                                return null;
+//                            }
+//                        });
+//                        return null;
+//                    }
+//                });
+//                total += 1;
+//            }
+            return 0;//total;
         }
 
         @Override

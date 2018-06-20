@@ -30,5 +30,7 @@
     <string name="xray_apps">https://negi.io/api/apps</string>
     <string name="alt_xray_app">https://negi.io/api/alt/</string>
 
+    <string name="xray_tracker_mapper_api">localhost:8080/host/</string>
+
 
 </resources>

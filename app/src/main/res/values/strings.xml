@@ -2,10 +2,11 @@
     <string name="app_name">Koala Hero</string>
 
     <!-- API Shizzle-->
-    <string name="xray_api_icons">https://negi.io/api/icons</string>
-    <string name="xray_apps">https://negi.io/api/apps</string>
-    <string name="alt_xray_app">https://negi.io/api/alt/</string>
+    <string name="xray_api_icons_negi">https://negi.io/api/icons</string>
+    <string name="xray_apps_negi">https://negi.io/api/apps</string>
+    <string name="alt_xray_app_negi">https://negi.io/api/alt/</string>
 
-    <string name="xray_tracker_mapper_api">localhost:8080/host/</string>
+    <string name="xray_apps">http://hapax.xyz/xray/api/apps</string>
+    <string name="xray_tracker_mapper_api">http://hapax.xyz/tracker_mapper/host/</string>
     <string name="xray_csm_api">http://hapax.xyz/csm/apps/</string>
 </resources>

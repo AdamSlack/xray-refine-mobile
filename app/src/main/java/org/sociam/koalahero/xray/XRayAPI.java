@@ -8,6 +8,7 @@ import org.sociam.koalahero.R;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -81,10 +82,11 @@ public class XRayAPI {
                 for( int i = 0; i < numApps; ++i) {
                     this.retrievedApp = null;
                     String xrayAPIString = context.getResources().getString(R.string.xray_apps);
-                    URL APIEndpoint = new URL(xrayAPIString + "?appId=" + appIDStrings[i] + "&isFull=true");
+                    URL APIEndpoint = new URL(xrayAPIString + "?appId=" + appIDStrings[i] + "&isFull=true&limit=1");
 
-                    HttpsURLConnection httpsURLConnection = (HttpsURLConnection) APIEndpoint.openConnection();
+                    HttpURLConnection httpsURLConnection = (HttpURLConnection) APIEndpoint.openConnection();
                     httpsURLConnection.setRequestProperty("User-Agent", "org.sociam.koalaHero");
+                    httpsURLConnection.setRequestProperty("Content-Type", "application/json");
                     httpsURLConnection.setRequestProperty("Accept", "application/json");
 
                     if (httpsURLConnection.getResponseCode() == 200) {
@@ -103,7 +105,7 @@ public class XRayAPI {
                     httpsURLConnection.disconnect();
                 }
             } catch (IOException exc){
-                publishProgress(new XRayAppInfo("PLEASE RESTART THE APP AND CONTACT THE DEVELOPERS.", new XRayAppStoreInfo("Unknown", "Unknown"), new ArrayList<String>()));
+                publishProgress(new XRayAppInfo("CRITICAL FAULT", new XRayAppStoreInfo("Unknown", "Unknown"), new ArrayList<String>()));
             }
             return null;
         }

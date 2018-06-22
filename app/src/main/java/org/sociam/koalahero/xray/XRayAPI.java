@@ -58,7 +58,9 @@ public class XRayAPI {
         // Constructor to be used with a function to be done on a progress update, and a function for
         // when the retrieval is complete. perhaps use one to update splash screens and one to update
         // the app data model.
-        public XRayAppData(Function<Void, Void> resultFunction, Function<XRayAppInfo, Void> progressFunction, Context context) {
+        public XRayAppData(Function<Void, Void> resultFunction,
+                           Function<XRayAppInfo, Void> progressFunction,
+                           Context context) {
             this.resultFunction = resultFunction;
             this.progressFunction = progressFunction;
             this.context = context;
@@ -82,7 +84,7 @@ public class XRayAPI {
                     URL APIEndpoint = new URL(xrayAPIString + "?appId=" + appIDStrings[i] + "&isFull=true");
 
                     HttpsURLConnection httpsURLConnection = (HttpsURLConnection) APIEndpoint.openConnection();
-                    httpsURLConnection.setRequestProperty("User-Agent", "com.refine.sociam");
+                    httpsURLConnection.setRequestProperty("User-Agent", "org.sociam.koalaHero");
                     httpsURLConnection.setRequestProperty("Accept", "application/json");
 
                     if (httpsURLConnection.getResponseCode() == 200) {

@@ -28,15 +28,15 @@ public class XRayAppStoreInfo {
      "permissions":null}
      */
 
-    String title;
-    String summary;
-    String storeURL;
-    boolean isFree;
-    float rating;
-    long numberOfReviews;
-    long maxInstalls;
-    long minInstalls;
-    Date updated;
+    public String title;
+    public String summary;
+    public String storeURL;
+    public boolean isFree;
+    public float rating;
+    public long numberOfReviews;
+    public long maxInstalls;
+    public long minInstalls;
+    public Date updated;
 
     XRayAppStoreInfo() {
         title = "";

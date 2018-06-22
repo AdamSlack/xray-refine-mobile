@@ -51,7 +51,7 @@ public class TrackerMapperAPI {
                 if(conn.getResponseCode() == 200) {
                     InputStreamReader isr = new InputStreamReader(conn.getInputStream());
                     JsonReader jr = new JsonReader(isr);
-                    TrackerMapperParser parser = new TrackerMapperParser();
+                    TrackerMapperJsonParser parser = new TrackerMapperJsonParser();
                     company = parser.parseCompany(jr);
                 }
             }

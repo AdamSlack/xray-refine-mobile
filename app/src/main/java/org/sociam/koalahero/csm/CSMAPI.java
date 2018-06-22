@@ -12,8 +12,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import javax.net.ssl.HttpsURLConnection;
-
 public class CSMAPI {
     private static CSMAPI INSTANCE;
 
@@ -52,7 +50,7 @@ public class CSMAPI {
                 if(conn.getResponseCode() == 200) {
                     InputStreamReader isr = new InputStreamReader(conn.getInputStream());
                     JsonReader jr = new JsonReader(isr);
-                    CSMParser parser = new CSMParser();
+                    CSMJsonParser parser = new CSMJsonParser();
                     csmAppInfo = parser.parseCSMApp(jr);
                 }
             }

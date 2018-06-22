@@ -5,7 +5,7 @@ import android.util.JsonToken;
 
 import java.io.IOException;
 
-public class TrackerMapperParser {
+public class TrackerMapperJsonParser {
 
     public TrackerMapperCompany parseCompany(JsonReader jsonReader) {
         TrackerMapperCompany company = new TrackerMapperCompany();

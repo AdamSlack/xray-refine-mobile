@@ -6,9 +6,9 @@ import android.util.JsonToken;
 
 import java.io.IOException;
 
-public class CSMParser {
+public class CSMJsonParser {
 
-    public CSMParser() {
+    public CSMJsonParser() {
 
     }
 

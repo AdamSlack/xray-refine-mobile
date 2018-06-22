@@ -8,6 +8,10 @@ import java.io.IOException;
 
 public class CSMParser {
 
+    public CSMParser() {
+
+    }
+
     public CSMAppInfo parseCSMApp(JsonReader jsonReader) {
         CSMAppInfo csmAppInfo = new CSMAppInfo();
         try {
@@ -57,7 +61,7 @@ public class CSMParser {
                     csmAppInfo.appPackageName= jsonReader.nextString();
                 }
                 else if(name.equals("parental_guidances")) {
-                    csmAppInfo.parental_guidances = readParentalGuidance(jsonReader);
+                    csmAppInfo.parentalGuidances = readParentalGuidance(jsonReader);
                 }
                 else{
                     jsonReader.skipValue();

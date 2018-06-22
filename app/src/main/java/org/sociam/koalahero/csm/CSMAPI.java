@@ -9,6 +9,7 @@ import org.sociam.koalahero.R;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.URL;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -43,8 +44,9 @@ public class CSMAPI {
             try{
                 URL APIEndpoint = new URL(context.getString(R.string.xray_csm_api) + appPackageName);
 
-                HttpsURLConnection conn = (HttpsURLConnection) APIEndpoint.openConnection();
-                conn.setRequestProperty("User-Agent", "com.refine.sociam");
+                // make us
+                HttpURLConnection conn = (HttpURLConnection) APIEndpoint.openConnection();
+                conn.setRequestProperty("User-Agent", "org.sociam.koalahero");
                 conn.setRequestProperty("Accept", "application/json");
 
                 if(conn.getResponseCode() == 200) {
@@ -55,7 +57,7 @@ public class CSMAPI {
                 }
             }
             catch(IOException exc) {
-
+                System.out.println(exc);
             }
             return csmAppInfo;
         }

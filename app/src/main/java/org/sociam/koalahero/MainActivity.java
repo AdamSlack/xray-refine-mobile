@@ -4,6 +4,8 @@ import android.arch.core.util.Function;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import org.sociam.koalahero.csm.CSMAPI;
+import org.sociam.koalahero.csm.CSMAppInfo;
 import org.sociam.koalahero.xray.XRayAPI;
 import org.sociam.koalahero.xray.XRayAppInfo;
 
@@ -35,7 +37,17 @@ public class MainActivity extends AppCompatActivity {
                 },
                 getApplicationContext()
 
-        ).execute("com.linkedin.android","com.whatsapp");
+        ).execute("com.linkedin.android","com.whatsapp","com.tencent.mm");
 
+        new CSMAPI.CSMRequest(
+                new Function<CSMAppInfo, Void>() {
+                    @Override
+                    public Void apply(CSMAppInfo csmAppInfo) {
+                        System.out.println(csmAppInfo.oneLiner);
+                        return null;
+                    }
+                },
+                getApplicationContext()
+        ).execute("com.linkedin.android","com.whatsapp","com.tencent.mm");
     }
 }

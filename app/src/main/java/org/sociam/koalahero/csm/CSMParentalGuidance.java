@@ -1,16 +1,31 @@
 package org.sociam.koalahero.csm;
 
 public class CSMParentalGuidance {
-    public Guidance playability = new Guidance();
-    public Guidance violence = new Guidance();
-    public Guidance sex = new Guidance();
-    public Guidance language = new Guidance();
-    public Guidance consumerism = new Guidance();
-    public Guidance drugs = new Guidance();
-    public Guidance educational = new Guidance();
+
+    public CSMParentalGuidance() {
+        this.playability = new Guidance();
+        this.violence = new Guidance();
+        this.sex  = new Guidance();
+        this.language = new Guidance();
+        this.consumerism = new Guidance();
+        this.drugs = new Guidance();
+        this.educational = new Guidance();
+    }
+
+    public Guidance playability;
+    public Guidance violence;
+    public Guidance sex;
+    public Guidance language;
+    public Guidance consumerism;
+    public Guidance drugs;
+    public Guidance educational;
 
     public static class Guidance {
-        public int rating = 0;
-        public String description = "No Rating";
+        public Guidance() {
+            this.rating = -1;
+            this.description = "";
+        }
+        public int rating;
+        public String description;
     }
 }

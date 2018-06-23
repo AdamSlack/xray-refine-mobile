@@ -81,16 +81,16 @@ public class XRayAPI {
             try {
                 for( int i = 0; i < numApps; ++i) {
                     this.retrievedApp = null;
-                    String xrayAPIString = context.getResources().getString(R.string.xray_apps);
+                    String xrayAPIString = context.getResources().getString(R.string.xray_apps_negi);
                     URL APIEndpoint = new URL(xrayAPIString + "?appId=" + appIDStrings[i] + "&isFull=true&limit=1");
 
-                    HttpURLConnection httpsURLConnection = (HttpURLConnection) APIEndpoint.openConnection();
-                    httpsURLConnection.setRequestProperty("User-Agent", "org.sociam.koalaHero");
-                    httpsURLConnection.setRequestProperty("Content-Type", "application/json");
-                    httpsURLConnection.setRequestProperty("Accept", "application/json");
+                    HttpsURLConnection conn = (HttpsURLConnection) APIEndpoint.openConnection();
+                    conn.setRequestProperty("User-Agent", "org.sociam.koalaHero");
+                    conn.setRequestProperty("Content-Type", "application/json");
+                    conn.setRequestProperty("Accept", "application/json");
 
-                    if (httpsURLConnection.getResponseCode() == 200) {
-                        InputStreamReader responseBodyReader = new InputStreamReader(httpsURLConnection.getInputStream(), "UTF-8");
+                    if (conn.getResponseCode() == 200) {
+                        InputStreamReader responseBodyReader = new InputStreamReader(conn.getInputStream(), "UTF-8");
                         XRayJsonParser xrayReader = new XRayJsonParser();
                         List<XRayAppInfo> apps = xrayReader.readAppArray(responseBodyReader);
                         for (XRayAppInfo app : apps) {
@@ -102,7 +102,7 @@ public class XRayAPI {
                         publishProgress(new XRayAppInfo(appIDStrings[i], new XRayAppStoreInfo("Unknown", "Unknown"), new ArrayList<String>()));
                     }
 
-                    httpsURLConnection.disconnect();
+                    conn.disconnect();
                 }
             } catch (IOException exc){
                 publishProgress(new XRayAppInfo("CRITICAL FAULT", new XRayAppStoreInfo("Unknown", "Unknown"), new ArrayList<String>()));

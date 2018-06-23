@@ -3,6 +3,7 @@ package org.sociam.koalahero.appsInspector;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.graphics.drawable.Drawable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +31,11 @@ public class AppsInspector {
             packageNames.add(ri.activityInfo.packageName);
         }
         return packageNames;
+    }
+
+    public static Drawable getAppPackageIcon(String appPackageName, PackageManager pm)
+            throws PackageManager.NameNotFoundException {
+        return pm.getApplicationIcon(appPackageName);
     }
 
 

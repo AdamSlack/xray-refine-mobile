@@ -6,12 +6,12 @@
     <string name="xray_apps_negi">https://negi.io/api/apps</string>
     <string name="alt_xray_app_negi">https://negi.io/api/alt/</string>
 
-    <string name="xray_apps">http://hapax.xyz/xray/api/apps</string>
+    <string name="xray_apps">http://hapax.xyz/xray/api/apps</string><!-- <<<<<<<<< Slow As heck -->
     <string name="xray_tracker_mapper_api">http://hapax.xyz/tracker_mapper/host/</string>
     <string name="xray_csm_api">http://hapax.xyz/csm/apps/</string>
 
     <!-- Loading Screen -->
     <string name="loading_screen_title">Koala Hero</string>
-    <string name="loading_screen_message">Loading</string>
+    <string name="loading_screen_message">Loading Apps</string>
 
 </resources>

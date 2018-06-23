@@ -1,5 +1,7 @@
 package org.sociam.koalahero.xray;
 
+import android.graphics.drawable.Drawable;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -7,6 +9,7 @@ public class XRayAppInfo {
     public String title;
     public String app;
     public String iconURI;
+    public Drawable icon;
     public XRayAppStoreInfo appStoreInfo;
     public ArrayList<String> hosts;
     public HashMap<String, Integer> companies;

@@ -52,9 +52,25 @@ public class XRayAppStoreInfo {
 
     XRayAppStoreInfo(String title) {
         this.title = title;
+        this.summary = "";
+        this.storeURL = "";
+        this.isFree = false;
+        this.rating = 0.0f;
+        this.numberOfReviews = 0;
+        this.maxInstalls = 0;
+        this.minInstalls = 0;
+        this.updated = new Date();
+
     }
     XRayAppStoreInfo(String title, String summary) {
         this.title = title;
         this.summary = summary;
+        this.storeURL = "";
+        this.isFree = false;
+        this.rating = 0.0f;
+        this.numberOfReviews = 0;
+        this.maxInstalls = 0;
+        this.minInstalls = 0;
+        this.updated = new Date();
     }
 }

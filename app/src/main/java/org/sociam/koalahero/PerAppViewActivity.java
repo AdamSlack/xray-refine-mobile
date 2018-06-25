@@ -30,10 +30,11 @@ public class PerAppViewActivity extends AppCompatActivity {
         try {
             ApplicationInfo appInfo = getPackageManager().getApplicationInfo(xRayAppInfo.app,0);
 
+            // App Name and Summary
             titleTextView.setText(getPackageManager().getApplicationLabel(appInfo));
             summaryTextView.setText(xRayAppInfo.appStoreInfo.summary);
 
-
+            // App Icon
             Drawable icon = getPackageManager().getApplicationIcon(appInfo);
             iconImageView.setImageDrawable(icon);
         }

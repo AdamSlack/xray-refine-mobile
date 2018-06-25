@@ -34,7 +34,17 @@ public class MainActivity extends AppCompatActivity {
 
         // Start with Loading Screen Layout.
         super.onCreate(savedInstanceState);
+
+        // if no token, launch login,
+
+        // else begin loading.
         beginLoading();
+    }
+
+    private void launchLogin() {
+
+        // Once logged in and authenticated. launch loading.
+
     }
 
     private void beginLoading() {

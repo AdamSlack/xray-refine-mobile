@@ -140,6 +140,9 @@ public class CSMJsonParser {
                 else if(name.equals("description")) {
                     guidance.description = jsonReader.nextString();
                 }
+                else {
+                    jsonReader.skipValue();
+                }
             }
         }
         catch(IOException exc) {

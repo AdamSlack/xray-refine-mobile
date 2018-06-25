@@ -1,16 +1,16 @@
 package org.sociam.koalahero.koala;
 
 public class RegistrationDetails {
-    public String email;
+    public String study_id;
     public String password;
 
     public RegistrationDetails() {
-        this.email = "";
+        this.study_id = "";
         this.password = "";
     }
 
     public RegistrationDetails(String email, String password) {
-        this.email = email;
+        this.study_id = email;
         this.password = password;
     }
 }

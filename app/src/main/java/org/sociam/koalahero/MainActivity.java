@@ -3,19 +3,26 @@ package org.sociam.koalahero;
 import android.arch.core.util.Function;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.icu.util.EthiopicCalendar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MotionEvent;
 import android.view.View;
 import android.webkit.WebView;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import org.sociam.koalahero.PreferenceManager.PreferenceManager;
 import org.sociam.koalahero.appsInspector.AppModel;
 import org.sociam.koalahero.appsInspector.AppsInspector;
 import org.sociam.koalahero.csm.CSMAPI;
 import org.sociam.koalahero.csm.CSMAppInfo;
+import org.sociam.koalahero.koala.KoalaAPI;
+import org.sociam.koalahero.koala.RegistrationDetails;
+import org.sociam.koalahero.koala.TokenResponse;
 import org.sociam.koalahero.xray.XRayAPI;
 import org.sociam.koalahero.xray.XRayAppInfo;
 
@@ -23,7 +30,9 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    public AppModel appModel;
+    public static String PACKAGE_NAME;
+    private AppModel appModel;
+    private PreferenceManager preferenceManager;
 
     // UI elements
     private ProgressBar pb;
@@ -31,27 +40,58 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-        // Start with Loading Screen Layout.
         super.onCreate(savedInstanceState);
+        this.PACKAGE_NAME = getApplicationContext().getPackageName();
+        this.preferenceManager = PreferenceManager.getInstance(getApplicationContext());
+        this.appModel = AppModel.getInstance();
 
         // if no token, launch login,
-
-        // else begin loading.
-        beginLoading();
+        if(preferenceManager.getKoalaToken().equals("")) {
+            launchLogin();
+        }
+        else if(appModel.apps.size() == 0){
+            beginLoading();
+        }
+        else{
+            launchMainView();
+        }
     }
 
     private void launchLogin() {
-
         // Once logged in and authenticated. launch loading.
-
+        setContentView(R.layout.login_screen);
+        final EditText studyIDET = (EditText) findViewById(R.id.login_studyID_et);
+        final EditText passwordET = (EditText) findViewById(R.id.login_password_et);
+        Button loginButton = (Button) findViewById(R.id.login_button);
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final RegistrationDetails regDeets = new RegistrationDetails(studyIDET.getText().toString(), passwordET.getText().toString());
+                new KoalaAPI.KoalaLoginRequest(
+                        new Function<TokenResponse, Void>() {
+                            @Override
+                            public Void apply(TokenResponse tokenResponse) {
+                                if(!tokenResponse.token.equals("")) {
+                                    preferenceManager.saveKoalaStudyID(regDeets.study_id);
+                                    preferenceManager.saveKoalaToken(tokenResponse.token);
+                                    beginLoading();
+                                }
+                                else {
+                                    studyIDET.setError("Invalid Login Details");
+                                    passwordET.setError("Invalid Login Details");
+                                }
+                                return null;
+                            }
+                        },
+                        getApplicationContext()
+                ).execute(regDeets);
+            }
+        });
     }
+
 
     private void beginLoading() {
         setContentView(R.layout.loading_screen);
-
-        this.appModel = AppModel.getInstance();
-
         // Set loading screen anim.
 
 

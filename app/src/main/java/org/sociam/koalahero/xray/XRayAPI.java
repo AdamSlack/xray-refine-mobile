@@ -80,7 +80,7 @@ public class XRayAPI {
             int numApps = appIDStrings.length;
             try {
                 for( int i = 0; i < numApps; ++i) {
-                    this.retrievedApp = null;
+                    this.retrievedApp = new XRayAppInfo();
                     String xrayAPIString = context.getResources().getString(R.string.xray_apps_negi);
                     URL APIEndpoint = new URL(xrayAPIString + "?appId=" + appIDStrings[i] + "&isFull=true&limit=1");
 
@@ -95,17 +95,18 @@ public class XRayAPI {
                         List<XRayAppInfo> apps = xrayReader.readAppArray(responseBodyReader);
                         for (XRayAppInfo app : apps) {
                             this.retrievedApp = app;
+                            this.retrievedApp.title = this.retrievedApp.appStoreInfo.title;
                             publishProgress(this.retrievedApp);
                         }
                     }
-                       if (this.retrievedApp == null) {
+                    if (this.retrievedApp.title.equals("")) {
                         publishProgress(new XRayAppInfo(appIDStrings[i], new XRayAppStoreInfo("Unknown", "Unknown"), new ArrayList<String>()));
                     }
 
                     conn.disconnect();
                 }
             } catch (IOException exc){
-                publishProgress(new XRayAppInfo("CRITICAL FAULT", new XRayAppStoreInfo("Unknown", "Unknown"), new ArrayList<String>()));
+                publishProgress(new XRayAppInfo("CRITICAL FAULT", new XRayAppStoreInfo("CRITICAL FAULT", "CRITICAL FAULT"), new ArrayList<String>()));
             }
             return null;
         }

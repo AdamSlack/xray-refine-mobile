@@ -1,6 +1,7 @@
 package org.sociam.koalahero;
 
 import android.arch.core.util.Function;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.icu.util.EthiopicCalendar;
@@ -10,10 +11,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.MotionEvent;
 import android.view.View;
 import android.webkit.WebView;
-import android.widget.Button;
-import android.widget.EditText;
+import android.widget.AdapterView;
+import android.widget.GridView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import org.sociam.koalahero.appViewer.AppAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 
 import org.sociam.koalahero.PreferenceManager.PreferenceManager;
 import org.sociam.koalahero.appsInspector.AppModel;
@@ -140,15 +144,42 @@ public class MainActivity extends AppCompatActivity {
                 getApplicationContext()
         ).execute(appPackageNames.toArray(new String[appPackageNames.size()]));
 
+
+        // Index package names
     }
 
     private void launchMainView() {
         setContentView(R.layout.activity_main);
+        appModel.index();
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Koala Hero");
+
+        GridView gridview = (GridView) findViewById(R.id.appGridView);
+        gridview.setAdapter(new AppAdapter(this,appModel));
+
+        gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View v,
+                                    int position, long id) {
+
+                System.out.println("position: " + position + " Id: " + id);
+
+                displayPerAppView(appModel.appNames[position]);
+            }
+        });
     }
+
+
+    private void displayPerAppView(String packageName ){
+
+        // Launch Per App View Activity
+        Intent intent = new Intent(this, PerAppViewActivity.class);
+        intent.putExtra("PACKAGE_NAME", packageName );
+        startActivity(intent);
+    }
+
+
 
     private void foo() {
         XRayAPI api = XRayAPI.getInstance();

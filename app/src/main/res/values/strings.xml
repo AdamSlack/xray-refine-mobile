@@ -10,6 +10,8 @@
     <string name="xray_tracker_mapper_api">http://hapax.xyz/tracker_mapper/host/</string>
     <string name="xray_csm_api">http://hapax.xyz/csm/apps/</string>
 
+    <string name="xray_koala_auth">http://hapax.xyz/xray-koala/auth</string>
+
     <!-- Loading Screen -->
     <string name="loading_screen_title">Koala Hero</string>
     <string name="loading_screen_message">Loading Apps</string>

@@ -30,7 +30,7 @@ public class TrackerMapperAPI {
 
     public static class TrackerMapperRequest extends AsyncTask<String, TrackerMapperCompany, Void> {
         private Function<TrackerMapperCompany, Void> progressFunction = null;
-        private Context context = null;
+        private Context context;
 
         private TrackerMapperRequest(){}
 

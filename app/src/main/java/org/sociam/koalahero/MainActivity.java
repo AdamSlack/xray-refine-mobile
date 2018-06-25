@@ -43,17 +43,7 @@ public class MainActivity extends AppCompatActivity {
         this.appModel = AppModel.getInstance();
 
         // Set loading screen anim.
-        WebView animWebView = (WebView) findViewById(R.id.loading_screen_web_view);
-        animWebView.loadUrl("file:///android_asset/Loading_icon.gif");
-        animWebView.setBackgroundColor(Color.TRANSPARENT);
-        animWebView.setVerticalScrollBarEnabled(false);
-        animWebView.setHorizontalScrollBarEnabled(false);
-        animWebView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return (event.getAction() == MotionEvent.ACTION_MOVE);
-            }
-        });
+
 
         // Retrieve App Package Names
         final ArrayList<String> appPackageNames = AppsInspector.getInstalledApps(getPackageManager());

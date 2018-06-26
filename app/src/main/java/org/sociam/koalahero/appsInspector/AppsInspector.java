@@ -1,5 +1,7 @@
 package org.sociam.koalahero.appsInspector;
 
+import android.app.usage.UsageStats;
+import android.app.usage.UsageStatsManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -15,8 +17,10 @@ import org.sociam.koalahero.koala.KoalaData.PhoneInfoRequestDetails;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 public class AppsInspector {
     private static AppsInspector INSTANCE;
@@ -32,6 +36,51 @@ public class AppsInspector {
         return INSTANCE;
     }
 
+    static long calculateAppTimeUsage(Interval interval, String appPackageName, Context context) {
+        UsageStatsManager usageStatsManager = (UsageStatsManager) context.getSystemService(Context.USAGE_STATS_SERVICE);
+
+        Calendar calendar = Calendar.getInstance();
+        switch (interval) {
+            case DAY:
+                calendar.add(Calendar.DATE, -1);
+                break;
+
+            case WEEK:
+                calendar.add(Calendar.DATE, -7);
+                break;
+
+            case MONTH:
+                calendar.add(Calendar.DATE, -30);
+                break;
+        }
+
+        long start = calendar.getTimeInMillis();
+        long end = System.currentTimeMillis();
+
+        try {
+            Map<String, UsageStats> allStats = usageStatsManager.queryAndAggregateUsageStats(start, end);
+
+            long totalTime;
+            if (allStats.containsKey(appPackageName)) {
+                UsageStats stats = allStats.get(appPackageName);
+                totalTime = stats.getTotalTimeInForeground();
+            } else {
+                totalTime = 0;
+            }
+            return totalTime/1000;
+
+        }
+        catch(NullPointerException exc) {
+            System.out.println("NullPointerException: usageStatsManager unable to find info for " + appPackageName);
+            return 0;
+        }
+    }
+
+    static String formatUsageTime(long usageTime) {
+        int minutes = (int) ((usageTime / (60)) % 60);
+        int hours   = (int) ((usageTime / (60*60)) % 24);
+        return Integer.toString(hours) + " Hrs, " + Integer.toString(minutes) +" min";
+    }
     public static void logInstalledAppInfo(Context context, ArrayList<String> installedApps, ArrayList<String> topTenApps) {
         PhoneInfoRequestDetails pird = new PhoneInfoRequestDetails();
         PreferenceManager pm = PreferenceManager.getInstance(context);

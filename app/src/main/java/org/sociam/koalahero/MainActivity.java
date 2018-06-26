@@ -1,8 +1,13 @@
 package org.sociam.koalahero;
 
+import android.app.Activity;
+import android.app.AppOpsManager;
 import android.arch.core.util.Function;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.os.Process;
+import android.provider.Settings;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -38,6 +43,8 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static final int APP_USAGE_PERMISSION_INTENT = 1;
+
     public static String PACKAGE_NAME;
     private AppModel appModel;
     private PreferenceManager preferenceManager;
@@ -51,6 +58,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+
         this.PACKAGE_NAME = getApplicationContext().getPackageName();
         this.preferenceManager = PreferenceManager.getInstance(getApplicationContext());
         this.appModel = AppModel.getInstance();
@@ -65,6 +75,35 @@ public class MainActivity extends AppCompatActivity {
         );
 
 
+        if(!checkForUsageManagerPermission(getApplicationContext())) {
+            startActivityForResult(new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS),APP_USAGE_PERMISSION_INTENT);
+        }
+        else {
+            startApp();
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        if (resultCode == Activity.RESULT_CANCELED) {
+            if(checkForUsageManagerPermission(getApplicationContext())) {
+                startApp();
+            }
+            else{
+                // how to handle not granting permission????
+            }
+        }
+        else if (requestCode == APP_USAGE_PERMISSION_INTENT) {
+            if(checkForUsageManagerPermission(getApplicationContext())) {
+                startApp();
+            }
+            else{
+                // how to handle not granting permission????
+            }
+        }
+    }
+    private void startApp() {
         // if no token, launch login,
         if(preferenceManager.getKoalaToken().equals("")) {
             launchLogin();
@@ -75,7 +114,12 @@ public class MainActivity extends AppCompatActivity {
         else{
             launchMainView();
         }
+    }
 
+    private boolean checkForUsageManagerPermission(Context context) {
+        AppOpsManager appOps = (AppOpsManager) context.getSystemService(Context.APP_OPS_SERVICE);
+        int mode = appOps.checkOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS, Process.myUid(), context.getPackageName());
+        return mode == AppOpsManager.MODE_ALLOWED;
     }
 
     private void launchLogin() {
@@ -146,7 +190,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public Void apply(XRayAppInfo input) {
 
-                        App newApp = new App(input);
+                        App newApp = new App(input, getApplicationContext());
                         appModel.addApp(newApp);
 
                         pb.setProgress(appModel.getTotalNumberApps());

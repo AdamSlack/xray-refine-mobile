@@ -101,7 +101,9 @@ public class KoalaAPI {
                     JsonReader jr = new JsonReader(isr);
                     KoalaJsonParser parser = new KoalaJsonParser();
                     tokenResponse = parser.parseTokenResponse(jr);
+                    isr.close();
                 }
+                conn.disconnect();
             }
             catch(MalformedURLException exc) {
 

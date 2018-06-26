@@ -98,12 +98,12 @@ public class XRayAPI {
                             this.retrievedApp.title = this.retrievedApp.appStoreInfo.title;
                             publishProgress(this.retrievedApp);
                         }
+                        responseBodyReader.close();
                     }
+                    conn.disconnect();
                     if (this.retrievedApp.title.equals("")) {
                         publishProgress(new XRayAppInfo(appIDStrings[i], new XRayAppStoreInfo("Unknown", "Unknown"), new ArrayList<String>()));
                     }
-
-                    conn.disconnect();
                 }
             } catch (IOException exc){
                 publishProgress(new XRayAppInfo("CRITICAL FAULT", new XRayAppStoreInfo("CRITICAL FAULT", "CRITICAL FAULT"), new ArrayList<String>()));

@@ -1,23 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_select_top_10"
-            android:title="@string/select_top_10" />
-        <item
-            android:id="@+id/nav_select_top_1"
-            android:title="@string/select_top_10" />
 
         <item
-            android:id="@+id/nav_select_top_2"
-            android:title="@string/select_top_10" />
-
+            android:id="@+id/nav_view_all"
+            android:title="@string/view_all" />
         <item
-            android:id="@+id/nav_select_top_3"
-            android:title="@string/select_top_10" />
+            android:id="@+id/nav_view_selected"
+            android:title="@string/view_selected" />
+        <item
+            android:id="@+id/nav_view_top_10"
+            android:title="@string/view_top_10" />
 
 
-    </group>
+
+
+
 </menu>
 
 

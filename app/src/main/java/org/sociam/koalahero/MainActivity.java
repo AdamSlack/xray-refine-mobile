@@ -6,8 +6,6 @@ import android.content.res.ColorStateList;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -17,6 +15,9 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import org.sociam.koalahero.appsInspector.App;
+import org.sociam.koalahero.appsInspector.AppDisplayMode;
 import org.sociam.koalahero.gridAdapters.AppAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -68,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         if(preferenceManager.getKoalaToken().equals("")) {
             launchLogin();
         }
-        else if(appModel.installedApps.size() == 0){
+        else if(appModel.getTotalNumberApps() == 0){
             beginLoading();
         }
         else{
@@ -144,11 +145,14 @@ public class MainActivity extends AppCompatActivity {
                 new Function<XRayAppInfo, Void>() {
                     @Override
                     public Void apply(XRayAppInfo input) {
-                        appModel.installedApps.put(input.app, input);
-                        pb.setProgress(appModel.installedApps.size());
+
+                        App newApp = new App(input);
+                        appModel.addApp(newApp);
+
+                        pb.setProgress(appModel.getTotalNumberApps());
 
                         String loading_string =
-                                String.valueOf(appModel.installedApps.size()) +
+                                String.valueOf(appModel.getTotalNumberApps()) +
                                 " out of " +
                                 String.valueOf(appPackageNames.size());
 
@@ -176,11 +180,18 @@ public class MainActivity extends AppCompatActivity {
         // Log Installed and Top Ten Apps to the Database.
         AppsInspector.logInstalledAppInfo(
                 getApplicationContext(),
-                new ArrayList<String>(this.appModel.installedApps.keySet()),
-                this.appModel.topTenAppIDs
+                this.appModel.getInstalledApps(),
+                this.appModel.getTopTen()
         );
 
+
         appModel.index();
+        appModel.setDisplayMode(AppDisplayMode.All);
+
+        appModel.getApp(0).setInTop10(true);
+        appModel.getApp(1).setInTop10(true);
+        appModel.getApp(2).setInTop10(true);
+        appModel.setDisplayMode(AppDisplayMode.TOP_TEN);
 
         mDrawerLayout = findViewById(R.id.drawer_layout);
 
@@ -194,13 +205,25 @@ public class MainActivity extends AppCompatActivity {
                         // close drawer when item is tapped
                         mDrawerLayout.closeDrawers();
 
-                        // Add code here to update the UI based on the item selected
-                        // For example, swap UI fragments here
+                        System.out.print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" + menuItem);
+                        switch (menuItem.getItemId()) {
+
+                            case R.id.nav_view_all:
+                                appModel.setDisplayMode(AppDisplayMode.All);
+                                break;
+                            case R.id.nav_view_selected:
+                                appModel.setDisplayMode(AppDisplayMode.SELECTED);
+                                break;
+                            case R.id.nav_view_top_10:
+                                appModel.setDisplayMode(AppDisplayMode.TOP_TEN);
+                                break;
+                        }
+
+                        updateGridView();
 
                         return true;
                     }
                 });
-
 
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -212,17 +235,19 @@ public class MainActivity extends AppCompatActivity {
         // Menu Bar Details: https://developer.android.com/training/implementing-navigation/nav-drawer
 
 
-
-
         GridView gridview = (GridView) findViewById(R.id.appGridView);
         gridview.setAdapter(new AppAdapter(this,appModel));
-
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
-                displayPerAppView(appModel.appNames[position]);
+                displayPerAppView(appModel.getAppPackageName(position));
             }
         });
+    }
+
+    public void updateGridView(){
+        GridView gridview = (GridView) findViewById(R.id.appGridView);
+        gridview.setAdapter(new AppAdapter(this,appModel));
     }
 
     @Override

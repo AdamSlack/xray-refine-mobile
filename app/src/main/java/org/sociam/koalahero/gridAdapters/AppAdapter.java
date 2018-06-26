@@ -30,17 +30,16 @@ public class AppAdapter extends BaseAdapter {
         layoutInflator = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.appModel = appModel;
 
-        System.out.println("No. Apps to Display In Grid: " + appModel.installedApps.size());
+        System.out.println("No. Apps to Display In Grid: " + appModel.getNumberAppsToDisplay());
 
     }
 
     public int getCount() {
-        return appModel.installedApps.size();
+        return appModel.getNumberAppsToDisplay();
     }
 
     public Object getItem(int position) {
-        String appName = appModel.appNames[position];
-        return appModel.installedApps.get(appName);
+        return appModel.getApp(position);
     }
 
     public long getItemId(int position) {
@@ -49,7 +48,7 @@ public class AppAdapter extends BaseAdapter {
 
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        XRayAppInfo xRayAppInfo = appModel.get(position);
+        XRayAppInfo xRayAppInfo = appModel.getApp(position).getxRayAppInfo();
 
         ImageView appIconView;
         TextView appNameView;

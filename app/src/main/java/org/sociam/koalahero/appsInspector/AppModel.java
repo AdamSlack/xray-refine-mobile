@@ -1,21 +1,14 @@
 package org.sociam.koalahero.appsInspector;
 
-import org.sociam.koalahero.xray.XRayAppInfo;
-
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class AppModel {
 
     private static final AppModel INSTANCE = new AppModel();
 
-    public HashMap<String, XRayAppInfo> installedApps;
-    public ArrayList<String> topTenAppIDs;
-
-
     private AppModel() {
-        installedApps = new HashMap<String, XRayAppInfo>();
-        topTenAppIDs = new ArrayList<String>();
     }
 
     public static AppModel getInstance() {
@@ -25,20 +18,90 @@ public class AppModel {
         return INSTANCE;
     }
 
-    // Index Names For Grid View
 
-    public void index(){
-        appNames = new String[ installedApps.size() ];
-        int i = 0;
-        for( String key : installedApps.keySet()){
-            appNames[i] = key;
-            i++;
+    private AppDisplayMode displayMode = AppDisplayMode.All;
+    public AppDisplayMode getDisplayMode(){
+        return displayMode;
+    }
+    public void setDisplayMode(AppDisplayMode displayMode) {
+        this.displayMode = displayMode;
+        index();
+    }
+
+
+    // List of all apps
+    private HashMap<String, App> installedApps = new HashMap<String,App>();
+    // List of orderd package names. This can be used to convert the index into the package name
+    private String[] appIndex;
+
+
+    public App getApp( String packageName ){
+        return installedApps.get(packageName);
+    }
+
+    public App getApp( int index ){
+        return installedApps.get(appIndex[index]);
+    }
+
+    public String getAppPackageName( int index ){
+        return appIndex[index];
+    }
+
+    public int getNumberAppsToDisplay(){
+        return appIndex.length;
+    }
+
+    // === Installed Apps ===
+    public void addApp(App app ){
+        installedApps.put( app.getPackageName(), app );
+    }
+
+    public int getTotalNumberApps(){
+        return installedApps.size();
+    }
+
+    public ArrayList<String> getInstalledApps(){
+        return new ArrayList<>(installedApps.keySet());
+    }
+
+    // === Top 10 Apps ===
+
+    public ArrayList<String> getTopTen(){
+        ArrayList<String> inTopTen = new ArrayList<String>();
+        for( String key : installedApps.keySet() ){
+            if( installedApps.get(key).isInTop10() )
+                inTopTen.add(key);
         }
+        return inTopTen;
     }
 
-    public String[] appNames;
+    // === Index for Grid ===
+    public void index(){
 
-    public XRayAppInfo get( int index ){
-        return installedApps.get(appNames[index]);
+        if( displayMode == AppDisplayMode.All ){
+            // Index all Apps
+            appIndex = new String[ installedApps.size() ];
+            int i = 0;
+            for( String key: installedApps.keySet()){
+                appIndex[i] = key;
+                i++;
+            }
+        } else {
+            // Index selected or apps in top 10
+            List<String> appsToIndex = new ArrayList<String>();
+            for( String key: installedApps.keySet()){
+                if( (displayMode == AppDisplayMode.SELECTED && installedApps.get(key).isSelectedToDisplay())
+                        || (displayMode == AppDisplayMode.TOP_TEN && installedApps.get(key).isInTop10())){
+                    appsToIndex.add(key);
+                }
+            }
+            appIndex =  appsToIndex.toArray(new String[appsToIndex.size()]);
+
+        }
+
+
+
+
     }
+
 }

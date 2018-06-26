@@ -1,5 +1,7 @@
 package org.sociam.koalahero;
 
+import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
@@ -11,6 +13,11 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.sociam.koalahero.additionalInfoActivities.AdditionalInfoCMSActivity;
+import org.sociam.koalahero.additionalInfoActivities.AdditionalInfoForParentsActivity;
+import org.sociam.koalahero.additionalInfoActivities.AdditionalInfoMapViewActivity;
+import org.sociam.koalahero.additionalInfoActivities.AdditionalInfoTrackersActivity;
+import org.sociam.koalahero.appsInspector.App;
 import org.sociam.koalahero.gridAdapters.AdditionalInformationAdapter;
 import org.sociam.koalahero.gridAdapters.AppAdapter;
 import org.sociam.koalahero.appsInspector.AppModel;
@@ -26,9 +33,12 @@ public class PerAppViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_per_app_view);
 
-        String packageName = getIntent().getStringExtra("PACKAGE_NAME");
+        final Context context = this;
+
+        final String packageName = getIntent().getStringExtra("PACKAGE_NAME");
         AppModel appModel = AppModel.getInstance();
-        XRayAppInfo xRayAppInfo = appModel.installedApps.get(packageName);
+        App app = appModel.getApp(packageName);
+        XRayAppInfo xRayAppInfo =app.getxRayAppInfo();
 
         TextView titleTextView = (TextView) findViewById(R.id.per_app_title);
         TextView summaryTextView = (TextView) findViewById(R.id.per_app_summary);
@@ -59,7 +69,7 @@ public class PerAppViewActivity extends AppCompatActivity {
         additionalInfoCategories.add("ForParents");
 
 
-        String[] categories = new String[additionalInfoCategories.size()];
+        final String[] categories = new String[additionalInfoCategories.size()];
         for( int i = 0 ; i < categories.length; i++ )
             categories[i] = additionalInfoCategories.get(i);
 
@@ -72,33 +82,33 @@ public class PerAppViewActivity extends AppCompatActivity {
 
                 System.out.println("Position: " + position);
 
-//                String chosen = categories[position];
-//
-//                // Launch Per App View Activity
-//                Intent intent = new Intent(context, AdditionalInfoCMSActivity.class);
-//                boolean start = true;
-//
-//                switch( chosen ){
-//                    case "CMS":
-//                        intent = new Intent(context, AdditionalInfoCMSActivity.class);
-//                        break;
-//                    case "Trackers":
-//                        intent = new Intent(context, AdditionalInfoCMSActivity.class);
-//                        break;
-//                    case "MapView":
-//                        intent = new Intent(context, AdditionalInfoCMSActivity.class);
-//                        break;
-//                    case "ForParents":
-//                        intent = new Intent(context, AdditionalInfoCMSActivity.class);
-//                        break;
-//                    default:
-//                        start = false;
-//                }
-//
-//                if( start ){
-//                    intent.putExtra("PACKAGE_NAME", packageName );
-//                    startActivity(intent);
-//                }
+                String chosen = categories[position];
+
+                // Launch Per App View Activity
+                Intent intent = new Intent(context, AdditionalInfoCMSActivity.class);
+                boolean start = true;
+
+                switch( chosen ){
+                    case "CMS":
+                        intent = new Intent(context, AdditionalInfoCMSActivity.class);
+                        break;
+                    case "Trackers":
+                        intent = new Intent(context, AdditionalInfoTrackersActivity.class);
+                        break;
+                    case "MapView":
+                        intent = new Intent(context, AdditionalInfoMapViewActivity.class);
+                        break;
+                    case "ForParents":
+                        intent = new Intent(context, AdditionalInfoForParentsActivity.class);
+                        break;
+                    default:
+                        start = false;
+                }
+
+                if( start ){
+                    intent.putExtra("PACKAGE_NAME", packageName );
+                    startActivity(intent);
+                }
 
             }
         });

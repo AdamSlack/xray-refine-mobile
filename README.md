@@ -9,7 +9,6 @@ API File: `KoalaAPI`
 Parser File: `KoalaJsonParser`
 
 Data Classes:
-
 There are tonnes of Data classes for this, each extends a generic JSONData class, which enforces the a toJSONObject method.
 
 ```java

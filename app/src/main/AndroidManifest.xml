@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.sociam.refine">
+    package="org.sociam.koalahero">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS" />
@@ -19,26 +19,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AppDetailView">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ListApplications" />
-        </activity>
-        <activity android:name=".ListApplications">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
-        </activity>
-        <activity android:name=".PreferencesActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
-        </activity>
-        <activity android:name=".SubstituteAppActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".AppDetailView" />
-        </activity>
+        <activity android:name=".PerAppViewActivity"></activity>
     </application>
 
 </manifest>

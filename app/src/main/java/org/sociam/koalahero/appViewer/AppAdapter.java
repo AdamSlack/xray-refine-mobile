@@ -39,7 +39,7 @@ public class AppAdapter extends BaseAdapter {
 
         this.appModel = appModel;
 
-        System.out.println("No. Apps to Display In Grid: " + appModel.apps.size());
+        System.out.println("No. Apps to Display In Grid: " + appModel.installedApps.size());
 
         // Convert the appModel HashMap into an array.
         //AppModel appModel = AppModel.getInstance();
@@ -54,12 +54,12 @@ public class AppAdapter extends BaseAdapter {
     }
 
     public int getCount() {
-        return appModel.apps.size();
+        return appModel.installedApps.size();
     }
 
     public Object getItem(int position) {
         String appName = appModel.appNames[position];
-        return appModel.apps.get(appName);
+        return appModel.installedApps.get(appName);
     }
 
     public long getItemId(int position) {

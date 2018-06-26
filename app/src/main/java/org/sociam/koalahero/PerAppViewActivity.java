@@ -20,7 +20,7 @@ public class PerAppViewActivity extends AppCompatActivity {
 
         String packageName = getIntent().getStringExtra("PACKAGE_NAME");
         AppModel appModel = AppModel.getInstance();
-        XRayAppInfo xRayAppInfo = appModel.apps.get(packageName);
+        XRayAppInfo xRayAppInfo = appModel.installedApps.get(packageName);
 
         TextView titleTextView = (TextView) findViewById(R.id.per_app_title);
         TextView summaryTextView = (TextView) findViewById(R.id.per_app_summary);

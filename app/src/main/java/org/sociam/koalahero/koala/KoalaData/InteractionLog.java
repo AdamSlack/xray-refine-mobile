@@ -40,7 +40,7 @@ public class InteractionLog<AdditionalData extends JSONData> extends JSONData{
 
         json.put("study_id", this.studyID);
         json.put("interaction_type", this.interactionType);
-        json.put("interaction_datetime", this.toString());
+        json.put("interaction_datetime", this.interactionDatetime);
         json.put("associated_app_id", this.associatedAppID);
         json.put("page_name", this.pageName);
         json.put("additional_data", additionalData.toJSONData());

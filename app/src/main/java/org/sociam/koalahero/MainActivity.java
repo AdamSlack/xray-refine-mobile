@@ -20,17 +20,14 @@ import org.sociam.koalahero.appsInspector.AppModel;
 import org.sociam.koalahero.appsInspector.AppsInspector;
 import org.sociam.koalahero.csm.CSMAPI;
 import org.sociam.koalahero.csm.CSMAppInfo;
-import org.sociam.koalahero.koala.KoalaData.AuthDetails;
-import org.sociam.koalahero.koala.KoalaData.PhoneInfoRequestDetails;
+import org.sociam.koalahero.koala.KoalaData.NoJSONData;
 import org.sociam.koalahero.koala.KoalaAPI;
-import org.sociam.koalahero.koala.RegistrationDetails;
+import org.sociam.koalahero.koala.KoalaData.RegistrationDetails;
 import org.sociam.koalahero.koala.KoalaData.TokenResponse;
 import org.sociam.koalahero.xray.XRayAPI;
 import org.sociam.koalahero.xray.XRayAppInfo;
 
-import java.io.Console;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -51,11 +48,19 @@ public class MainActivity extends AppCompatActivity {
         this.appModel = AppModel.getInstance();
         this.koalaAPI = KoalaAPI.getInstance();
 
+        AppsInspector.logInteractionInfo(
+                getApplicationContext(),
+                "MainActivity",
+                "",
+                "app_launch",
+                new NoJSONData()
+        );
+
         // if no token, launch login,
         if(preferenceManager.getKoalaToken().equals("")) {
             launchLogin();
         }
-        else if(appModel.apps.size() == 0){
+        else if(appModel.installedApps.size() == 0){
             beginLoading();
         }
         else{
@@ -105,15 +110,6 @@ public class MainActivity extends AppCompatActivity {
         // Retrieve App Package Names
         final ArrayList<String> appPackageNames = AppsInspector.getInstalledApps(getPackageManager());
 
-        PhoneInfoRequestDetails pird = new PhoneInfoRequestDetails();
-        pird.authDetails = new AuthDetails(preferenceManager);
-
-        pird.phoneInfo.studyID = preferenceManager.getKoalaStudyID();
-        pird.phoneInfo.installedApps = appPackageNames;
-        pird.phoneInfo.topTenApps = new ArrayList<String>(appPackageNames.subList(0,10));
-        pird.phoneInfo.retrievalDatetime = new Date();
-
-        this.koalaAPI.executePhoneInformationRequest(getApplicationContext(), pird);
 
         // Init Progress Bar.
         pb = (ProgressBar) findViewById(R.id.loading_screen_progress_bar);
@@ -139,11 +135,11 @@ public class MainActivity extends AppCompatActivity {
                 new Function<XRayAppInfo, Void>() {
                     @Override
                     public Void apply(XRayAppInfo input) {
-                        appModel.apps.put(input.app, input);
-                        pb.setProgress(appModel.apps.size());
+                        appModel.installedApps.put(input.app, input);
+                        pb.setProgress(appModel.installedApps.size());
 
                         String loading_string =
-                                String.valueOf(appModel.apps.size()) +
+                                String.valueOf(appModel.installedApps.size()) +
                                 " out of " +
                                 String.valueOf(appPackageNames.size());
 
@@ -158,11 +154,23 @@ public class MainActivity extends AppCompatActivity {
         ).execute(appPackageNames.toArray(new String[appPackageNames.size()]));
 
 
+        // Get the Top Ten Apps
+
+
+
         // Index package names
     }
 
     private void launchMainView() {
         setContentView(R.layout.activity_main);
+
+        // Log Installed and Top Ten Apps to the Database.
+        AppsInspector.logInstalledAppInfo(
+                getApplicationContext(),
+                new ArrayList<String>(this.appModel.installedApps.keySet()),
+                this.appModel.topTenAppIDs
+        );
+
         appModel.index();
 
         Toolbar toolbar = findViewById(R.id.toolbar);

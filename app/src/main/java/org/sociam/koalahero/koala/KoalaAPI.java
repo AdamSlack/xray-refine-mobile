@@ -3,7 +3,6 @@ package org.sociam.koalahero.koala;
 import android.arch.core.util.Function;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.os.Debug;
 import android.util.JsonReader;
 
 import org.json.JSONException;
@@ -11,10 +10,10 @@ import org.json.JSONObject;
 import org.sociam.koalahero.R;
 import org.sociam.koalahero.koala.KoalaData.InteractionRequestDetails;
 import org.sociam.koalahero.koala.KoalaData.PhoneInfoRequestDetails;
+import org.sociam.koalahero.koala.KoalaData.RegistrationDetails;
 import org.sociam.koalahero.koala.KoalaData.SuccessResponse;
 import org.sociam.koalahero.koala.KoalaData.TokenResponse;
 
-import java.io.Console;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -100,8 +99,9 @@ public class KoalaAPI {
                 conn.setRequestProperty("Accept", "application/json");
                 conn.setRequestProperty("Content-Type","application/json");
                 conn.connect();
+
                 DataOutputStream outputStream = new DataOutputStream(conn.getOutputStream ());
-                System.out.println(deets.toJSONData().toString());                outputStream.writeBytes(deets.toJSONData().toString());
+                outputStream.writeBytes(deets.toJSONData().toString());
                 outputStream.flush ();
                 outputStream.close ();
 
@@ -153,6 +153,8 @@ public class KoalaAPI {
         @Override
         protected Void doInBackground(InteractionRequestDetails... interactionRequestDetails) {
             InteractionRequestDetails deets = interactionRequestDetails[0];
+            SuccessResponse res = new SuccessResponse();
+
             try {
                 URL endpoint = new URL(context.getString(R.string.xray_koala_interaction));
 
@@ -168,6 +170,17 @@ public class KoalaAPI {
                 outputStream.writeBytes(deets.toJSONData().toString());
                 outputStream.flush ();
                 outputStream.close ();
+
+                if(conn.getResponseCode() == 200) {
+                    InputStreamReader isr = new InputStreamReader(conn.getInputStream());
+                    JsonReader jr = new JsonReader(isr);
+                    KoalaJsonParser parser = new KoalaJsonParser();
+                    res = parser.parseSuccessResponse(jr);
+                    isr.close();
+
+                    System.out.println(res);
+                }
+                conn.disconnect();
             }
             catch(MalformedURLException exc) {
                 // Handle Malformed
@@ -177,7 +190,7 @@ public class KoalaAPI {
                 System.out.println("IO Exception:" + exc.toString());
             }
             catch(JSONException exc) {
-                System.out.println("JSON Exception:" + exc.toString());
+                System.out.println("JSON Exception:" + exc);
             }
             return null;
         }
@@ -221,12 +234,8 @@ public class KoalaAPI {
                 conn.setRequestProperty("Content-Type","application/json");
                 conn.connect();
 
-                JSONObject jsonAuth = new JSONObject();
-                jsonAuth.put("study_id", registrationDetails.study_id);
-                jsonAuth.put("password", registrationDetails.password);
-
                 DataOutputStream outputStream = new DataOutputStream(conn.getOutputStream ());
-                outputStream .writeBytes(jsonAuth.toString());
+                outputStream .writeBytes(registrationDetails.toJSONData().toString());
                 outputStream .flush ();
                 outputStream .close ();
 

@@ -1,4 +1,4 @@
-package org.sociam.koalahero.koala.JSONData;
+package org.sociam.koalahero.koala.KoalaData;
 
 import org.json.JSONException;
 import org.json.JSONObject;

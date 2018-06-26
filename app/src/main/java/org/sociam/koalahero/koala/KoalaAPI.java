@@ -3,13 +3,18 @@ package org.sociam.koalahero.koala;
 import android.arch.core.util.Function;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.os.Debug;
 import android.util.JsonReader;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.sociam.koalahero.R;
-import org.sociam.koalahero.koala.JSONData.InteractionRequestDetails;
+import org.sociam.koalahero.koala.KoalaData.InteractionRequestDetails;
+import org.sociam.koalahero.koala.KoalaData.PhoneInfoRequestDetails;
+import org.sociam.koalahero.koala.KoalaData.SuccessResponse;
+import org.sociam.koalahero.koala.KoalaData.TokenResponse;
 
+import java.io.Console;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -62,6 +67,75 @@ public class KoalaAPI {
 //        }
 //    }
 
+    /**
+     * Creates an instance of the PhoneInformationRequest AsyncTask and executes it.
+     * @param context
+     * @param phoneInfoRequestDetails
+     */
+    public void executePhoneInformationRequest(Context context, PhoneInfoRequestDetails phoneInfoRequestDetails) {
+    new PhoneInformationRequest(context).execute(phoneInfoRequestDetails);
+}
+
+    private class PhoneInformationRequest extends AsyncTask<PhoneInfoRequestDetails, Void, Void> {
+
+        private Context context;
+
+        private PhoneInformationRequest() {}
+
+        public PhoneInformationRequest(Context context) {
+            this.context = context;
+        }
+
+        @Override
+        protected Void doInBackground(PhoneInfoRequestDetails... phoneInfoRequestDetails) {
+            PhoneInfoRequestDetails deets = phoneInfoRequestDetails[0];
+            SuccessResponse res = new SuccessResponse();
+            try {
+                URL endpoint = new URL(context.getString(R.string.xray_koala_phone_info));
+
+                HttpURLConnection conn = (HttpURLConnection) endpoint.openConnection();
+                conn.setDoInput (true);
+                conn.setDoOutput (true);
+                conn.setRequestProperty("User-Agent", "org.sociam.koalahero");
+                conn.setRequestProperty("Accept", "application/json");
+                conn.setRequestProperty("Content-Type","application/json");
+                conn.connect();
+                DataOutputStream outputStream = new DataOutputStream(conn.getOutputStream ());
+                System.out.println(deets.toJSONData().toString());                outputStream.writeBytes(deets.toJSONData().toString());
+                outputStream.flush ();
+                outputStream.close ();
+
+                if(conn.getResponseCode() == 200) {
+                    InputStreamReader isr = new InputStreamReader(conn.getInputStream());
+                    JsonReader jr = new JsonReader(isr);
+                    KoalaJsonParser parser = new KoalaJsonParser();
+                    res = parser.parseSuccessResponse(jr);
+                    isr.close();
+
+                    System.out.println(res.success);
+                }
+                conn.disconnect();
+            }
+            catch(MalformedURLException exc) {
+                // Handle Malformed
+                System.out.println("Malformed URL Exception:" + exc.toString());
+            }
+            catch (IOException exc) {
+                System.out.println("IO Exception:" + exc.toString());
+            }
+            catch(JSONException exc) {
+                System.out.println("JSON Exception:" + exc.toString());
+            }
+            return null;
+        }
+
+    }
+
+    /**
+     * Creates an instance of the InteractionLogRequest AsyncTask and executes it.
+     * @param context
+     * @param interactionRequestDetails
+     */
     public void executeInteractionLogRequest(Context context, InteractionRequestDetails interactionRequestDetails) {
         new InteractionLogRequest(context).execute(interactionRequestDetails);
     }
@@ -110,6 +184,13 @@ public class KoalaAPI {
 
     }
 
+
+    /**
+     * Creates an instance of the KoalaLoginRequest AsyncTask and executes it.
+     * @param completionFunction
+     * @param context
+     * @param registrationDetails
+     */
     public void executeKoalaLoginRequest(Function<TokenResponse, Void> completionFunction, Context context, RegistrationDetails registrationDetails) {
         new KoalaLoginRequest(completionFunction, context).execute(registrationDetails);
     }

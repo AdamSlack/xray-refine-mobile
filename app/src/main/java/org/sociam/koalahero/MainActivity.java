@@ -3,14 +3,10 @@ package org.sociam.koalahero;
 import android.arch.core.util.Function;
 import android.content.Intent;
 import android.content.res.ColorStateList;
-import android.graphics.Color;
-import android.icu.util.EthiopicCalendar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.MotionEvent;
 import android.view.View;
-import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ProgressBar;
@@ -24,13 +20,17 @@ import org.sociam.koalahero.appsInspector.AppModel;
 import org.sociam.koalahero.appsInspector.AppsInspector;
 import org.sociam.koalahero.csm.CSMAPI;
 import org.sociam.koalahero.csm.CSMAppInfo;
+import org.sociam.koalahero.koala.KoalaData.AuthDetails;
+import org.sociam.koalahero.koala.KoalaData.PhoneInfoRequestDetails;
 import org.sociam.koalahero.koala.KoalaAPI;
 import org.sociam.koalahero.koala.RegistrationDetails;
-import org.sociam.koalahero.koala.TokenResponse;
+import org.sociam.koalahero.koala.KoalaData.TokenResponse;
 import org.sociam.koalahero.xray.XRayAPI;
 import org.sociam.koalahero.xray.XRayAppInfo;
 
+import java.io.Console;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -104,6 +104,16 @@ public class MainActivity extends AppCompatActivity {
 
         // Retrieve App Package Names
         final ArrayList<String> appPackageNames = AppsInspector.getInstalledApps(getPackageManager());
+
+        PhoneInfoRequestDetails pird = new PhoneInfoRequestDetails();
+        pird.authDetails = new AuthDetails(preferenceManager);
+
+        pird.phoneInfo.studyID = preferenceManager.getKoalaStudyID();
+        pird.phoneInfo.installedApps = appPackageNames;
+        pird.phoneInfo.topTenApps = new ArrayList<String>(appPackageNames.subList(0,10));
+        pird.phoneInfo.retrievalDatetime = new Date();
+
+        this.koalaAPI.executePhoneInformationRequest(getApplicationContext(), pird);
 
         // Init Progress Bar.
         pb = (ProgressBar) findViewById(R.id.loading_screen_progress_bar);

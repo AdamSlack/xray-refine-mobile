@@ -1,4 +1,4 @@
-package org.sociam.koalahero.koala;
+package org.sociam.koalahero.koala.KoalaData;
 
 public class TokenResponse {
     public String expires;

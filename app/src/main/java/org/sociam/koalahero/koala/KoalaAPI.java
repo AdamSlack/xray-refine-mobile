@@ -91,9 +91,9 @@ public class KoalaAPI {
                 conn.connect();
 
                 DataOutputStream outputStream = new DataOutputStream(conn.getOutputStream ());
-                outputStream .writeBytes(deets.toJSONData().toString());
-                outputStream .flush ();
-                outputStream .close ();
+                outputStream.writeBytes(deets.toJSONData().toString());
+                outputStream.flush ();
+                outputStream.close ();
             }
             catch(MalformedURLException exc) {
                 // Handle Malformed

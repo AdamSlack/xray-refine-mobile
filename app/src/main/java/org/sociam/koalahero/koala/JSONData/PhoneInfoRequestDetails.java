@@ -1,5 +1,6 @@
 package org.sociam.koalahero.koala.JSONData;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public class PhoneInfoRequestDetails extends JSONData{
@@ -17,7 +18,11 @@ public class PhoneInfoRequestDetails extends JSONData{
     }
 
     @Override
-    public JSONObject toJSONData() {
+    public JSONObject toJSONData() throws JSONException {
+        JSONObject json = new JSONObject();
+
+        json.put("auth_details", this.authDetails);
+        json.put("phone_info", this.phoneInfo.toJSONData());
 
         return null;
     }

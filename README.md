@@ -1,6 +1,20 @@
 # Koala Hero
-## Clean Slate.
-The original demo app is being all but removed. The elements from the app that remain are those relating to consuming back end services.
+
+## API Consumers
+
+### Koala Hero API
+
+API File: `KoalaAPI`
+
+Parser File: `KoalaJsonParser`
+
+Data Classes:
+There are tonnes of Data classes for this, each extends a generic JSONData class, which enforces the a toJSONObject method.
+
+```java
+JSONObeject toJSONObject() {...}
+```
+
 
 ### XRay API
 

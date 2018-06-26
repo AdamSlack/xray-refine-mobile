@@ -52,7 +52,9 @@ public class CSMAPI {
                     JsonReader jr = new JsonReader(isr);
                     CSMJsonParser parser = new CSMJsonParser();
                     csmAppInfo = parser.parseCSMApp(jr);
+                    isr.close();
                 }
+                conn.disconnect();
             }
             catch(IOException exc) {
                 System.out.println(exc);

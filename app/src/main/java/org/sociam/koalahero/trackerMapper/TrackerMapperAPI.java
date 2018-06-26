@@ -53,7 +53,9 @@ public class TrackerMapperAPI {
                     JsonReader jr = new JsonReader(isr);
                     TrackerMapperJsonParser parser = new TrackerMapperJsonParser();
                     company = parser.parseCompany(jr);
+                    isr.close();
                 }
+                conn.disconnect();
             }
             catch(IOException exc) {
 

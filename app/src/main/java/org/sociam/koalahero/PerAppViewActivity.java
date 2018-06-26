@@ -5,11 +5,19 @@ import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.sociam.koalahero.gridAdapters.AdditionalInformationAdapter;
+import org.sociam.koalahero.gridAdapters.AppAdapter;
 import org.sociam.koalahero.appsInspector.AppModel;
 import org.sociam.koalahero.xray.XRayAppInfo;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class PerAppViewActivity extends AppCompatActivity {
 
@@ -37,7 +45,62 @@ public class PerAppViewActivity extends AppCompatActivity {
             // App Icon
             Drawable icon = getPackageManager().getApplicationIcon(appInfo);
             iconImageView.setImageDrawable(icon);
+
+
         }
         catch (PackageManager.NameNotFoundException e) { e.printStackTrace(); }
+
+
+        // Additional Information
+        List<String> additionalInfoCategories = new ArrayList<String>(); // Add or remove as appropriate
+        additionalInfoCategories.add("CMS");
+        additionalInfoCategories.add("Trackers");
+        additionalInfoCategories.add("MapView");
+        additionalInfoCategories.add("ForParents");
+
+
+        String[] categories = new String[additionalInfoCategories.size()];
+        for( int i = 0 ; i < categories.length; i++ )
+            categories[i] = additionalInfoCategories.get(i);
+
+        GridView gridview = (GridView) findViewById(R.id.additionalInfoGridView);
+        gridview.setAdapter(new AdditionalInformationAdapter(this,categories));
+
+        gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View v,
+                                    int position, long id) {
+
+                System.out.println("Position: " + position);
+
+//                String chosen = categories[position];
+//
+//                // Launch Per App View Activity
+//                Intent intent = new Intent(context, AdditionalInfoCMSActivity.class);
+//                boolean start = true;
+//
+//                switch( chosen ){
+//                    case "CMS":
+//                        intent = new Intent(context, AdditionalInfoCMSActivity.class);
+//                        break;
+//                    case "Trackers":
+//                        intent = new Intent(context, AdditionalInfoCMSActivity.class);
+//                        break;
+//                    case "MapView":
+//                        intent = new Intent(context, AdditionalInfoCMSActivity.class);
+//                        break;
+//                    case "ForParents":
+//                        intent = new Intent(context, AdditionalInfoCMSActivity.class);
+//                        break;
+//                    default:
+//                        start = false;
+//                }
+//
+//                if( start ){
+//                    intent.putExtra("PACKAGE_NAME", packageName );
+//                    startActivity(intent);
+//                }
+
+            }
+        });
     }
 }

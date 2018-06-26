@@ -1,27 +1,19 @@
-package org.sociam.koalahero.appViewer;
+package org.sociam.koalahero.gridAdapters;
 
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.sociam.koalahero.R;
 import org.sociam.koalahero.appsInspector.AppModel;
-import org.sociam.koalahero.xray.XRayAPI;
 import org.sociam.koalahero.xray.XRayAppInfo;
-import org.w3c.dom.Text;
-
-import java.net.URI;
-import java.net.URISyntaxException;
 
 public class AppAdapter extends BaseAdapter {
 
@@ -36,20 +28,9 @@ public class AppAdapter extends BaseAdapter {
     public AppAdapter(Context c, AppModel appModel) {
         context = c;
         layoutInflator = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
         this.appModel = appModel;
 
         System.out.println("No. Apps to Display In Grid: " + appModel.installedApps.size());
-
-        // Convert the appModel HashMap into an array.
-        //AppModel appModel = AppModel.getInstance();
-//        xRayAppInfo = new XRayAppInfo[appModel.apps.size()];
-//
-//        int i = 0;
-//        for (String key : appModel.apps.keySet()) {
-//            xRayAppInfo[i] = appModel.apps.get(key);
-//            i++;
-//        }
 
     }
 
@@ -75,7 +56,7 @@ public class AppAdapter extends BaseAdapter {
 
         View grid;
         if( convertView == null) {
-            grid = layoutInflator.inflate(R.layout.grid_item, null);
+            grid = layoutInflator.inflate(R.layout.app_grid_item, null);
         }else{
             grid = convertView;
         }

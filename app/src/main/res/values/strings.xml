@@ -23,4 +23,9 @@
     <string name="loading_screen_title">Koala Hero</string>
     <string name="loading_screen_message">Loading Apps</string>
 
+    <!-- Drawer Menu -->
+    <string name="drawer_header_title">Header Title</string>
+    <string name="select_top_10">Select Top 10 Apps</string>
+
+
 </resources>

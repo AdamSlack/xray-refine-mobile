@@ -8,6 +8,7 @@ import android.util.JsonReader;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.sociam.koalahero.R;
+import org.sociam.koalahero.koala.JSONData.InteractionRequestDetails;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -15,9 +16,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLEncoder;
-
-import javax.net.ssl.HttpsURLConnection;
 
 public class KoalaAPI {
     private static KoalaAPI INSTANCE;
@@ -33,35 +31,90 @@ public class KoalaAPI {
         return INSTANCE;
     }
 
-    public static class KoalaRegisterRequest extends AsyncTask<RegistrationDetails, Void, TokenResponse> {
-        private Function<TokenResponse, Void> completionFunction;
-        private Context context;
+//
+//    Not In Use.
+//
+//    public static class KoalaRegisterRequest extends AsyncTask<RegistrationDetails, Void, TokenResponse> {
+//        private Function<TokenResponse, Void> completionFunction;
+//        private Context context;
+//
+//        private KoalaRegisterRequest() {}
+//
+//        public KoalaRegisterRequest(Function<TokenResponse, Void> completionFunction, Context context) {
+//            this.completionFunction = completionFunction;
+//            this.context = context;
+//        }
+//        @Override
+//        protected TokenResponse  doInBackground(RegistrationDetails... regDetails) {
+//            RegistrationDetails registrationDetails = regDetails[0];
+//            TokenResponse tokenResponse = new TokenResponse();
+//            // Request Registration from Koala API.
+//
+//
+//            return tokenResponse;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(TokenResponse tokenResponse) {
+//            super.onPostExecute(tokenResponse);
+//            // Do the func with the deets.
+//            this.completionFunction.apply(tokenResponse);
+//        }
+//    }
 
-        private KoalaRegisterRequest() {}
-
-        public KoalaRegisterRequest(Function<TokenResponse, Void> completionFunction, Context context) {
-            this.completionFunction = completionFunction;
-            this.context = context;
-        }
-        @Override
-        protected TokenResponse  doInBackground(RegistrationDetails... regDetails) {
-            RegistrationDetails registrationDetails = regDetails[0];
-            TokenResponse tokenResponse = new TokenResponse();
-            // Request Registration from Koala API.
-
-
-            return tokenResponse;
-        }
-
-        @Override
-        protected void onPostExecute(TokenResponse tokenResponse) {
-            super.onPostExecute(tokenResponse);
-            // Do the func with the deets.
-            this.completionFunction.apply(tokenResponse);
-        }
+    public void executeInteractionLogRequest(Context context, InteractionRequestDetails interactionRequestDetails) {
+        new InteractionLogRequest(context).execute(interactionRequestDetails);
     }
 
-    public static class KoalaLoginRequest extends AsyncTask<RegistrationDetails, Void, TokenResponse> {
+    private class InteractionLogRequest extends AsyncTask<InteractionRequestDetails, Void, Void> {
+
+        private Context context;
+
+        private InteractionLogRequest() {}
+
+        public InteractionLogRequest(Context context) {
+            this.context = context;
+        }
+
+        @Override
+        protected Void doInBackground(InteractionRequestDetails... interactionRequestDetails) {
+            InteractionRequestDetails deets = interactionRequestDetails[0];
+            try {
+                URL endpoint = new URL(context.getString(R.string.xray_koala_interaction));
+
+                HttpURLConnection conn = (HttpURLConnection) endpoint.openConnection();
+                conn.setDoInput (true);
+                conn.setDoOutput (true);
+                conn.setRequestProperty("User-Agent", "org.sociam.koalahero");
+                conn.setRequestProperty("Accept", "application/json");
+                conn.setRequestProperty("Content-Type","application/json");
+                conn.connect();
+
+                DataOutputStream outputStream = new DataOutputStream(conn.getOutputStream ());
+                outputStream .writeBytes(deets.toJSONData().toString());
+                outputStream .flush ();
+                outputStream .close ();
+            }
+            catch(MalformedURLException exc) {
+                // Handle Malformed
+                System.out.println("Malformed URL Exception:" + exc.toString());
+            }
+            catch (IOException exc) {
+                System.out.println("IO Exception:" + exc.toString());
+            }
+            catch(JSONException exc) {
+                System.out.println("JSON Exception:" + exc.toString());
+            }
+            return null;
+        }
+
+    }
+
+    public void executeKoalaLoginRequest(Function<TokenResponse, Void> completionFunction, Context context, RegistrationDetails registrationDetails) {
+        new KoalaLoginRequest(completionFunction, context).execute(registrationDetails);
+    }
+
+    private class KoalaLoginRequest extends AsyncTask<RegistrationDetails, Void, TokenResponse> {
         private Function<TokenResponse, Void> completionFunction;
         private Context context;
 

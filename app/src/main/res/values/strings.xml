@@ -1,16 +1,23 @@
 <resources>
     <string name="app_name">Koala Hero</string>
 
-    <!-- API Shizzle-->
+    <!-- XRay API-->
     <string name="xray_api_icons_negi">https://negi.io/api/icons</string>
     <string name="xray_apps_negi">https://negi.io/api/apps</string><!-- <<<<< Try switching to this is other X-Ray is too slow -->
     <string name="alt_xray_app_negi">https://negi.io/api/alt/</string>
 
     <string name="xray_apps">http://hapax.xyz/xray/api/apps</string><!-- <<<<<<<<< Slow As heck -->
+
+    <!-- Tracker Mapper API-->
     <string name="xray_tracker_mapper_api">http://hapax.xyz/tracker_mapper/host/</string>
+
+    <!-- CSM API-->
     <string name="xray_csm_api">http://hapax.xyz/csm/apps/</string>
 
+    <!-- Koala API-->
     <string name="xray_koala_auth">http://hapax.xyz/xray-koala/auth</string>
+    <string name="xray_koala_interaction">http://hapax.xyz/xray-koala/koala/interaction</string>
+    <string name="xray_koala_phone_info">http://hapax.xyz/xray-koala/koala/phone_info</string>
 
     <!-- Loading Screen -->
     <string name="loading_screen_title">Koala Hero</string>

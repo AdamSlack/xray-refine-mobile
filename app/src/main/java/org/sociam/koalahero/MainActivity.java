@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     public static String PACKAGE_NAME;
     private AppModel appModel;
     private PreferenceManager preferenceManager;
+    private KoalaAPI koalaAPI;
 
     // UI elements
     private ProgressBar pb;
@@ -48,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
         this.PACKAGE_NAME = getApplicationContext().getPackageName();
         this.preferenceManager = PreferenceManager.getInstance(getApplicationContext());
         this.appModel = AppModel.getInstance();
+        this.koalaAPI = KoalaAPI.getInstance();
 
         // if no token, launch login,
         if(preferenceManager.getKoalaToken().equals("")) {
@@ -71,24 +73,25 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 final RegistrationDetails regDeets = new RegistrationDetails(studyIDET.getText().toString(), passwordET.getText().toString());
-                new KoalaAPI.KoalaLoginRequest(
-                        new Function<TokenResponse, Void>() {
-                            @Override
-                            public Void apply(TokenResponse tokenResponse) {
-                                if(!tokenResponse.token.equals("")) {
-                                    preferenceManager.saveKoalaStudyID(regDeets.study_id);
-                                    preferenceManager.saveKoalaToken(tokenResponse.token);
-                                    beginLoading();
-                                }
-                                else {
-                                    studyIDET.setError("Invalid Login Details");
-                                    passwordET.setError("Invalid Login Details");
-                                }
-                                return null;
-                            }
-                        },
-                        getApplicationContext()
-                ).execute(regDeets);
+                koalaAPI.executeKoalaLoginRequest(
+                    new Function<TokenResponse, Void>() {
+                         @Override
+                         public Void apply(TokenResponse tokenResponse) {
+                             if(!tokenResponse.token.equals("")) {
+                                 preferenceManager.saveKoalaStudyID(regDeets.study_id);
+                                 preferenceManager.saveKoalaToken(tokenResponse.token);
+                                 beginLoading();
+                             }
+                             else {
+                                 studyIDET.setError("Invalid Login Details");
+                                 passwordET.setError("Invalid Login Details");
+                             }
+                             return null;
+                         }
+                    },
+                    getApplicationContext(),
+                    regDeets
+                );
             }
         });
     }

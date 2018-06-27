@@ -31,6 +31,10 @@ public class AppModel {
 
     // List of all apps
     private HashMap<String, App> installedApps = new HashMap<String,App>();
+
+    // Current Selected App
+    public String selectedAppPackageName;
+
     // List of orderd package names. This can be used to convert the index into the package name
     private String[] appIndex;
 

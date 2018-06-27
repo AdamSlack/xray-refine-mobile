@@ -309,9 +309,11 @@ public class MainActivity extends AppCompatActivity {
 
     private void displayPerAppView(String packageName ){
 
+        appModel.selectedAppPackageName = packageName;
         // Launch Per App View Activity
         Intent intent = new Intent(this, PerAppViewActivity.class);
-        intent.putExtra("PACKAGE_NAME", packageName );
+        //intent.putExtra("PACKAGE_NAME", packageName );
+
         startActivity(intent);
     }
 

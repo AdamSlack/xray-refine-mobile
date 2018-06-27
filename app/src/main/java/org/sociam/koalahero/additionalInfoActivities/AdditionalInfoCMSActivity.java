@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,16 +16,21 @@ import org.sociam.koalahero.xray.XRayAppInfo;
 
 public class AdditionalInfoCMSActivity extends AppCompatActivity {
 
+    private String packageName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_additional_info_cms);
 
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Common Sense Media");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         final Context context = this;
-
-        final String packageName = getIntent().getStringExtra("PACKAGE_NAME");
         AppModel appModel = AppModel.getInstance();
+        this.packageName = appModel.selectedAppPackageName;
         XRayAppInfo xRayAppInfo = appModel.getApp(packageName).getxRayAppInfo();
 
         TextView titleTextView = (TextView) findViewById(R.id.per_app_title);

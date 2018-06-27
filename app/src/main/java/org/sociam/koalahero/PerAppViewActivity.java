@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
@@ -28,17 +29,27 @@ import java.util.List;
 
 public class PerAppViewActivity extends AppCompatActivity {
 
+    private String packageName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_per_app_view);
 
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("App Inspection");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         final Context context = this;
 
-        final String packageName = getIntent().getStringExtra("PACKAGE_NAME");
+        Intent prevInent = getIntent();
+
         AppModel appModel = AppModel.getInstance();
+
+        this.packageName = appModel.selectedAppPackageName;
         App app = appModel.getApp(packageName);
-        XRayAppInfo xRayAppInfo =app.getxRayAppInfo();
+        XRayAppInfo xRayAppInfo = app.getxRayAppInfo();
 
         TextView titleTextView = (TextView) findViewById(R.id.per_app_title);
         TextView summaryTextView = (TextView) findViewById(R.id.per_app_summary);
@@ -106,7 +117,6 @@ public class PerAppViewActivity extends AppCompatActivity {
                 }
 
                 if( start ){
-                    intent.putExtra("PACKAGE_NAME", packageName );
                     startActivity(intent);
                 }
 

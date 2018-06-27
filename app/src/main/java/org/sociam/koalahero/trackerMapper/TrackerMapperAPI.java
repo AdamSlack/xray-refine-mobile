@@ -30,8 +30,8 @@ public class TrackerMapperAPI {
        return INSTANCE;
     }
 
-    public void executeTrackerMapperRequest(String hostName, Function<TrackerMapperCompany, Void> onProgressFunc) {
-         new TrackerMapperRequest(onProgressFunc).execute(hostName);
+    public void executeTrackerMapperRequest(Function<TrackerMapperCompany, Void> onProgressFunc, String... hostNames) {
+         new TrackerMapperRequest(onProgressFunc).execute(hostNames);
     }
 
     private class TrackerMapperRequest extends AsyncTask<String, TrackerMapperCompany, Void> {

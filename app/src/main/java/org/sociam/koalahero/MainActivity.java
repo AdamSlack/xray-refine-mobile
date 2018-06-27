@@ -68,8 +68,6 @@ public class MainActivity extends AppCompatActivity {
         this.appModel = AppModel.getInstance();
         this.koalaAPI = KoalaAPI.getInstance();
 
-        foo();
-
         AppsInspector.logInteractionInfo(
                 getApplicationContext(),
                 "MainActivity",
@@ -354,14 +352,14 @@ public class MainActivity extends AppCompatActivity {
 
         TrackerMapperAPI TMAPI = TrackerMapperAPI.getInstance(getApplicationContext());
         TMAPI.executeTrackerMapperRequest(
-        "facebook.com",
             new Function<TrackerMapperCompany, Void>() {
                 @Override
                 public Void apply(TrackerMapperCompany input) {
                     System.out.print(input);
                     return null;
                 }
-            }
+            },
+        "facebook.com"
         );
     }
 

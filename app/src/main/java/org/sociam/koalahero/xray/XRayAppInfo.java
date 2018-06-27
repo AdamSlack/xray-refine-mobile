@@ -12,7 +12,6 @@ public class XRayAppInfo {
     public Drawable icon;
     public XRayAppStoreInfo appStoreInfo;
     public ArrayList<String> hosts;
-    public HashMap<String, Integer> companies;
 
     public XRayAppInfo() {
         title = "";
@@ -26,7 +25,6 @@ public class XRayAppInfo {
         this.app = app;
         appStoreInfo = new XRayAppStoreInfo(title);
         hosts = new ArrayList<>();
-        this.companies =  new HashMap<>();
     }
 
     public XRayAppInfo(String app, XRayAppStoreInfo appStoreInfo, ArrayList<String> hosts) {
@@ -34,7 +32,6 @@ public class XRayAppInfo {
         this.title = appStoreInfo.title;
         this.appStoreInfo = appStoreInfo;
         this.hosts = hosts;
-        this.companies =  new HashMap<>();
     }
 
     public XRayAppInfo(String title, String app, XRayAppStoreInfo appStoreInfo) {
@@ -42,7 +39,6 @@ public class XRayAppInfo {
         this.app = app;
         this.appStoreInfo = appStoreInfo;
         hosts = new ArrayList<>();
-        this.companies =  new HashMap<>();
     }
 }
 

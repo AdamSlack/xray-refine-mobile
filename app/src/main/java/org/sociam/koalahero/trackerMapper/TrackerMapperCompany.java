@@ -8,6 +8,7 @@ public class TrackerMapperCompany {
     public int hostID;
     public int companyID;
     public ArrayList<String> categories;
+    public int occurrences; // How many times did a hostname for this company occur?
 
     public TrackerMapperCompany() {
         this.hostName = "";
@@ -17,5 +18,7 @@ public class TrackerMapperCompany {
         this.companyID = -1;
 
         this.categories = new ArrayList<>();
+
+        this.occurrences = 0;
     }
 }

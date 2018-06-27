@@ -3,7 +3,10 @@ package org.sociam.koalahero.trackerMapper;
 import android.util.JsonReader;
 import android.util.JsonToken;
 
+import org.sociam.koalahero.JsonParsers.JsonArrayParser;
+
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class TrackerMapperJsonParser {
 
@@ -33,6 +36,9 @@ public class TrackerMapperJsonParser {
                 else if(name.equals("hosts")) {
                     company.companyID = jsonReader.nextInt();
                 }
+                else if(name.equals("categories")) {
+                    company.categories = JsonArrayParser.parseStringArrayList(jsonReader);
+                }
                 else{
                     jsonReader.skipValue();
                 }
@@ -44,5 +50,7 @@ public class TrackerMapperJsonParser {
         }
         return company;
     }
+
+
 
 }

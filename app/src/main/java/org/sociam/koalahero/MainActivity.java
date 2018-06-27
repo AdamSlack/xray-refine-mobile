@@ -36,6 +36,8 @@ import org.sociam.koalahero.koala.KoalaData.NoJSONData;
 import org.sociam.koalahero.koala.KoalaAPI;
 import org.sociam.koalahero.koala.KoalaData.RegistrationDetails;
 import org.sociam.koalahero.koala.KoalaData.TokenResponse;
+import org.sociam.koalahero.trackerMapper.TrackerMapperAPI;
+import org.sociam.koalahero.trackerMapper.TrackerMapperCompany;
 import org.sociam.koalahero.xray.XRayAPI;
 import org.sociam.koalahero.xray.XRayAppInfo;
 
@@ -65,6 +67,8 @@ public class MainActivity extends AppCompatActivity {
         this.preferenceManager = PreferenceManager.getInstance(getApplicationContext());
         this.appModel = AppModel.getInstance();
         this.koalaAPI = KoalaAPI.getInstance();
+
+        foo();
 
         AppsInspector.logInteractionInfo(
                 getApplicationContext(),
@@ -315,6 +319,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+    // Just here to test the API consumers...
     private void foo() {
         XRayAPI api = XRayAPI.getInstance();
 
@@ -346,5 +351,18 @@ public class MainActivity extends AppCompatActivity {
                 },
                 getApplicationContext()
         ).execute("com.linkedin.android","com.whatsapp","com.tencent.mm");
+
+        TrackerMapperAPI TMAPI = TrackerMapperAPI.getInstance(getApplicationContext());
+        TMAPI.executeTrackerMapperRequest(
+        "facebook.com",
+            new Function<TrackerMapperCompany, Void>() {
+                @Override
+                public Void apply(TrackerMapperCompany input) {
+                    System.out.print(input);
+                    return null;
+                }
+            }
+        );
     }
+
 }

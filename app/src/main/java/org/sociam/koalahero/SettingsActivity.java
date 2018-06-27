@@ -51,6 +51,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         // Set the radio button to the current sort mode
         radioSortModeGroup = (RadioGroup) findViewById(R.id.settings_sort_mode);
+        isSortModeGroupEnabled(displayMode == AppDisplayMode.TOP_TEN);
         Interval sortMode = appModel.getSortMode();
         switch (sortMode){
             case DAY:
@@ -66,6 +67,8 @@ public class SettingsActivity extends AppCompatActivity {
                 b.setChecked(true);
                 break;
         }
+
+        setupDisplayModeListeners();
     }
 
     public void save(View veiw){
@@ -116,36 +119,32 @@ public class SettingsActivity extends AppCompatActivity {
 
 
 
-//    public void setupDisplayModeListeners(){
-//
-//
-//
-//        // Setup listeners
-//        radioDisplayModeGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
-//        {
-//            @Override
-//            public void onCheckedChanged(RadioGroup group, int checkedId) {
-//                // checkedId is the RadioButton selected
-//
-//                switch( checkedId ){
-//                    case R.id.view_top_10:
-//                        appModel.setDisplayMode(AppDisplayMode.TOP_TEN);
-//                        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> TOP 10");
-//                        break;
-//                    case R.id.view_all:
-//                        appModel.setDisplayMode(AppDisplayMode.All);
-//                        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ALL");
-//                        break;
-//                    case R.id.view_selected:
-//                        appModel.setDisplayMode(AppDisplayMode.SELECTED);
-//                        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> SELECTED");
-//                        break;
-//
-//                }
-//
-//            }
-//        });
-//
-//    }
+    public void setupDisplayModeListeners(){
 
+        // Setup listeners
+        radioDisplayModeGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
+        {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+
+                if( group.equals(radioDisplayModeGroup)) {
+                    isSortModeGroupEnabled(checkedId == R.id.view_top_10);
+
+                }
+
+            }
+        });
+
+    }
+
+
+    private void isSortModeGroupEnabled( boolean bool ){
+        radioSortModeGroup.setEnabled(bool);
+        Button b = (RadioButton) findViewById(R.id.sort_daily);
+        b.setEnabled(bool);
+        b = (RadioButton) findViewById(R.id.sort_weekly);
+        b.setEnabled(bool);
+        b = (RadioButton) findViewById(R.id.sort_monthly);
+        b.setEnabled(bool);
+    }
 }

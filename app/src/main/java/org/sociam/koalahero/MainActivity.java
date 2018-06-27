@@ -2,6 +2,8 @@ package org.sociam.koalahero;
 
 import android.app.Activity;
 import android.app.AppOpsManager;
+import android.app.usage.UsageStats;
+import android.app.usage.UsageStatsManager;
 import android.arch.core.util.Function;
 import android.content.Context;
 import android.content.Intent;
@@ -14,6 +16,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -23,6 +26,7 @@ import android.widget.TextView;
 
 import org.sociam.koalahero.appsInspector.App;
 import org.sociam.koalahero.appsInspector.AppDisplayMode;
+import org.sociam.koalahero.appsInspector.Interval;
 import org.sociam.koalahero.gridAdapters.AppAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -42,10 +46,13 @@ import org.sociam.koalahero.xray.XRayAPI;
 import org.sociam.koalahero.xray.XRayAppInfo;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
     public static final int APP_USAGE_PERMISSION_INTENT = 1;
+    public static final int SETTINGS_REQUEST_CODE = 298;
 
     public static String PACKAGE_NAME;
     private AppModel appModel;
@@ -103,6 +110,41 @@ public class MainActivity extends AppCompatActivity {
             else{
                 // how to handle not granting permission????
             }
+        } else if (requestCode == SETTINGS_REQUEST_CODE) {
+
+            if( resultCode == RESULT_OK) {
+
+                // Handle Display Mode
+                String displayMode = data.getStringExtra("DISPLAY_MODE");
+                switch (displayMode){
+                    case "TOP_10":
+                        appModel.setDisplayMode(AppDisplayMode.TOP_TEN);
+                        break;
+                    case "ALL":
+                        appModel.setDisplayMode(AppDisplayMode.All);
+                        break;
+                    case "SELECTED":
+                        appModel.setDisplayMode(AppDisplayMode.SELECTED);
+                        break;
+                }
+                // Handle Sort Mode
+                String sortMode = data.getStringExtra("SORT_MODE");
+                switch (sortMode){
+                    case "DAY":
+                        appModel.setSortMode(Interval.DAY);
+                        break;
+                    case "WEEK":
+                        appModel.setSortMode(Interval.WEEK);
+                        break;
+                    case "MONTH":
+                        appModel.setSortMode(Interval.MONTH);
+                        break;
+                    default:
+                }
+
+                updateGridView();
+            }
+
         }
     }
     private void startApp() {
@@ -213,8 +255,6 @@ public class MainActivity extends AppCompatActivity {
         ).execute(appPackageNames.toArray(new String[appPackageNames.size()]));
 
 
-        // Get the Top Ten Apps
-
 
 
         // Index package names
@@ -231,13 +271,10 @@ public class MainActivity extends AppCompatActivity {
         );
 
 
+        appModel.loadDisplayMode( this );
         appModel.index();
-        appModel.setDisplayMode(AppDisplayMode.All);
 
-        appModel.getApp(0).setInTop10(true);
-        appModel.getApp(1).setInTop10(true);
-        appModel.getApp(2).setInTop10(true);
-        appModel.setDisplayMode(AppDisplayMode.TOP_TEN);
+
 
         mDrawerLayout = findViewById(R.id.drawer_layout);
 
@@ -246,26 +283,22 @@ public class MainActivity extends AppCompatActivity {
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
-                        // set item as selected to persist highlight
+
                         //menuItem.setChecked(true);
-                        // close drawer when item is tapped
                         mDrawerLayout.closeDrawers();
 
-                        System.out.print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" + menuItem);
                         switch (menuItem.getItemId()) {
 
-                            case R.id.nav_view_all:
-                                appModel.setDisplayMode(AppDisplayMode.All);
-                                break;
-                            case R.id.nav_view_selected:
-                                appModel.setDisplayMode(AppDisplayMode.SELECTED);
-                                break;
-                            case R.id.nav_view_top_10:
-                                appModel.setDisplayMode(AppDisplayMode.TOP_TEN);
-                                break;
+//                            case R.id.nav_view_all:
+//                                appModel.setDisplayMode(AppDisplayMode.All);
+//                                break;
+//                            case R.id.nav_view_selected:
+//                                appModel.setDisplayMode(AppDisplayMode.SELECTED);
+//                                break;
+//                            case R.id.nav_view_top_10:
+//                                appModel.setDisplayMode(AppDisplayMode.TOP_TEN);
+//                                break;
                         }
-
-                        updateGridView();
 
                         return true;
                     }
@@ -282,13 +315,13 @@ public class MainActivity extends AppCompatActivity {
 
 
         GridView gridview = (GridView) findViewById(R.id.appGridView);
-        gridview.setAdapter(new AppAdapter(this,appModel));
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
-                displayPerAppView(appModel.getAppPackageName(position));
+                launchPerAppView(appModel.getAppPackageName(position));
             }
         });
+        updateGridView();
     }
 
     public void updateGridView(){
@@ -297,17 +330,28 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 mDrawerLayout.openDrawer(GravityCompat.START);
+                return true;
+            case R.id.settings:
+                launchSettings();
                 return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
 
-    private void displayPerAppView(String packageName ){
+    private void launchPerAppView(String packageName ){
 
         appModel.selectedAppPackageName = packageName;
         // Launch Per App View Activity
@@ -315,6 +359,11 @@ public class MainActivity extends AppCompatActivity {
         //intent.putExtra("PACKAGE_NAME", packageName );
 
         startActivity(intent);
+    }
+
+    private void launchSettings(){
+        Intent intent = new Intent(this, SettingsActivity.class);
+        startActivityForResult(intent,SETTINGS_REQUEST_CODE);
     }
 
 

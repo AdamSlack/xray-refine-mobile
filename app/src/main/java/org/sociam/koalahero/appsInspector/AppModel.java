@@ -1,6 +1,15 @@
 package org.sociam.koalahero.appsInspector;
 
+import android.content.Context;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -26,6 +35,7 @@ public class AppModel {
     public void setDisplayMode(AppDisplayMode displayMode) {
         this.displayMode = displayMode;
         index();
+        saveDisplayMode();
     }
 
 
@@ -79,6 +89,35 @@ public class AppModel {
         return inTopTen;
     }
 
+    private Interval sortMode = Interval.WEEK;
+
+    public void setSortMode(Interval sortMode) {
+        this.sortMode = sortMode;
+        sortTopTen();
+        saveSortMode();
+    }
+    public Interval getSortMode(){
+        return sortMode;
+    }
+
+    private void sortTopTen(){
+
+        for( String key: installedApps.keySet()) {
+            installedApps.get(key).setInTop10(false);
+            installedApps.get(key).setSortMode(sortMode);
+        }
+
+        List<App> apps = new ArrayList<App>(installedApps.values());
+        Collections.sort(apps);
+        Collections.reverse(apps);
+
+        for( int i = 0 ; i < 10 && i < apps.size(); i++ )
+            installedApps.get(apps.get(i).getPackageName()).setInTop10(true);
+
+        index();
+
+    }
+
     // === Index for Grid ===
     public void index(){
 
@@ -103,8 +142,72 @@ public class AppModel {
 
         }
 
+    }
 
 
+    public static final String APP_DISPLAY_MODE_FILENAME = "displayMode.dat";
+    public static final String APP_SORT_MODE_FILENAME = "sortMode.dat";
+    Context context;
+
+    public void loadDisplayMode( Context context){
+        this.context = context;
+
+        File file = new File(context.getFilesDir(), APP_DISPLAY_MODE_FILENAME);
+        if( file.exists()){
+
+            try {
+                FileInputStream in = new FileInputStream(file);
+                int disByte = in.read();
+                this.setDisplayMode(AppDisplayMode.values()[disByte]);
+                in.close();
+            } catch (IOException e){
+                e.printStackTrace();
+            }
+
+        } else {
+            this.setDisplayMode(AppDisplayMode.TOP_TEN);
+            saveDisplayMode();
+        }
+
+        file = new File(context.getFilesDir(), APP_SORT_MODE_FILENAME);
+        if( file.exists()){
+
+            try {
+                FileInputStream in = new FileInputStream(file);
+                int disByte = in.read();
+                this.setSortMode(Interval.values()[disByte]);
+                in.close();
+            } catch (IOException e){
+                e.printStackTrace();
+            }
+
+        } else {
+            this.setSortMode(Interval.WEEK);
+            saveSortMode();
+        }
+
+    }
+
+    private void saveDisplayMode() {
+        File file = new File(context.getFilesDir(), APP_DISPLAY_MODE_FILENAME);
+        try {
+            FileOutputStream out = new FileOutputStream(file);
+            out.write(getDisplayMode().ordinal());
+            out.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void saveSortMode(){
+        File file = new File(context.getFilesDir(), APP_SORT_MODE_FILENAME);
+        try {
+            FileOutputStream out = new FileOutputStream(file);
+            out.write(getSortMode().ordinal());
+            out.close();
+        } catch (IOException e){
+            e.printStackTrace();
+        }
 
     }
 

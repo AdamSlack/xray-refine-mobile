@@ -25,9 +25,21 @@
 
     <!-- Drawer Menu -->
     <string name="drawer_header_title">Header Title</string>
-    <string name="select_top_10">Select Top 10 Apps</string>
-    <string name="view_all">View All Installed Apps</string>
-    <string name="view_selected">View Selected Apps</string>
-    <string name="view_top_10">View Top 10 By Use Apps</string>
+    <string name="nav_app_selection">Select Apps</string>
+
+    <!-- Settings -->
+    <string name="title_activity_settings">Settings</string>
+
+    <string name="view_radio_group">Apps to View</string>
+    <string name="view_all">All Installed</string>
+    <string name="view_selected">Selected</string>
+    <string name="view_top_10">Top 10 By Use</string>
+
+    <string name="sort_radio_group">Get Top 10 Apps By</string>
+    <string name="sort_daily">Day</string>
+    <string name="sort_weekly">Week</string>
+    <string name="sort_monthly">Month</string>
+
+
 
 </resources>

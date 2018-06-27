@@ -6,4 +6,6 @@
     <color name="colorWhite">#FFFFFF</color>
 
     <color name="colorSecondary">#ffcf02</color>
+    <color name="colorBlue">#40e0d0</color>
+    <color name="colorPink">#fa8a72</color>
 </resources>

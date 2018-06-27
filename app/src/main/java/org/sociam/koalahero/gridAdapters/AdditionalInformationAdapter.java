@@ -70,7 +70,7 @@ public class AdditionalInformationAdapter extends BaseAdapter {
         buttonImageView =  (ImageView) grid.findViewById(R.id.buttonImage);
 
         try {
-            InputStream ims = context.getAssets().open("placeHolder" + additionalInfoCategories[position] + ".png");
+            InputStream ims = context.getAssets().open( additionalInfoCategories[position] + ".png");
             Drawable d = Drawable.createFromStream(ims, null);
             buttonImageView.setImageDrawable(d);
             ims.close();

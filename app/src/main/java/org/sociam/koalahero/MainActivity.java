@@ -2,8 +2,6 @@ package org.sociam.koalahero;
 
 import android.app.Activity;
 import android.app.AppOpsManager;
-import android.app.usage.UsageStats;
-import android.app.usage.UsageStatsManager;
 import android.arch.core.util.Function;
 import android.content.Context;
 import android.content.Intent;
@@ -46,8 +44,6 @@ import org.sociam.koalahero.xray.XRayAPI;
 import org.sociam.koalahero.xray.XRayAppInfo;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -271,9 +267,9 @@ public class MainActivity extends AppCompatActivity {
         );
 
 
-        appModel.loadDisplayMode( this );
+        appModel.loadData( this );
         appModel.index();
-
+        appModel.setReady();
 
 
         mDrawerLayout = findViewById(R.id.drawer_layout);
@@ -285,13 +281,13 @@ public class MainActivity extends AppCompatActivity {
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
 
                         //menuItem.setChecked(true);
-                        mDrawerLayout.closeDrawers();
+
 
                         switch (menuItem.getItemId()) {
 
-//                            case R.id.nav_view_all:
-//                                appModel.setDisplayMode(AppDisplayMode.All);
-//                                break;
+                            case R.id.nav_app_selection:
+                                launchAppSelector();
+                                break;
 //                            case R.id.nav_view_selected:
 //                                appModel.setDisplayMode(AppDisplayMode.SELECTED);
 //                                break;
@@ -299,6 +295,8 @@ public class MainActivity extends AppCompatActivity {
 //                                appModel.setDisplayMode(AppDisplayMode.TOP_TEN);
 //                                break;
                         }
+
+                        mDrawerLayout.closeDrawers();
 
                         return true;
                     }
@@ -321,12 +319,22 @@ public class MainActivity extends AppCompatActivity {
                 launchPerAppView(appModel.getAppPackageName(position));
             }
         });
+
+        appAdapter = new AppAdapter(this,appModel);
+        gridview.setAdapter(appAdapter);
+
         updateGridView();
+
     }
 
+    private AppAdapter appAdapter;
     public void updateGridView(){
-        GridView gridview = (GridView) findViewById(R.id.appGridView);
-        gridview.setAdapter(new AppAdapter(this,appModel));
+
+        TextView message = (TextView) findViewById( R.id.noAppsMessage );
+        if( appAdapter.getCount() == 0 ) message.setVisibility(View.VISIBLE);
+        else message.setVisibility(View.INVISIBLE);
+
+        appAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -366,7 +374,20 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(intent,SETTINGS_REQUEST_CODE);
     }
 
+    private void launchAppSelector(){
+        Intent intent = new Intent( this ,AppSelectorActivity.class);
+        startActivity(intent);
+    }
 
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if( appModel.isReady() ) {
+            updateGridView();
+        }
+    }
 
     // Just here to test the API consumers...
     private void foo() {

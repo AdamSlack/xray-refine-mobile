@@ -19,15 +19,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
         <activity android:name=".PerAppViewActivity">
             <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value=".MainActivity" />
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
         </activity>
         <activity
             android:name=".additionalInfoActivities.AdditionalInfoCMSActivity"
@@ -57,6 +56,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".PerAppViewActivity" />
         </activity>
+        <activity android:name=".AppSelectorActivity"></activity>
     </application>
 
 </manifest>

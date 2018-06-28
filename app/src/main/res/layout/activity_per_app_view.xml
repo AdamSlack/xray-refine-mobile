@@ -42,7 +42,8 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@mipmap/ic_launcher" />
 
         <TextView
             android:id="@+id/per_app_title"
@@ -57,40 +58,31 @@
 
         <TextView
             android:id="@+id/per_app_summary"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
+            android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="4dp"
             android:singleLine="false"
             android:text="Summary Text"
             android:textColor="@color/colorWhite"
-            android:textSize="12dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/per_app_icon" />
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/per_app_icon"
+            app:layout_constraintTop_toBottomOf="@+id/developerNameTextView" />
 
         <TextView
             android:id="@+id/installsLabelTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="8dp"
             android:text="@string/number_of_downloads"
             android:textColor="@color/colorWhite"
-            app:layout_constraintStart_toEndOf="@+id/per_app_icon"
-            app:layout_constraintTop_toBottomOf="@+id/developerTextView" />
-
-        <TextView
-            android:id="@+id/ratingsTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="4dp"
-            android:text="@string/xray_rating"
-            android:textColor="@color/colorWhite"
-            app:layout_constraintStart_toEndOf="@+id/per_app_icon"
-            app:layout_constraintTop_toBottomOf="@+id/installsLabelTextView" />
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="@+id/installsTextView"
+            app:layout_constraintStart_toStartOf="@+id/installsTextView"
+            app:layout_constraintTop_toBottomOf="@+id/per_app_icon" />
 
         <TextView
             android:id="@+id/developerNameTextView"
@@ -100,30 +92,81 @@
             android:layout_marginTop="4dp"
             android:text="Hapax Solutions Ltd"
             android:textColor="@color/colorWhite"
-            app:layout_constraintStart_toEndOf="@+id/developerTextView"
+            app:layout_constraintStart_toEndOf="@+id/per_app_icon"
             app:layout_constraintTop_toBottomOf="@+id/per_app_title" />
-
-        <TextView
-            android:id="@+id/ratingsValueTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="4dp"
-            android:text="5"
-            android:textColor="@color/colorWhite"
-            app:layout_constraintStart_toEndOf="@+id/ratingsTextView"
-            app:layout_constraintTop_toBottomOf="@+id/installsLabelTextView" />
 
         <TextView
             android:id="@+id/installsTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="8dp"
             android:text="1,000,000"
             android:textColor="@color/colorWhite"
-            app:layout_constraintStart_toEndOf="@+id/installsLabelTextView"
-            app:layout_constraintTop_toBottomOf="@+id/developerTextView" />
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="@+id/appDetailRatingBar"
+            app:layout_constraintEnd_toStartOf="@+id/appDetailRatingBar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/installsLabelTextView" />
+
+        <RatingBar
+            android:id="@+id/appDetailRatingBar"
+            style="@style/Widget.AppCompat.RatingBar.Indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:numStars="5"
+            android:rating="4.5"
+            android:scaleX="0.75"
+            android:scaleY="0.75"
+            android:stepSize="0.01"
+            android:theme="@style/RatingBarStyle"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/pegiRatingTextView"
+            app:layout_constraintStart_toEndOf="@+id/installsTextView"
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/xray_rating"
+            android:textColor="@color/colorWhite"
+            app:layout_constraintEnd_toEndOf="@+id/appDetailRatingBar"
+            app:layout_constraintStart_toStartOf="@+id/appDetailRatingBar"
+            app:layout_constraintTop_toBottomOf="@+id/per_app_icon" />
+
+        <TextView
+            android:id="@+id/Pegi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/pegi_label"
+            android:textColor="@color/colorWhite"
+            app:layout_constraintEnd_toEndOf="@+id/pegiRatingTextView"
+            app:layout_constraintStart_toStartOf="@+id/pegiRatingTextView"
+            app:layout_constraintTop_toBottomOf="@+id/per_app_icon" />
+
+        <TextView
+            android:id="@+id/pegiRatingTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="PEGI 3"
+            android:textColor="@color/colorWhite"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="@+id/appDetailRatingBar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/appDetailRatingBar"
+            app:layout_constraintTop_toBottomOf="@+id/Pegi" />
+
 
     </android.support.constraint.ConstraintLayout>
 

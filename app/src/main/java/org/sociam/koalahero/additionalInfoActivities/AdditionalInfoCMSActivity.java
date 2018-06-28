@@ -13,6 +13,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RatingBar;
+
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,7 +43,7 @@ public class AdditionalInfoCMSActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Common Sense Media");
+        getSupportActionBar().setTitle("Experts Say...");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         final Context context = this;
@@ -56,6 +58,22 @@ public class AdditionalInfoCMSActivity extends AppCompatActivity {
         TextView titleTextView = (TextView) findViewById(R.id.per_app_title);
         TextView oneLinerTextView = (TextView) findViewById(R.id.oneLinerTextView);
         ImageView iconImageView = (ImageView) findViewById(R.id.per_app_icon);
+        TextView ageRatingTextView = (TextView) findViewById(R.id.ageRatingValue);
+        RatingBar csmRatingBar = (RatingBar) findViewById(R.id.csmRatingBar);
+        TextView developerTextView = (TextView) findViewById(R.id.csmDeveloperTextView);
+
+
+        // Set Rating bar values
+        csmRatingBar.setNumStars(5);
+        csmRatingBar.setMax(5);
+        csmRatingBar.setStepSize(0.01f);
+        csmRatingBar.setRating((float) this.csmAppInfo.CSMRating);
+
+        // set developer name
+        developerTextView.setText(xRayAppInfo.developerInfo.devName);
+
+        // Set Age Rating
+        ageRatingTextView.setText(this.csmAppInfo.ageRating);
 
         // Set information read from server.
         oneLinerTextView.setText(this.csmAppInfo.oneLiner);

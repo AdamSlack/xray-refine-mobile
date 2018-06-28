@@ -17,6 +17,12 @@
         <item name="actionMenuTextColor">@android:color/white</item>
     </style>
 
+    <!-- Rating Bar -->
+    <style name="RatingBarStyle" parent="Theme.AppCompat">
+        <item name="colorControlNormal">@color/colorBlack</item>
+        <item name="colorControlActivated">@color/colorWhite</item>
+    </style>
+
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />

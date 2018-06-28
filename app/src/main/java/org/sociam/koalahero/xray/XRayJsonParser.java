@@ -135,6 +135,10 @@ public class XRayJsonParser {
                 else if (name.equals("genre")) {
                     appStoreInfo.genre = jsonReader.nextString();
                 }
+                else if (name.equals("contentRating")) {
+                    appStoreInfo.contentRating = jsonReader.nextString();
+                }
+
                 else if (name.equals("installs")) {
                     Pair<Long, Long> installs = readInstalls(jsonReader);
                     appStoreInfo.minInstalls = installs.first;

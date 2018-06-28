@@ -210,7 +210,8 @@ public class AppModel {
                 Scanner s = new Scanner(file);
                 while( s.hasNext() ){
                     String name = s.nextLine();
-                    installedApps.get(name).setIsSelectedToDisplay(true);
+                    if( installedApps.get(name) != null)
+                        installedApps.get(name).setIsSelectedToDisplay(true);
                 }
 
                 s.close();

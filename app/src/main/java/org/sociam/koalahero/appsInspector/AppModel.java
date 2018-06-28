@@ -56,6 +56,9 @@ public class AppModel {
     // List of orderd package names. This can be used to convert the index into the package name
     private String[] appIndex;
 
+    public Set<String> getInstalledAppsKeys() {
+        return this.installedApps.keySet();
+    }
 
     public List<App> getAllInstalledApps(){
         return new ArrayList<App>(installedApps.values());

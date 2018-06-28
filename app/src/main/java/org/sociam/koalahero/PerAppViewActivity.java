@@ -23,13 +23,19 @@ import org.sociam.koalahero.gridAdapters.AdditionalInformationAdapter;
 import org.sociam.koalahero.gridAdapters.AppAdapter;
 import org.sociam.koalahero.appsInspector.AppModel;
 import org.sociam.koalahero.xray.XRayAppInfo;
+import org.w3c.dom.Text;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class PerAppViewActivity extends AppCompatActivity {
 
     private String packageName;
+    private App appInfo;
+    private XRayAppInfo xRayAppInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,23 +54,36 @@ public class PerAppViewActivity extends AppCompatActivity {
         AppModel appModel = AppModel.getInstance();
 
         this.packageName = appModel.selectedAppPackageName;
-        App app = appModel.getApp(packageName);
-        XRayAppInfo xRayAppInfo = app.getxRayAppInfo();
+        this.appInfo = appModel.getApp(packageName);
+        this.xRayAppInfo = this.appInfo.getxRayAppInfo();
 
         TextView titleTextView = (TextView) findViewById(R.id.per_app_title);
         TextView summaryTextView = (TextView) findViewById(R.id.per_app_summary);
         ImageView iconImageView = (ImageView) findViewById(R.id.per_app_icon);
+        TextView developerName = (TextView) findViewById(R.id.developerNameTextView);
+        TextView downloadsNumberTextView = (TextView) findViewById(R.id.installsTextView);
+        TextView ratingNumberTextView = (TextView) findViewById(R.id.ratingsValueTextView);
 
+        // set Downloads
+        Double installs = 0.5*(xRayAppInfo.appStoreInfo.maxInstalls + xRayAppInfo.appStoreInfo.minInstalls);
+        downloadsNumberTextView.setText(NumberFormat.getNumberInstance(Locale.ENGLISH).format(installs));
+
+        // Set rating
+        DecimalFormat df = new DecimalFormat("#.#");
+        ratingNumberTextView.setText(df.format(xRayAppInfo.appStoreInfo.rating));
+
+        // Set Developer name.
+        developerName.setText(xRayAppInfo.developerInfo.devName);
 
         try {
-            ApplicationInfo appInfo = getPackageManager().getApplicationInfo(xRayAppInfo.app,0);
+            ApplicationInfo deviceAppInfo = getPackageManager().getApplicationInfo(xRayAppInfo.app,0);
 
             // App Name and Summary
-            titleTextView.setText(getPackageManager().getApplicationLabel(appInfo));
+            titleTextView.setText(getPackageManager().getApplicationLabel(deviceAppInfo));
             summaryTextView.setText(xRayAppInfo.appStoreInfo.summary);
 
             // App Icon
-            Drawable icon = getPackageManager().getApplicationIcon(appInfo);
+            Drawable icon = getPackageManager().getApplicationIcon(deviceAppInfo);
             iconImageView.setImageDrawable(icon);
 
 
@@ -74,7 +93,7 @@ public class PerAppViewActivity extends AppCompatActivity {
 
         // Additional Information
         List<String> additionalInfoCategories = new ArrayList<String>(); // Add or remove as appropriate
-        additionalInfoCategories.add("CMS");
+        additionalInfoCategories.add("Experts Say");
         additionalInfoCategories.add("Trackers");
         additionalInfoCategories.add("MapView");
         additionalInfoCategories.add("ForParents");
@@ -100,7 +119,7 @@ public class PerAppViewActivity extends AppCompatActivity {
                 boolean start = true;
 
                 switch( chosen ){
-                    case "CMS":
+                    case "Experts Say":
                         intent = new Intent(context, AdditionalInfoCMSActivity.class);
                         break;
                     case "Trackers":

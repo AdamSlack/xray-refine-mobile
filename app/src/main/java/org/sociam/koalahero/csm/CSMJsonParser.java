@@ -92,25 +92,25 @@ public class CSMJsonParser {
             while (jsonReader.hasNext()) {
                 String name = jsonReader.nextName();
                 if(name.equals("playability")) {
-                    pg.playability = readGuideValues(jsonReader);
+                    pg.setPlayability(readGuideValues(jsonReader));
                 }
                 else if(name.equals("violence")) {
-                    pg.violence = readGuideValues(jsonReader);
+                    pg.setViolence(readGuideValues(jsonReader));
                 }
                 else if(name.equals("sex")) {
-                    pg.sex = readGuideValues(jsonReader);
+                    pg.setSex(readGuideValues(jsonReader));
                 }
                 else if(name.equals("language")) {
-                    pg.language= readGuideValues(jsonReader);
+                    pg.setLanguage(readGuideValues(jsonReader));
                 }
                 else if(name.equals("consumerism")) {
-                    pg.consumerism= readGuideValues(jsonReader);
+                    pg.setConsumerism(readGuideValues(jsonReader));
                 }
                 else if(name.equals("drugs")) {
-                    pg.drugs = readGuideValues(jsonReader);
+                    pg.setDrugs(readGuideValues(jsonReader));
                 }
                 else if(name.equals("educational")) {
-                    pg.educational= readGuideValues(jsonReader);
+                    pg.setEducational(readGuideValues(jsonReader));
                 }
                 else {
                     jsonReader.skipValue();
@@ -144,6 +144,7 @@ public class CSMJsonParser {
                     jsonReader.skipValue();
                 }
             }
+            jsonReader.endObject();
         }
         catch(IOException exc) {
 

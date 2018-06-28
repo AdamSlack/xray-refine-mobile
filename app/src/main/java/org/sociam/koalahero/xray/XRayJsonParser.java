@@ -2,6 +2,9 @@ package org.sociam.koalahero.xray;
 
 import android.util.JsonReader;
 import android.util.JsonToken;
+import android.util.Pair;
+
+import org.sociam.koalahero.JsonParsers.JsonArrayParser;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -39,7 +42,6 @@ public class XRayJsonParser {
                 if (jsonReader.peek() == JsonToken.NAME) {
                     name = jsonReader.nextName();
                 }
-
                 if(name.equals("title")) {
                     xRayAppInfo.title = jsonReader.nextString();
                 }
@@ -48,6 +50,9 @@ public class XRayJsonParser {
                 }
                 else if (name.equals("storeinfo")){
                     xRayAppInfo.appStoreInfo = readAppStoreInfo(jsonReader);
+                }
+                else if (name.equals("developer")) {
+                    xRayAppInfo.developerInfo = parseDeveloperInfo(jsonReader);
                 }
                 else if(name.equals("hosts")) {
                     xRayAppInfo.hosts = readStringArray(jsonReader);
@@ -84,6 +89,31 @@ public class XRayJsonParser {
         return strings;
     }
 
+    private Pair<Long,Long> readInstalls(JsonReader jsonReader) {
+        Long min = 0L;
+        Long max = 0L;
+        try{
+            jsonReader.beginObject();
+            while (jsonReader.hasNext()) {
+                String name = jsonReader.nextName();
+                if(name.equals("min")) {
+                    min = jsonReader.nextLong();
+                }
+                else if(name.equals("max")) {
+                    max = jsonReader.nextLong();
+                }
+                else {
+                    jsonReader.skipValue();
+                }
+            }
+            jsonReader.endObject();
+        }
+        catch (IOException exc) {
+
+        }
+        return new Pair<Long, Long>(min,max);
+    }
+
     private XRayAppStoreInfo readAppStoreInfo(JsonReader jsonReader) {
         XRayAppStoreInfo appStoreInfo = new XRayAppStoreInfo();
         try{
@@ -99,6 +129,17 @@ public class XRayJsonParser {
                 else if(name.equals("storeURL")) {
                     appStoreInfo.storeURL = jsonReader.nextString();
                 }
+                else if (name.equals("rating")) {
+                    appStoreInfo.rating = (float) jsonReader.nextDouble();
+                }
+                else if (name.equals("genre")) {
+                    appStoreInfo.genre = jsonReader.nextString();
+                }
+                else if (name.equals("installs")) {
+                    Pair<Long, Long> installs = readInstalls(jsonReader);
+                    appStoreInfo.minInstalls = installs.first;
+                    appStoreInfo.minInstalls = installs.second;
+                }
                 else {
                     jsonReader.skipValue();
                 }
@@ -109,5 +150,35 @@ public class XRayJsonParser {
 
         }
         return appStoreInfo;
+    }
+
+    private DeveloperInfo parseDeveloperInfo(JsonReader jsonReader) {
+        DeveloperInfo developerInfo = new DeveloperInfo();
+        try{
+            jsonReader.beginObject();
+            while (jsonReader.hasNext()) {
+                String name =jsonReader.nextName();
+                if(name.equals("emails")) {
+                    developerInfo.emails = JsonArrayParser.parseStringArrayList(jsonReader);
+                }
+                else if(name.equals("name")) {
+                    developerInfo.devName = jsonReader.nextString();
+                }
+                else if (name.equals("storeSite")) {
+                    developerInfo.playStoreSiteURL = jsonReader.nextString();
+                }
+                else if(name.equals("site")) {
+                    developerInfo.siteURL = jsonReader.nextString();
+                }
+                else {
+                    jsonReader.skipValue();
+                }
+            }
+            jsonReader.endObject();
+        }
+        catch (IOException exc) {
+
+        }
+        return developerInfo;
     }
 }

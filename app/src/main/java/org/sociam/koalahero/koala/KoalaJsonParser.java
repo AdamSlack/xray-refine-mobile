@@ -22,6 +22,8 @@ public class KoalaJsonParser {
                     jr.skipValue();
                 }
             }
+            jr.endObject();
+
         }
         catch (IOException exc) {
 
@@ -45,6 +47,7 @@ public class KoalaJsonParser {
                     jr.skipValue();
                 }
             }
+            jr.endObject();
         }
         catch (IOException exc) {
 

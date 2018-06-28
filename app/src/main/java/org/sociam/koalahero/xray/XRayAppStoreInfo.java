@@ -32,7 +32,8 @@ public class XRayAppStoreInfo {
     public String summary;
     public String storeURL;
     public boolean isFree;
-    public float rating;
+    public double rating;
+    public String genre;
     public long numberOfReviews;
     public long maxInstalls;
     public long minInstalls;
@@ -60,6 +61,7 @@ public class XRayAppStoreInfo {
         this.maxInstalls = 0;
         this.minInstalls = 0;
         this.updated = new Date();
+        this.genre = "";
 
     }
     XRayAppStoreInfo(String title, String summary) {
@@ -72,5 +74,6 @@ public class XRayAppStoreInfo {
         this.maxInstalls = 0;
         this.minInstalls = 0;
         this.updated = new Date();
+        this.genre = "";
     }
 }

@@ -12,6 +12,7 @@ public class XRayAppInfo {
     public Drawable icon;
     public XRayAppStoreInfo appStoreInfo;
     public ArrayList<String> hosts;
+    public DeveloperInfo developerInfo;
 
     public XRayAppInfo() {
         title = "";
@@ -23,8 +24,9 @@ public class XRayAppInfo {
     public XRayAppInfo(String title, String app) {
         this.title = title;
         this.app = app;
-        appStoreInfo = new XRayAppStoreInfo(title);
-        hosts = new ArrayList<>();
+        this.appStoreInfo = new XRayAppStoreInfo(title);
+        this.hosts = new ArrayList<>();
+        this.developerInfo = new DeveloperInfo();
     }
 
     public XRayAppInfo(String app, XRayAppStoreInfo appStoreInfo, ArrayList<String> hosts) {
@@ -32,13 +34,15 @@ public class XRayAppInfo {
         this.title = appStoreInfo.title;
         this.appStoreInfo = appStoreInfo;
         this.hosts = hosts;
+        this.developerInfo = new DeveloperInfo();
     }
 
     public XRayAppInfo(String title, String app, XRayAppStoreInfo appStoreInfo) {
         this.title = title;
         this.app = app;
         this.appStoreInfo = appStoreInfo;
-        hosts = new ArrayList<>();
+        this.hosts = new ArrayList<>();
+        this.developerInfo = new DeveloperInfo();
     }
 }
 

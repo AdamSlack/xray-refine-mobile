@@ -40,5 +40,25 @@
     <string name="sort_weekly">Week</string>
     <string name="sort_monthly">Month</string>
 
+    <!-- App Inspect View -->
+    <string name="developed_by">Developed By:</string>
+    <string name="xray_rating">Play Store Rating:</string>
+    <string name="number_of_downloads">Downloads:</string>
+
+    <!-- Common Sense Media View -->
+    <string name="csm_says">Experts Say:</string>
+    <string name="age_rating_label">Recommended for:</string>
+    <string name="csm_rating_label">Expert Rating:</string>
+
+    <!-- Common Sense guidance Titles -->
+    <string name="drugs_guidance_title">Drinking, Drugs, and Smoking</string>
+    <string name="consumerism_guidance_title"> In-app Promotions</string>
+    <string name="playability_guidance_title">Ease of Use</string>
+    <string name="sex_guidance_title">Inappropriate Behaviour</string>
+    <string name="language_guidance_title">Inappropriate Language</string>
+    <string name="violence_guidance_title">Violent Content</string>
+    <string name="education_guidance_title">Educational Content</string>
+
+
 
 </resources>

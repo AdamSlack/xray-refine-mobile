@@ -1,75 +1,127 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rootConstraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorPrimary"
-        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        app:theme="@style/ToolBarStyle" />
-
-    <android.support.constraint.ConstraintLayout
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
-        android:padding="10dp"
-        >
+        android:theme="@style/ToolBarStyle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <!-- Basic Information -->
-
-        <ImageView
-            android:id="@+id/per_app_icon"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorAccent"
+        android:theme="@style/ToolBarStyle"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        tools:layout_editor_absoluteX="0dp">
 
         <TextView
             android:id="@+id/per_app_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
             android:text="App Title"
             android:textColor="@color/colorWhite"
-            app:layout_constraintStart_toEndOf="@id/per_app_icon"
-            app:layout_constraintTop_toTopOf="@id/per_app_icon"
-            android:textSize="25dp"
-            />
+            android:textSize="25sp"
+            app:layout_constraintStart_toEndOf="@+id/per_app_icon"
+            app:layout_constraintTop_toTopOf="@+id/per_app_icon" />
+
+        <ImageView
+            android:id="@+id/per_app_icon"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/per_app_summary"
+            android:id="@+id/csmSaysTextView"
+            android:layout_width="0dp"
+            android:layout_height="23dp"
+            android:layout_marginStart="8dp"
+            android:text="@string/csm_says"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toTopOf="@+id/oneLinerTextView"
+            app:layout_constraintStart_toEndOf="@+id/per_app_icon"
+            app:layout_constraintTop_toBottomOf="@+id/per_app_title" />
+
+        <TextView
+            android:id="@+id/oneLinerTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:layout_marginStart="8dp"
-            android:singleLine="false"
-            android:text="App Summary"
-            android:textColor="@color/colorWhite"
-            android:textSize="12dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/per_app_icon"
-            app:layout_constraintTop_toBottomOf="@id/per_app_title" />
-
-    </android.support.constraint.ConstraintLayout>
-
-    <android.support.constraint.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp">
+            android:text="One liner description."
+            app:layout_constraintBottom_toBottomOf="@+id/per_app_icon"
+            app:layout_constraintStart_toEndOf="@+id/per_app_icon" />
 
         <TextView
+            android:id="@+id/ageRatingLabelTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Common Sense Media"
-            android:textSize="20dp"/>
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/age_rating_label"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/per_app_icon" />
 
+        <TextView
+            android:id="@+id/ageRatingValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="Age 16 +"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="@+id/ageRatingLabelTextView"
+            app:layout_constraintStart_toEndOf="@+id/ageRatingLabelTextView"
+            app:layout_constraintTop_toTopOf="@+id/ageRatingLabelTextView" />
+
+        <TextView
+            android:id="@+id/csmRatingValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="4"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="@+id/csmRatingLabel"
+            app:layout_constraintStart_toEndOf="@+id/csmRatingLabel"
+            app:layout_constraintTop_toTopOf="@+id/csmRatingLabel" />
+
+        <TextView
+            android:id="@+id/csmRatingLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/csm_rating_label"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ageRatingLabelTextView" />
     </android.support.constraint.ConstraintLayout>
 
-</LinearLayout>
+    <ListView
+        android:id="@+id/guidanceRatingsListView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+
+</android.support.constraint.ConstraintLayout>

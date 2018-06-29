@@ -14,6 +14,21 @@
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:theme="@style/ToolBarStyle" />
 
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/info_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        android:background="@color/colorSecondary"
+        android:padding="5dp">
+
+        <TextView
+            android:id="@+id/number_selected_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0 of 10 Selected"/>
+
+    </android.support.constraint.ConstraintLayout>
 
     <GridView
         android:id="@+id/selectionGridView"
@@ -22,7 +37,7 @@
         android:gravity="center"
         android:numColumns="4"
         android:stretchMode="columnWidth"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintTop_toBottomOf="@id/info_bar"
         app:layout_constraintBottom_toBottomOf="parent"
         />
 

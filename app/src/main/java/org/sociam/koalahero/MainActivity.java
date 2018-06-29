@@ -318,6 +318,7 @@ public class MainActivity extends AppCompatActivity {
 
         appModel.loadData( this );
         appModel.index();
+        appModel.createAlphabeticalIndex();
         appModel.setReady();
 
 

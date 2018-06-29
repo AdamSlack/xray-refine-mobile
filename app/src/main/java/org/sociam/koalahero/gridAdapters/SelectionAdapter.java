@@ -67,7 +67,8 @@ public class SelectionAdapter extends BaseAdapter {
 
     public View getView(final int position, View convertView, ViewGroup parent) {
 
-        App app = appModel.getAllInstalledApps().get(position);
+        App app = appModel.getApp(appModel.getAlphabeticalIndex()[position]);
+        //App app = appModel.getAllInstalledApps().get(position);
         XRayAppInfo xRayAppInfo = app.getxRayAppInfo();
 
         ImageView appIconView, selectedIcon;

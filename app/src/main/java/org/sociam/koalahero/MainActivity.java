@@ -44,6 +44,7 @@ import org.sociam.koalahero.xray.XRayAPI;
 import org.sociam.koalahero.xray.XRayAppInfo;
 
 import java.util.ArrayList;
+import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -207,34 +208,39 @@ public class MainActivity extends AppCompatActivity {
                         String.valueOf(appModel.getInstalledAppsKeys().size());
 
         loading_bar_message.setText(loading_string);
-        for(final String packageName : appModel.getInstalledAppsKeys()) {
-            csmapi.exectuteCSMRequest(
-                new Function<Void, Void>() {
-                    @Override
-                    public Void apply(Void input) {
-                        launchMainView();
-                        return null;
+        Set<String> packageNames = appModel.getInstalledAppsKeys();
+        csmapi.exectuteCSMRequest(
+            // Completion Function
+            new Function<Void, Void>() {
+                @Override
+                public Void apply(Void input) {
+                    launchMainView();
+                    return null;
+                }
+            },
+            // Progress Function
+            new Function<CSMAppInfo, Void>() {
+                @Override
+                public Void apply(CSMAppInfo input) {
+
+                    App appInfo = appModel.getApp(input.appPackageName);
+                    if(appInfo != null) {
+                        appInfo.setCsmAppInfo(input);
                     }
-                },
-                new Function<CSMAppInfo, Void>() {
-                    @Override
-                    public Void apply(CSMAppInfo input) {
+                    pb.setProgress(pb.getProgress() + 1);
 
-                        appModel.getApp(packageName).setCsmAppInfo(input);
+                    String loading_string = String.valueOf(
+                        "CSM Info: " + pb.getProgress()) +
+                        " out of " +
+                        String.valueOf(appModel.getInstalledAppsKeys().size()
+                    );
+                    loading_bar_message.setText(loading_string);
 
-                        pb.setProgress(pb.getProgress() + 1);
-
-                        String loading_string =
-                                String.valueOf("CSM Info: " + pb.getProgress()) +
-                                        " out of " +
-                                        String.valueOf(appModel.getInstalledAppsKeys().size());
-
-                        return null;
-                    }
-                },
-                packageName
-                );
-        }
+                    return null;
+                }
+            },
+            packageNames.toArray(new String[packageNames.size()])
+        );
     }
 
     private void loadXRayAppData(final String... packageNames) {
@@ -254,6 +260,7 @@ public class MainActivity extends AppCompatActivity {
                     public Void apply(XRayAppInfo input) {
 
                         App newApp = new App(input, getApplicationContext());
+
                         appModel.addApp(newApp);
 
                         pb.setProgress(appModel.getTotalNumberApps());
@@ -263,7 +270,7 @@ public class MainActivity extends AppCompatActivity {
                                         " out of " +
                                         String.valueOf(packageNames.length);
 
-                        loading_bar_message.setText(loading_string);
+                                loading_bar_message.setText(loading_string);
 
                         return null;
                     }

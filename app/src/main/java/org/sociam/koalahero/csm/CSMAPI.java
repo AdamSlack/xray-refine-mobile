@@ -33,7 +33,7 @@ public class CSMAPI {
 
 
     public void exectuteCSMRequest(Function<Void, Void> completionFunction, Function<CSMAppInfo, Void> onProgressFunction, String... packageNames) {
-        new CSMRequest(completionFunction, onProgressFunction, context).execute(packageNames);
+        new CSMRequest(completionFunction, onProgressFunction).execute(packageNames);
     }
 
 
@@ -41,14 +41,11 @@ public class CSMAPI {
         private Function<CSMAppInfo, Void> progressFunction = null;
         private Function<Void, Void> completionFunction = null;
 
-        private Context context = null;
-
         private CSMRequest(){}
 
-        public CSMRequest(Function<Void, Void> completionFunction, Function<CSMAppInfo, Void> progressFunction, Context context) {
+        public CSMRequest(Function<Void, Void> completionFunction, Function<CSMAppInfo, Void> progressFunction) {
             this.progressFunction = progressFunction;
             this.completionFunction = completionFunction;
-            this.context = context;
         }
 
         private CSMAppInfo requestCSMApp(String appPackageName) {
@@ -93,7 +90,14 @@ public class CSMAPI {
             int numHosts = appPackageNames.length;
             for(int i=0; i < numHosts; i++) {
                 CSMAppInfo csmAppInfo = requestCSMApp(appPackageNames[i]);
-                publishProgress(csmAppInfo);
+                if(csmAppInfo != null) {
+                    publishProgress(csmAppInfo);
+                }
+                else{
+                    csmAppInfo = new CSMAppInfo();
+                    csmAppInfo.appPackageName = appPackageNames[i];
+                    publishProgress(csmAppInfo);
+                }
             }
             return null;
         }

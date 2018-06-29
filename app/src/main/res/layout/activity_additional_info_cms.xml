@@ -127,18 +127,6 @@
             app:layout_constraintTop_toBottomOf="@+id/per_app_title" />
 
 
-        <TextView
-            android:id="@+id/csmRatingLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:text="@string/csm_rating_label"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ageRatingLabelTextView" />
     </android.support.constraint.ConstraintLayout>
 
     <ListView

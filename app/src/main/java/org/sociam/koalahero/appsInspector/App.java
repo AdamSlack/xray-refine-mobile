@@ -25,6 +25,9 @@ public class App implements Comparable<App>,Comparator<App> {
     // Mapped Company Hostname Information
     public HashMap<String, TrackerMapperCompany> companies;
 
+    // Country Code counts.
+    public HashMap<String, Integer> localeCounts;
+
     // Information scraped from Common Sense Media
     private CSMAppInfo csmAppInfo;
 
@@ -47,6 +50,8 @@ public class App implements Comparable<App>,Comparator<App> {
         this.csmAppInfo = new CSMAppInfo();
         this.mapXRayHostNames(context);
 
+        this.localeCounts = new HashMap<>();
+
     }
 
 
@@ -60,8 +65,14 @@ public class App implements Comparable<App>,Comparator<App> {
                         if(!companies.containsKey(input.companyName)) {
                             companies.put(input.companyName, input);
                         }
-
                         companies.get(input.companyName).occurrences += 1;
+
+
+                        if(!localeCounts.containsKey(input.locale)) {
+                            localeCounts.put(input.locale, 0);
+                        }
+                        localeCounts.put(input.locale, localeCounts.get(input.locale) + 1);
+
 
                         return null;
                     }

@@ -11,5 +11,6 @@
     <color name="colorBlue">#40e0d0</color>
     <color name="colorPink">#fa8a72</color>
 
+    <color name="colorRedDark">#442222</color>
     <color name="colorRed">#ca0300</color>
 </resources>

@@ -9,6 +9,7 @@ public class TrackerMapperCompany {
     public int companyID;
     public ArrayList<String> categories;
     public int occurrences; // How many times did a hostname for this company occur?
+    public String locale; // iso_6391 country code. e.g. US, UK, JA, ...
 
     public TrackerMapperCompany() {
         this.hostName = "";

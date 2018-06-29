@@ -39,6 +39,9 @@ public class TrackerMapperJsonParser {
                 else if(name.equals("categories")) {
                     company.categories = JsonArrayParser.parseStringArrayList(jsonReader);
                 }
+                else if(name.equals("locale")) {
+                    company.locale = jsonReader.nextString();
+                }
                 else{
                     jsonReader.skipValue();
                 }

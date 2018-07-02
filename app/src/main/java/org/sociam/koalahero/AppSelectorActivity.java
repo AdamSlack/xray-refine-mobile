@@ -15,6 +15,9 @@ import android.widget.TextView;
 import org.sociam.koalahero.appsInspector.App;
 import org.sociam.koalahero.appsInspector.AppDisplayMode;
 import org.sociam.koalahero.appsInspector.AppModel;
+import org.sociam.koalahero.audio.AudioRecorder;
+import org.sociam.koalahero.gridAdapters.AdditionalInformationAdapter;
+
 import org.sociam.koalahero.gridAdapters.SelectionAdapter;
 
 public class AppSelectorActivity extends AppCompatActivity {
@@ -36,6 +39,7 @@ public class AppSelectorActivity extends AppCompatActivity {
         appModel.setDisplayMode(AppDisplayMode.SELECTED);
         final Context context = this;
 
+        AudioRecorder.getINSTANCE(this).updateRecordingUI(this);
 
 
         GridView gridview = (GridView) findViewById(R.id.selectionGridView);

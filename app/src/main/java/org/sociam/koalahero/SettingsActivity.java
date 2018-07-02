@@ -14,6 +14,7 @@ import android.widget.RadioGroup;
 import org.sociam.koalahero.appsInspector.AppDisplayMode;
 import org.sociam.koalahero.appsInspector.AppModel;
 import org.sociam.koalahero.appsInspector.Interval;
+import org.sociam.koalahero.audio.AudioRecorder;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -29,6 +30,8 @@ public class SettingsActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         appModel = AppModel.getInstance();
+
+        AudioRecorder.getINSTANCE(this).updateRecordingUI(this);
 
         // Set the radio button to the current displaymode
         radioDisplayModeGroup = (RadioGroup) findViewById(R.id.settings_display_mode);

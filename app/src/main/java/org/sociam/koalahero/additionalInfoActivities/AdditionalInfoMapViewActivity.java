@@ -19,6 +19,7 @@ import org.json.JSONException;
 import org.sociam.koalahero.R;
 import org.sociam.koalahero.appsInspector.App;
 import org.sociam.koalahero.appsInspector.AppModel;
+import org.sociam.koalahero.audio.AudioRecorder;
 import org.sociam.koalahero.appsInspector.CountryCodeConverter;
 
 import java.io.Console;
@@ -47,6 +48,8 @@ public class AdditionalInfoMapViewActivity extends AppCompatActivity implements 
         this.appModel = AppModel.getInstance();
         this.packageName = this.appModel.selectedAppPackageName;
         this.app = this.appModel.getApp(this.packageName);
+
+        AudioRecorder.getINSTANCE(this).updateRecordingUI(this);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

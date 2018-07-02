@@ -6,6 +6,7 @@ import android.support.v7.widget.Toolbar;
 
 import org.sociam.koalahero.R;
 import org.sociam.koalahero.appsInspector.AppModel;
+import org.sociam.koalahero.audio.AudioRecorder;
 
 public class AdditionalInfoTrackersActivity extends AppCompatActivity {
 
@@ -19,6 +20,8 @@ public class AdditionalInfoTrackersActivity extends AppCompatActivity {
 
         this.appModel = AppModel.getInstance();
         this.packageName = this.appModel.selectedAppPackageName;
+
+        AudioRecorder.getINSTANCE(this).updateRecordingUI(this);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

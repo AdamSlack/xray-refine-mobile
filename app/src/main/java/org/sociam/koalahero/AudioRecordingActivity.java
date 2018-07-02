@@ -1,0 +1,195 @@
+package org.sociam.koalahero;
+
+import android.graphics.drawable.Drawable;
+import android.media.Image;
+import android.os.Handler;
+import android.provider.MediaStore;
+import android.support.constraint.ConstraintLayout;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+
+import org.sociam.koalahero.audio.AudioPlayer;
+import org.sociam.koalahero.audio.AudioRecorder;
+import org.sociam.koalahero.gridAdapters.AudioFilesAdapter;
+import org.w3c.dom.Text;
+
+import java.io.IOException;
+import java.io.InputStream;
+
+public class AudioRecordingActivity extends AppCompatActivity {
+
+    AudioRecorder audioRecorder;
+
+    private AudioPlayer audioPlayer;
+
+    private RecyclerView mRecyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
+
+    private Handler audioPlayerUIHandler = new Handler();
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_audio_recording);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Audio Recording");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        audioPlayer = AudioPlayer.getINSTANCE();
+        audioRecorder = AudioRecorder.getINSTANCE(this);
+        updateRecordingButton();
+
+        ImageView recordButton = (ImageView) findViewById(R.id.record_button);
+        recordButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                audioRecorder.toggleRecording();
+
+                updateRecordingButton();
+                updateScreen();
+
+            }
+        });
+
+
+        ImageView deleteButton = (ImageView) findViewById(R.id.delete_all_button);
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                audioRecorder.deleteRecordings();
+                updateScreen();
+
+            }
+        });
+
+        mRecyclerView = (RecyclerView) findViewById(R.id.file_list);
+        //mRecyclerView.setHasFixedSize(true);
+
+        // Use Linear Layout Manager
+        mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        mRecyclerView.setLayoutManager(mLayoutManager);
+
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(this,
+                DividerItemDecoration.VERTICAL));
+
+
+        mAdapter = new AudioFilesAdapter( audioRecorder, this);
+        mRecyclerView.setAdapter(mAdapter);
+        updateScreen();
+
+
+        // Audio Player Interface
+        Thread audioPlayerInterface = new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                while( true ){
+
+                    audioPlayerUIHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            final TextView titleView = (TextView) findViewById(R.id.audio_player_title);
+                            final TextView timeView = (TextView) findViewById(R.id.audio_player_time);
+                            final ProgressBar progressBar = (ProgressBar) findViewById(R.id.audio_player_bar);
+
+                            titleView.setText( audioPlayer.getTitle() );
+                            timeView.setText( AudioPlayer.secondsToTime(audioPlayer.getCurrentPosition()/1000) + "/" + AudioPlayer.secondsToTime(audioPlayer.getDuration()/1000) );
+
+                            progressBar.setProgress( audioPlayer.getProgress() );
+
+
+                            final TextView currentRecordingTime = (TextView) findViewById(R.id.recording_time);
+                            currentRecordingTime.setText( AudioPlayer.secondsToTime(audioRecorder.getCurrentRecordingTime()) );
+                        }
+                    });
+
+                    try { Thread.sleep(200); } catch ( InterruptedException e){}
+
+                }
+            }
+        });
+        audioPlayerInterface.start();
+
+        ImageView audioPlayButton = (ImageView) findViewById(R.id.audio_player_play);
+        audioPlayButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                audioPlayer.play();
+            }
+        });
+
+        ImageView audioPauseButton = (ImageView) findViewById(R.id.audio_player_pause);
+        audioPauseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                audioPlayer.pause();
+            }
+        });
+
+    }
+
+
+    public void updateScreen(){
+
+        TextView noFilesMessage = (TextView) findViewById(R.id.no_recordings_message);
+        if( audioRecorder.getAudioStore().getNumberFiles() ==0 ){
+            noFilesMessage.setVisibility(View.VISIBLE);
+        } else {
+            noFilesMessage.setVisibility(View.INVISIBLE);
+        }
+
+        mAdapter.notifyDataSetChanged();
+        updateRecordingButton();
+    }
+
+    public void updateRecordingButton(){
+
+        ImageView recordButton = (ImageView) findViewById(R.id.record_button);
+
+        InputStream ims;
+
+        try {
+            if (audioRecorder.isRecording()) {
+                ims = this.getAssets().open("stopRecording.png");
+            } else {
+                ims = this.getAssets().open("startRecording.png");
+            }
+
+            Drawable d = Drawable.createFromStream(ims, null);
+            recordButton.setImageDrawable(d);
+            ims.close();
+
+        } catch (IOException e ){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
+
+}

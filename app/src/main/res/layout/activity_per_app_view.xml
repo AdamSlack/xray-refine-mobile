@@ -67,7 +67,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="@string/number_of_downloads"
-            android:textColor="@color/colorWhite"
+            android:textColor="@color/offWhite"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="@+id/installsTextView"
             app:layout_constraintStart_toStartOf="@+id/installsTextView"
@@ -80,7 +80,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="4dp"
             android:text="Hapax Solutions Ltd"
-            android:textColor="@color/colorWhite"
+            android:textColor="@color/offWhite"
             app:layout_constraintStart_toEndOf="@+id/per_app_icon"
             app:layout_constraintTop_toBottomOf="@+id/per_app_title" />
 
@@ -125,7 +125,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="@string/xray_rating"
-            android:textColor="@color/colorWhite"
+            android:textColor="@color/offWhite"
             app:layout_constraintEnd_toEndOf="@+id/appDetailRatingBar"
             app:layout_constraintStart_toStartOf="@+id/appDetailRatingBar"
             app:layout_constraintTop_toBottomOf="@+id/per_app_icon" />
@@ -136,7 +136,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="@string/pegi_label"
-            android:textColor="@color/colorWhite"
+            android:textColor="@color/offWhite"
             app:layout_constraintEnd_toEndOf="@+id/pegiRatingTextView"
             app:layout_constraintStart_toStartOf="@+id/pegiRatingTextView"
             app:layout_constraintTop_toBottomOf="@+id/per_app_icon" />
@@ -198,6 +198,9 @@
 
 
     </LinearLayout>
+    <include layout="@layout/recording_dot" />
 
 
 </LinearLayout>
+
+

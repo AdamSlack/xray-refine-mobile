@@ -2,10 +2,13 @@ package org.sociam.koalahero;
 
 import android.app.Activity;
 import android.app.AppOpsManager;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.arch.core.util.Function;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.os.Build;
 import android.os.Process;
 import android.provider.Settings;
 import android.support.design.widget.NavigationView;
@@ -19,12 +22,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import org.sociam.koalahero.appsInspector.App;
 import org.sociam.koalahero.appsInspector.AppDisplayMode;
 import org.sociam.koalahero.appsInspector.Interval;
+import org.sociam.koalahero.audio.AudioRecorder;
 import org.sociam.koalahero.gridAdapters.AppAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -61,9 +66,28 @@ public class MainActivity extends AppCompatActivity {
     private TextView loading_bar_message;
     private DrawerLayout mDrawerLayout;
 
+    // Audio
+    private AudioRecorder audioRecorder;
+
+    // Notifications
+    public static String NOTIFICATION_CHANNEL_ID = "KoalaChannel";
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+        // Create NotificationChannel
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = getString(R.string.channel_name);
+            String description = getString(R.string.channel_description);
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, name, importance);
+            channel.setDescription(description);
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
 
 
 
@@ -71,6 +95,7 @@ public class MainActivity extends AppCompatActivity {
         this.preferenceManager = PreferenceManager.getInstance(getApplicationContext());
         this.appModel = AppModel.getInstance();
         this.koalaAPI = KoalaAPI.getInstance();
+        this.audioRecorder = AudioRecorder.getINSTANCE( this );
 
         AppsInspector.logInteractionInfo(
                 getApplicationContext(),
@@ -330,14 +355,28 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
 
-                        //menuItem.setChecked(true);
-
 
                         switch (menuItem.getItemId()) {
 
                             case R.id.nav_app_selection:
                                 launchAppSelector();
                                 break;
+                            case R.id.nav_recording:
+                                launchAudioRecordingMenu();
+                                break;
+//                                if( !audioRecorder.isRecording() ) {
+//                                    audioRecorder.startRecording();
+//                                    menuItem.setChecked(true);
+//                                    menuItem.setTitle(R.string.recording_active);
+//                                } else {
+//                                    audioRecorder.stopRecording();
+//                                    menuItem.setChecked(false);
+//                                    menuItem.setTitle(R.string.recording_not_active);
+//                                }
+//                                break;
+//                            case R.id.nav_delete_recording:
+//                                audioRecorder.deleteRecordings();
+//                                break;
 //                            case R.id.nav_view_selected:
 //                                appModel.setDisplayMode(AppDisplayMode.SELECTED);
 //                                break;
@@ -429,6 +468,11 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    private void launchAudioRecordingMenu(){
+        Intent intent = new Intent( this ,AudioRecordingActivity.class);
+        startActivity(intent);
+    }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -436,5 +480,7 @@ public class MainActivity extends AppCompatActivity {
         if( appModel.isReady() ) {
             updateGridView();
         }
+
+        audioRecorder.updateRecordingUI(this);
     }
 }

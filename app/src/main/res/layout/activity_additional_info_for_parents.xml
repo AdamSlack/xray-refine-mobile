@@ -14,4 +14,7 @@
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:theme="@style/ToolBarStyle" />
 
+
+    <include layout="@layout/recording_dot" />
+
 </android.support.constraint.ConstraintLayout>

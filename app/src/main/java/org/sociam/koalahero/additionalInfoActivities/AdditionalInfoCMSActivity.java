@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import org.sociam.koalahero.R;
 import org.sociam.koalahero.appsInspector.AppModel;
+import org.sociam.koalahero.audio.AudioRecorder;
 import org.sociam.koalahero.csm.CSMAPI;
 import org.sociam.koalahero.csm.CSMAppInfo;
 import org.sociam.koalahero.csm.CSMParentalGuidance;
@@ -45,6 +46,8 @@ public class AdditionalInfoCMSActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Experts Say...");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        AudioRecorder.getINSTANCE(this).updateRecordingUI(this);
 
         final Context context = this;
 

@@ -3,6 +3,7 @@
     <color name="colorPrimary">#4cab4c</color>
     <color name="colorPrimaryDark">#398239</color>
     <color name="colorAccent">#333333</color>
+
     <color name="colorAccentDark">#222222</color>
     <color name="colorWhite">#ffffff</color>
     <color name="colorBlack">#000000</color>
@@ -13,4 +14,5 @@
 
     <color name="colorRedDark">#442222</color>
     <color name="colorRed">#ca0300</color>
+    <color name="offWhite">#bbbbbb</color>
 </resources>

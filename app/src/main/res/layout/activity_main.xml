@@ -48,7 +48,7 @@
             android:horizontalSpacing="0dp"
             android:verticalSpacing="0dp"/>
 
-
+        <include layout="@layout/recording_dot" />
 
     </android.support.constraint.ConstraintLayout>
 

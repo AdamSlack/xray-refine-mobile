@@ -54,10 +54,10 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="24dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="8dp"
             android:text="One liner description."
             android:textColor="@color/colorWhite"
-            android:textSize="20sp"
+            android:textSize="14dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/per_app_icon"
@@ -101,6 +101,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="Recommended Age"
+            android:textColor="@color/offWhite"
             app:layout_constraintEnd_toEndOf="@+id/ageRatingValue"
             app:layout_constraintStart_toStartOf="@+id/ageRatingValue"
             app:layout_constraintTop_toBottomOf="@+id/per_app_icon" />
@@ -111,6 +112,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="Expert Rating"
+            android:textColor="@color/offWhite"
             app:layout_constraintEnd_toEndOf="@+id/csmRatingBar"
             app:layout_constraintStart_toStartOf="@+id/csmRatingBar"
             app:layout_constraintTop_toBottomOf="@+id/per_app_icon" />
@@ -119,10 +121,20 @@
             android:id="@+id/csmDeveloperTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="4dp"
-            android:text="TextView"
+            android:layout_marginTop="8dp"
+            android:text="developer"
             android:textColor="@color/colorWhite"
+            app:layout_constraintTop_toBottomOf="@+id/per_app_title"
+            tools:layout_editor_absoluteX="215dp" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="App Developer:"
+            android:textColor="@color/offWhite"
             app:layout_constraintStart_toEndOf="@+id/per_app_icon"
             app:layout_constraintTop_toBottomOf="@+id/per_app_title" />
 

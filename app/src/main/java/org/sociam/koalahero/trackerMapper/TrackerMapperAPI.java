@@ -58,6 +58,7 @@ public class TrackerMapperAPI {
                     TrackerMapperJsonParser parser = new TrackerMapperJsonParser();
                     company = parser.parseCompany(jr);
                     isr.close();
+                    jr.close();
                 }
                 conn.disconnect();
             }

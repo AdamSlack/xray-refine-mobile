@@ -64,6 +64,7 @@ public class CSMAPI {
                     CSMJsonParser parser = new CSMJsonParser();
                     csmAppInfo = parser.parseCSMApp(jr);
                     isr.close();
+                    jr.close();
                 }
                 conn.disconnect();
             }

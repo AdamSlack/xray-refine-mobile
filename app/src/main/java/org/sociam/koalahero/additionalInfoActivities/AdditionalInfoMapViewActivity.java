@@ -12,6 +12,7 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.maps.android.data.geojson.GeoJsonFeature;
+import com.google.maps.android.data.geojson.GeoJsonGeometryCollection;
 import com.google.maps.android.data.geojson.GeoJsonLayer;
 import com.google.maps.android.data.geojson.GeoJsonPolygonStyle;
 
@@ -25,6 +26,7 @@ import org.sociam.koalahero.appsInspector.CountryCodeConverter;
 import java.io.Console;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 import java.util.Locale;
 
 public class AdditionalInfoMapViewActivity extends AppCompatActivity implements OnMapReadyCallback{
@@ -85,32 +87,42 @@ public class AdditionalInfoMapViewActivity extends AppCompatActivity implements 
     public void onMapReady(GoogleMap map) {
         this.gmap = map;
         try {
+
+            // create empty layer. I can't find out how to make an empty geo json layer :/
             this.layer = new GeoJsonLayer(gmap, R.raw.country_data, getApplicationContext());
-            ArrayList<GeoJsonFeature> flaggedForRemoval = new ArrayList<>();
+            ArrayList<GeoJsonFeature> features = new ArrayList<>();
             for(GeoJsonFeature f : this.layer.getFeatures()) {
+                features.add(f);
+                this.layer.removeFeature(f);
+            }
+
+            for(GeoJsonFeature f : features) {
                 String code = f.getId();
                 String twoISO = ccConverter.iso3CountryCodeToIso2CountryCode(code);
                 System.out.println(code + " -- " + twoISO);
+
                 if(twoISO != null && app.localeCounts.containsKey(twoISO)) {
+                    System.out.println("\n---------\n---------\n--------\n--------\n---------\n---------\n---------\nIt's a Match! " + twoISO);
                     GeoJsonPolygonStyle style = new GeoJsonPolygonStyle();
                     style.setFillColor(getApplicationContext().getResources().getColor(R.color.colorRed));
                     style.setStrokeColor(getApplicationContext().getResources().getColor(R.color.colorRedDark));
                     f.setPolygonStyle(style);
+
+                    this.layer.addFeature(f);
                 }
-                else {
-                    flaggedForRemoval.add(f);
-                }
+
             }
-            for(GeoJsonFeature f : flaggedForRemoval) {
-                layer.removeFeature(f);
-            }
+
             layer.addLayerToMap();
         }
         catch (IOException err) {
-
+            err.printStackTrace();
         }
         catch (JSONException err) {
-
+            err.printStackTrace();
+        }
+        catch (ConcurrentModificationException err) {
+            err.printStackTrace();
         }
         gmap.setMinZoomPreference(1.0f);
         gmap.setMaxZoomPreference(21.0f);

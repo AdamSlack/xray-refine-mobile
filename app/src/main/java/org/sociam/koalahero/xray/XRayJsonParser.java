@@ -23,6 +23,8 @@ public class XRayJsonParser {
                 apps.add(readApp(jsonReader));
             }
             jsonReader.endArray();
+
+            jsonReader.close();
         }
         catch (IOException exc) {
             // Failed To Read.

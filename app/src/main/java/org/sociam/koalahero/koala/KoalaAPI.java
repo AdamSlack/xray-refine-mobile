@@ -111,7 +111,7 @@ public class KoalaAPI {
                     KoalaJsonParser parser = new KoalaJsonParser();
                     res = parser.parseSuccessResponse(jr);
                     isr.close();
-
+                    jr.close();
                     System.out.println(res.success);
                 }
                 conn.disconnect();

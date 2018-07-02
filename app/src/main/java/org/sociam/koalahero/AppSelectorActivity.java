@@ -65,6 +65,9 @@ public class AppSelectorActivity extends AppCompatActivity {
                     cl.setBackgroundColor(getResources().getColor(R.color.colorRed));
                     TextView num = (TextView) findViewById(R.id.number_selected_indicator);
                     num.setTextColor(getResources().getColor(R.color.colorWhite));
+                    num = (TextView) findViewById(R.id.ordering_indicator);
+                    num.setTextColor(getResources().getColor(R.color.colorWhite));
+
 
                     new Handler().postDelayed(new Runnable() {
                         @Override
@@ -72,6 +75,8 @@ public class AppSelectorActivity extends AppCompatActivity {
                             ConstraintLayout cl = (ConstraintLayout) findViewById(R.id.info_bar);
                             cl.setBackgroundColor(getResources().getColor(R.color.colorSecondary));
                             TextView num = (TextView) findViewById(R.id.number_selected_indicator);
+                            num.setTextColor(getResources().getColor(R.color.colorAccent));
+                            num = (TextView) findViewById(R.id.ordering_indicator);
                             num.setTextColor(getResources().getColor(R.color.colorAccent));
                         }
                     }, 150);

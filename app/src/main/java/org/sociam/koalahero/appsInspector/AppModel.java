@@ -1,6 +1,11 @@
 package org.sociam.koalahero.appsInspector;
 
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
+import android.widget.TextView;
+
+import org.sociam.koalahero.R;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -90,7 +95,7 @@ public class AppModel {
         return new ArrayList<>(installedApps.keySet());
     }
 
-    // === Mics ===
+    // === Misc ===
 
     public int countApps( AppDisplayMode adm ){
         if( adm == AppDisplayMode.All){
@@ -109,6 +114,21 @@ public class AppModel {
             return n;
         }
         return 0;
+    }
+
+    public void fixData(){
+        for( String key: installedApps.keySet() ){
+
+            try {
+                ApplicationInfo appInfo = context.getPackageManager().getApplicationInfo(key, 0);
+                String deviceTitle = (String) context.getPackageManager().getApplicationLabel(appInfo);
+
+                installedApps.get(key).setDeviceTitle( deviceTitle );
+            } catch (PackageManager.NameNotFoundException e){
+                e.printStackTrace();
+            }
+
+        }
     }
 
     // === Top 10 Apps ===
@@ -169,24 +189,31 @@ public class AppModel {
     // === Index for Grid ===
     public void index(){
 
+        List<App> apps = new ArrayList<App>(installedApps.values());
+        Collections.sort(apps);
+        Collections.reverse(apps);
+
         if( displayMode == AppDisplayMode.All ){
             // Index all Apps
             appIndex = new String[ installedApps.size() ];
-            int i = 0;
-            for( String key: installedApps.keySet()){
-                appIndex[i] = key;
-                i++;
+
+            for( int i = 0 ; i < apps.size(); i++ ){
+                appIndex[i] = apps.get(i).getPackageName();
             }
         } else {
             // Index selected or apps in top 10
+
             List<String> appsToIndex = new ArrayList<String>();
-            for( String key: installedApps.keySet()){
+            for( int i = 0 ; i < apps.size(); i++ ){
+                String key = apps.get(i).getPackageName();
+
                 if( (displayMode == AppDisplayMode.SELECTED && installedApps.get(key).isSelectedToDisplay())
                         || (displayMode == AppDisplayMode.TOP_TEN && installedApps.get(key).isInTop10())){
                     appsToIndex.add(key);
                 }
             }
-            appIndex =  appsToIndex.toArray(new String[appsToIndex.size()]);
+
+            appIndex = appsToIndex.toArray(new String[appsToIndex.size()]);
 
         }
 

@@ -51,6 +51,7 @@ import org.sociam.koalahero.trackerMapper.TrackerMapperAPI;
 import org.sociam.koalahero.trackerMapper.TrackerMapperCompany;
 import org.sociam.koalahero.xray.XRayAPI;
 import org.sociam.koalahero.xray.XRayAppInfo;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Set;
@@ -334,7 +335,6 @@ public class MainActivity extends AppCompatActivity {
 
         loadXRayAppData(appPackageNames.toArray(new String[appPackageNames.size()]));
 
-        // Index package names
     }
 
     private void launchMainView() {
@@ -360,6 +360,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Prepare AppModel
         appModel.loadData( this );
+        appModel.fixData();
         appModel.index();
         appModel.createAlphabeticalIndex();
         appModel.setReady();
@@ -382,25 +383,6 @@ public class MainActivity extends AppCompatActivity {
                             case R.id.nav_recording:
                                 launchAudioRecordingMenu();
                                 break;
-//                                if( !audioRecorder.isRecording() ) {
-//                                    audioRecorder.startRecording();
-//                                    menuItem.setChecked(true);
-//                                    menuItem.setTitle(R.string.recording_active);
-//                                } else {
-//                                    audioRecorder.stopRecording();
-//                                    menuItem.setChecked(false);
-//                                    menuItem.setTitle(R.string.recording_not_active);
-//                                }
-//                                break;
-//                            case R.id.nav_delete_recording:
-//                                audioRecorder.deleteRecordings();
-//                                break;
-//                            case R.id.nav_view_selected:
-//                                appModel.setDisplayMode(AppDisplayMode.SELECTED);
-//                                break;
-//                            case R.id.nav_view_top_10:
-//                                appModel.setDisplayMode(AppDisplayMode.TOP_TEN);
-//                                break;
                         }
 
                         mDrawerLayout.closeDrawers();
@@ -442,6 +424,19 @@ public class MainActivity extends AppCompatActivity {
         else message.setVisibility(View.INVISIBLE);
 
         appAdapter.notifyDataSetChanged();
+
+        TextView displayMode = (TextView) findViewById(R.id.display_mode);
+        switch ( appModel.getDisplayMode() ){
+            case SELECTED:
+                displayMode.setText("Showing Selected");
+                break;
+            case TOP_TEN:
+                displayMode.setText("Showing Top 10");
+                break;
+            case All:
+                displayMode.setText("Showing All");
+                break;
+        }
     }
 
     @Override

@@ -26,7 +26,15 @@
             android:id="@+id/number_selected_indicator"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="0 of 10 Selected"/>
+            android:text="0 of 10 Selected"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/ordering_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Apps Ordered Alphabetically"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
     </android.support.constraint.ConstraintLayout>
 

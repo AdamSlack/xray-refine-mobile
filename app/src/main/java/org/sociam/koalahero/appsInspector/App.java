@@ -2,6 +2,7 @@ package org.sociam.koalahero.appsInspector;
 
 import android.arch.core.util.Function;
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
 
 import org.sociam.koalahero.csm.CSMAPI;
 import org.sociam.koalahero.csm.CSMAppInfo;
@@ -30,6 +31,8 @@ public class App implements Comparable<App>,Comparator<App> {
 
     // Information scraped from Common Sense Media
     private CSMAppInfo csmAppInfo;
+
+    private String deviceTitle = "";
 
 
     public App(){
@@ -101,6 +104,13 @@ public class App implements Comparable<App>,Comparator<App> {
         this.selectedToDisplay = display;
     }
 
+    public void setDeviceTitle( String title){
+        this.deviceTitle = title;
+    }
+
+    public String getDeviceTitle(){
+        return deviceTitle;
+    }
 
     public XRayAppInfo getxRayAppInfo() {
         return xRayAppInfo;
@@ -118,7 +128,7 @@ public class App implements Comparable<App>,Comparator<App> {
         return usageTimes.get(inter);
     }
 
-    private Interval sortBy;
+    private Interval sortBy = Interval.WEEK;
     public void setSortMode( Interval sort ){
         sortBy = sort;
     }
@@ -137,7 +147,14 @@ public class App implements Comparable<App>,Comparator<App> {
     // Sort by title
     @Override
     public int compare(App d, App d1) {
-        return d.xRayAppInfo.title.compareTo(d1.xRayAppInfo.title);
+
+        String title0 = d.xRayAppInfo.title;
+        String title1 = d1.xRayAppInfo.title;
+
+        if( title0.equals("Unknown")) title0 = d.getDeviceTitle();
+        if( title1.equals("Unknown")) title1 = d1.getDeviceTitle();
+
+        return title0.compareTo(title1);
 
         // USAGE: Collections.sort(list, new App());
     }

@@ -23,13 +23,37 @@
             android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
             app:theme="@style/ToolBarStyle" />
 
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/info_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
+            android:background="@color/colorSecondary"
+            android:padding="5dp">
+
+            <TextView
+                android:id="@+id/display_mode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="DISPLAY MODE"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+            <TextView
+                android:id="@+id/ordering_indicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ordered By Most Used"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+        </android.support.constraint.ConstraintLayout>
+
         <TextView
             android:id="@+id/noAppsMessage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:paddingTop="30dp"
-            app:layout_constraintTop_toBottomOf="@id/toolbar"
+            app:layout_constraintTop_toBottomOf="@id/info_bar"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:text="No Apps To Show"/>
@@ -44,7 +68,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/toolbar"
+            app:layout_constraintTop_toBottomOf="@id/info_bar"
             android:horizontalSpacing="0dp"
             android:verticalSpacing="0dp"/>
 

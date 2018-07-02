@@ -89,7 +89,7 @@ public class SelectionAdapter extends BaseAdapter {
             // Name
             appNameView =  (TextView) grid.findViewById(R.id.appName);
             if( xRayAppInfo.appStoreInfo.title.equals("Unknown"))
-                appNameView.setText( context.getPackageManager().getApplicationLabel(appInfo) );
+                appNameView.setText( app.getDeviceTitle() );
             else
                 appNameView.setText( xRayAppInfo.appStoreInfo.title );
 

@@ -3,14 +3,17 @@ package org.sociam.koalahero.xray;
 import android.arch.core.util.Function;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.JsonReader;
 
 import org.sociam.koalahero.R;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -44,6 +47,25 @@ public class XRayAPI {
             INSTANCE = new XRayAPI();
         }
         return INSTANCE;
+    }
+
+    public HashMap<AppGenre, AppGenreHostInfo> readGenreHostInfo(Context context) {
+        HashMap<AppGenre, AppGenreHostInfo> genreHostInfos = new HashMap<AppGenre, AppGenreHostInfo>();
+        try {
+            InputStream is = context.getResources().openRawResource(
+                    context.getResources().getIdentifier("genre_host_averages",
+                            "raw", context.getPackageName()));
+            InputStreamReader isr = new InputStreamReader(is);
+            JsonReader jr = new JsonReader(isr);
+            genreHostInfos = XRayJsonParser.parseGenreHostAverages(jr);
+            is.close();
+            isr.close();
+            jr.close();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+        return genreHostInfos;
     }
 
     public static class XRayAppData extends AsyncTask<String, XRayAppInfo, Void> {

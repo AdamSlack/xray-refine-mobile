@@ -1,36 +1,88 @@
 <resources>
-    <string name="app_name">Refine</string>
-    <string name="app_intro">
-        Click the button below to find all apps on your phone, you can then select an app and
-        investigate the data sharing practices of that app.
-    </string>
-    <string name="find_app_button">View Your Apps</string>
-    <string name="search_app_button">Search For An App</string>
-    <string name="title_activity_nav_draw">NavDraw</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
-    <string name="nav_header_desc">Navigation header</string>
-    <string name="action_settings">Settings</string>
-    <string name="title_activity_nav_drawer">NavDrawer</string>
-    <string name="view_apps_on_phone">View Apps On Phone</string>
-    <string name="view_usage_statistics">View Usage Statistics</string>
+    <string name="app_name">Koala Hero</string>
 
-    <!-- Study Opt-In-->
-    <string name="study_opt_in_t_and_c">
-        By clicking accept you are providing consent for this application to collect and send
-        statistics about what apps are installed on this device, as well as how you utilise other
-        features of the application.
-    </string>
-    <string name="study_opt_in_title">Study Opt-in</string>
+    <!-- XRay API-->
+    <string name="xray_api_icons_negi">https://negi.io/api/icons</string>
+    <string name="xray_apps_negi">https://negi.io/api/apps</string><!-- <<<<< Try switching to this is other X-Ray is too slow -->
+    <string name="alt_xray_app_negi">https://negi.io/api/alt/</string>
 
-    <!-- API Shizzle-->
-    <string name="xray_api_icons">https://negi.io/api/icons</string>
-    <string name="xray_apps">https://negi.io/api/apps</string>
-    <string name="alt_xray_app">https://negi.io/api/alt/</string>
+    <string name="genere_host_averages_negi">https://negi.io/api/stats/genre_host_averages</string>
+    <string name="xray_apps">http://hapax.xyz/xray/api/apps</string><!-- <<<<<<<<< Slow As heck -->
 
-    <string name="xray_tracker_mapper_api">localhost:8080/host/</string>
+    <!-- Tracker Mapper API-->
+    <string name="xray_tracker_mapper_api">http://hapax.xyz/tracker_mapper/host/</string>
 
+    <!-- CSM API-->
+    <string name="xray_csm_api">http://hapax.xyz/csm/apps/</string>
+
+    <!-- Koala API-->
+    <string name="xray_koala_auth">http://hapax.xyz/xray-koala/auth</string>
+    <string name="xray_koala_interaction">http://hapax.xyz/xray-koala/koala/interaction</string>
+    <string name="xray_koala_phone_info">http://hapax.xyz/xray-koala/koala/phone_info</string>
+
+    <!-- Loading Screen -->
+    <string name="loading_screen_title">Koala Hero</string>
+    <string name="loading_screen_message">Loading Apps</string>
+
+    <!-- Drawer Menu -->
+    <string name="drawer_header_title">Header Title</string>
+    <string name="nav_app_selection">Select Apps</string>
+
+    <string name="recording_not_active">Click to Record</string>
+    <string name="recording_active">Recording Audio...</string>
+
+    <!-- Settings -->
+    <string name="title_activity_settings">Settings</string>
+
+    <string name="view_radio_group">Apps to View</string>
+    <string name="view_all">All Installed</string>
+    <string name="view_selected">Selected</string>
+    <string name="view_top_10">Top 10 By Use</string>
+
+    <string name="sort_radio_group">Get Top 10 Used Apps By</string>
+    <string name="sort_daily">Day</string>
+    <string name="sort_weekly">Week</string>
+    <string name="sort_monthly">Month</string>
+
+    <!-- Audio -->
+    <string name="audio_permission_message">It appears you have not given the app permission to access your microphone.
+        If you are participating in the study, then this is required.
+        The app will only record audio when you have pressed the button to start and will stop when you press it again to stop.</string>
+
+    <!-- Notifications -->
+    <string name="channel_name">Koala Hero</string>
+    <string name="channel_description">Notificatiosn from Koala Hero</string>
+
+    <!-- App Inspect View -->
+    <string name="developed_by">Developed By:</string>
+    <string name="xray_rating">Rating</string>
+    <string name="number_of_downloads">Downloads</string>
+    <string name="pegi_label">Age Rating</string>
+
+
+    <!-- Common Sense Media View -->
+    <string name="csm_says">Experts Say:</string>
+    <string name="age_rating_label">Recommended for:</string>
+    <string name="csm_rating_label">Expert Rating:</string>
+
+    <!-- Common Sense guidance Titles -->
+    <string name="drugs_guidance_title">Drinking, Drugs, and Smoking</string>
+    <string name="consumerism_guidance_title"> In-app Promotions</string>
+    <string name="playability_guidance_title">Ease of Use</string>
+    <string name="sex_guidance_title">Inappropriate Behaviour</string>
+    <string name="language_guidance_title">Inappropriate Language</string>
+    <string name="violence_guidance_title">Violent Content</string>
+    <string name="education_guidance_title">Educational Content</string>
+
+    <!-- Tracker View Text -->
+    <string name="tracker_this_app_first">This app sends information to </string>
+    <string name="tracker_this_app_second">different points.</string>
+
+    <string name="tracker_genre_first">On average, apps in the same genre send information to </string>
+    <string name="tracker_genre_second">different points.</string>
+
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

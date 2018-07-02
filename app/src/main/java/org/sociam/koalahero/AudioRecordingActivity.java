@@ -1,10 +1,17 @@
 package org.sociam.koalahero;
 
+import android.Manifest;
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.media.Image;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.constraint.ConstraintLayout;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -14,10 +21,13 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import org.sociam.koalahero.appsInspector.AppDisplayMode;
+import org.sociam.koalahero.appsInspector.Interval;
 import org.sociam.koalahero.audio.AudioPlayer;
 import org.sociam.koalahero.audio.AudioRecorder;
 import org.sociam.koalahero.gridAdapters.AudioFilesAdapter;
@@ -36,7 +46,12 @@ public class AudioRecordingActivity extends AppCompatActivity {
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
+    private Context context;
+    private Activity activity;
+
     private Handler audioPlayerUIHandler = new Handler();
+
+    private boolean hasMicPermission = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +63,27 @@ public class AudioRecordingActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Audio Recording");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        context = getApplicationContext();
+        activity = this;
+
+        checkMicPermissions();
+        Button permissionButton = (Button) findViewById(R.id.permission_message_grant_button);
+        permissionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Microphone Permission
+                if (ContextCompat.checkSelfPermission(context,
+                        Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+
+                    ActivityCompat.requestPermissions(activity,
+                            new String[]{Manifest.permission.RECORD_AUDIO},
+                            MainActivity.AUDIO_PERMISSION_REQUEST_CODE);
+
+
+                }
+            }
+        });
+
         audioPlayer = AudioPlayer.getINSTANCE();
         audioRecorder = AudioRecorder.getINSTANCE(this);
         updateRecordingButton();
@@ -57,7 +93,8 @@ public class AudioRecordingActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                audioRecorder.toggleRecording();
+                if( hasMicPermission)
+                    audioRecorder.toggleRecording();
 
                 updateRecordingButton();
                 updateScreen();
@@ -145,6 +182,32 @@ public class AudioRecordingActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+
+        if (requestCode == MainActivity.AUDIO_PERMISSION_REQUEST_CODE) {
+
+            checkMicPermissions();
+
+        }
+
+    }
+
+
+    public void checkMicPermissions(){
+
+        ConstraintLayout cl = (ConstraintLayout) findViewById(R.id.permission_message);
+
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+            cl.setVisibility( View.VISIBLE );
+            hasMicPermission = false;
+        } else {
+            cl.setVisibility( View.INVISIBLE );
+            hasMicPermission = true;
+        }
+    }
 
     public void updateScreen(){
 

@@ -8,7 +8,9 @@ import org.sociam.koalahero.JsonParsers.JsonArrayParser;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class XRayJsonParser {
@@ -135,7 +137,7 @@ public class XRayJsonParser {
                     appStoreInfo.rating = (float) jsonReader.nextDouble();
                 }
                 else if (name.equals("genre")) {
-                    appStoreInfo.genre = jsonReader.nextString();
+                    appStoreInfo.setGenre(jsonReader.nextString());
                 }
                 else if (name.equals("contentRating")) {
                     appStoreInfo.contentRating = jsonReader.nextString();
@@ -187,4 +189,54 @@ public class XRayJsonParser {
         }
         return developerInfo;
     }
+
+    public static HashMap<AppGenre, AppGenreHostInfo> parseGenreHostAverages(JsonReader jr) {
+        HashMap<AppGenre, AppGenreHostInfo> genreHostInfos = new HashMap<>();
+        try {
+            jr.beginArray();
+            while (jr.hasNext()) {
+                AppGenreHostInfo info = parseGeneraHostInfo(jr);
+                genreHostInfos.put(info.getAppGenre(), info);
+            }
+            jr.endArray();
+        }
+        catch (IOException exc) {
+
+        }
+        return  genreHostInfos;
+    }
+
+    private static AppGenreHostInfo parseGeneraHostInfo(JsonReader jr) {
+
+        AppGenreHostInfo genreHostInfo = new AppGenreHostInfo();
+
+        try {
+            jr.beginObject();
+            while (jr.hasNext()) {
+                String name = jr.nextName();
+                if(name.equals("category")) {
+                    genreHostInfo.setCategory(jr.nextString());
+                }
+                else if(name.equals("hostCount")) {
+                    genreHostInfo.hostCount = jr.nextInt();
+                }
+                else if(name.equals("appCount")) {
+                    genreHostInfo.appCount = jr.nextInt();
+                }
+                else if (name.equals("genreAvg")) {
+                    genreHostInfo.genreAvgHosts = jr.nextDouble();
+                }
+                else {
+                    jr.skipValue();
+                }
+            }
+            jr.endObject();
+        }
+        catch (IOException exc) {
+
+        }
+
+        return genreHostInfo;
+    }
+
 }

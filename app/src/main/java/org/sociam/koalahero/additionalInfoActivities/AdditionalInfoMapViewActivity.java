@@ -103,6 +103,7 @@ public class AdditionalInfoMapViewActivity extends AppCompatActivity implements 
 
                 if(twoISO != null && app.localeCounts.containsKey(twoISO)) {
                     System.out.println("\n---------\n---------\n--------\n--------\n---------\n---------\n---------\nIt's a Match! " + twoISO);
+
                     GeoJsonPolygonStyle style = new GeoJsonPolygonStyle();
                     style.setFillColor(getApplicationContext().getResources().getColor(R.color.colorRed));
                     style.setStrokeColor(getApplicationContext().getResources().getColor(R.color.colorRedDark));

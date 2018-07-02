@@ -10,10 +10,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Process;
 import android.provider.Settings;
+import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
@@ -53,6 +57,10 @@ import org.sociam.koalahero.xray.XRayAPI;
 import org.sociam.koalahero.xray.XRayAppInfo;
 import org.w3c.dom.Text;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Set;
 
@@ -414,6 +422,30 @@ public class MainActivity extends AppCompatActivity {
 
         updateGridView();
 
+
+        if( isFirstLaunch() ) {
+            ConstraintLayout cl = (ConstraintLayout) findViewById(R.id.content_frame);
+            Snackbar snackbar = Snackbar
+                    .make(cl, "Not happy with the top 10 apps listed?", Snackbar.LENGTH_LONG)
+                    .setAction("Customise", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            launchAppSelector();
+                        }
+                    });
+
+            // Changing message text color
+            snackbar.setActionTextColor(getResources().getColor(R.color.colorPrimary));
+            snackbar.setDuration(10000);
+
+            // Changing action button text color
+            View sbView = snackbar.getView();
+            TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+            textView.setTextColor(getResources().getColor(R.color.colorSecondary));
+
+            snackbar.show();
+        }
+
     }
 
     private AppAdapter appAdapter;
@@ -495,5 +527,22 @@ public class MainActivity extends AppCompatActivity {
         }
 
         audioRecorder.updateRecordingUI(this);
+    }
+
+
+    public boolean isFirstLaunch(){
+
+        File file = new File(this.getFilesDir(), "firstLaunch.dat");
+        if( file.exists()){
+            return false;
+        }
+
+        try {
+            FileOutputStream out = new FileOutputStream(file);
+            out.write(1);
+            out.close();
+        } catch (IOException e){}
+
+        return true;
     }
 }

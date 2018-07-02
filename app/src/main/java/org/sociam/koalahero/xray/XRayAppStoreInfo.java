@@ -1,5 +1,7 @@
 package org.sociam.koalahero.xray;
 
+import org.sociam.koalahero.appsInspector.App;
+
 import java.util.Date;
 
 public class XRayAppStoreInfo {
@@ -33,7 +35,8 @@ public class XRayAppStoreInfo {
     public String storeURL;
     public boolean isFree;
     public double rating;
-    public String genre;
+    private String genre;
+    private AppGenre appGenre;
     public long numberOfReviews;
     public long maxInstalls;
     public long minInstalls;
@@ -51,6 +54,8 @@ public class XRayAppStoreInfo {
         minInstalls = 0;
         contentRating = "";
         updated = new Date();
+        this.genre = AppGenre.UNKNOWN.toString();
+        this.appGenre = AppGenre.UNKNOWN;
     }
 
     XRayAppStoreInfo(String title) {
@@ -64,8 +69,8 @@ public class XRayAppStoreInfo {
         this.minInstalls = 0;
         this.updated = new Date();
         this.genre = "";
-        this.contentRating = "";
-
+        this.contentRating = AppGenre.UNKNOWN.toString();
+        this.appGenre = AppGenre.UNKNOWN;
 
     }
     XRayAppStoreInfo(String title, String summary) {
@@ -79,6 +84,25 @@ public class XRayAppStoreInfo {
         this.maxInstalls = 0;
         this.minInstalls = 0;
         this.updated = new Date();
-        this.genre = "";
+        this.genre = AppGenre.UNKNOWN.toString();
+        this.appGenre = AppGenre.UNKNOWN;
+    }
+
+    public void setAppGenre(AppGenre appGenre) {
+        this.appGenre = appGenre;
+        this.genre = this.appGenre.toString();
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
+        this.appGenre = AppGenre.valueOf(this.genre);
+    }
+
+    public AppGenre getAppGenre() {
+        return appGenre;
+    }
+
+    public String getGenre() {
+        return genre;
     }
 }

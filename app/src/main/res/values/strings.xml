@@ -62,6 +62,14 @@
     <string name="violence_guidance_title">Violent Content</string>
     <string name="education_guidance_title">Educational Content</string>
 
+    <!-- Tracker View Text -->
+    <string name="tracker_this_app_first">This app sends information to </string>
+    <string name="tracker_this_app_second">different points.</string>
+
+    <string name="tracker_genre_first">On average, apps in the same genre send information to </string>
+    <string name="tracker_genre_second">different points.</string>
+
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 

@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class XRayJsonParser {
@@ -134,7 +135,7 @@ public class XRayJsonParser {
                     appStoreInfo.rating = (float) jsonReader.nextDouble();
                 }
                 else if (name.equals("genre")) {
-                    appStoreInfo.genre = jsonReader.nextString();
+                    appStoreInfo.setGenre(jsonReader.nextString());
                 }
                 else if (name.equals("contentRating")) {
                     appStoreInfo.contentRating = jsonReader.nextString();
@@ -187,13 +188,15 @@ public class XRayJsonParser {
         return developerInfo;
     }
 
-    private ArrayList<AppGenreHostInfo> parseGenreHostAverages(JsonReader jr) {
-        ArrayList<AppGenreHostInfo> genreHostInfos = new ArrayList<>();
+    public static HashMap<AppGenre, AppGenreHostInfo> parseGenreHostAverages(JsonReader jr) {
+        HashMap<AppGenre, AppGenreHostInfo> genreHostInfos = new HashMap<>();
         try {
             jr.beginArray();
             while (jr.hasNext()) {
-                genreHostInfos.add(this.parseGeneraHostInfo(jr));
+                AppGenreHostInfo info = parseGeneraHostInfo(jr);
+                genreHostInfos.put(info.getAppGenre(), info);
             }
+            jr.endArray();
         }
         catch (IOException exc) {
 
@@ -201,7 +204,7 @@ public class XRayJsonParser {
         return  genreHostInfos;
     }
 
-    private AppGenreHostInfo parseGeneraHostInfo(JsonReader jr) {
+    private static AppGenreHostInfo parseGeneraHostInfo(JsonReader jr) {
 
         AppGenreHostInfo genreHostInfo = new AppGenreHostInfo();
 
@@ -225,6 +228,7 @@ public class XRayJsonParser {
                     jr.skipValue();
                 }
             }
+            jr.endObject();
         }
         catch (IOException exc) {
 

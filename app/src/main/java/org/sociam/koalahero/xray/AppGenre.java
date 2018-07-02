@@ -1,5 +1,8 @@
 package org.sociam.koalahero.xray;
 
+import java.util.ArrayList;
+import org.apache.commons.lang3.text.WordUtils;
+
 public enum AppGenre {
     UNKNOWN,
     EVENTS,
@@ -50,5 +53,20 @@ public enum AppGenre {
     GAME_WORD,
     NEWS_AND_MAGAZINES,
     SOCIAL,
-    GAME_EDUCATIONAL,
+    GAME_EDUCATIONAL;
+
+    public String toLabel() {
+        String str = this.toString();
+
+        if(str.startsWith("GAME_")) {
+            str = str.replace("GAME_", "");
+            str = str + "_GAME";
+        }
+
+        str = str.replace("_", " ");
+        str = WordUtils.capitalizeFully(str);
+        str = str.replace("And", "and");
+
+        return str;
+    }
 }

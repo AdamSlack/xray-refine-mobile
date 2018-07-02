@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.sociam.refine">
+    package="org.sociam.koalahero">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS" />
+
 
     <application
         android:allowBackup="true"
@@ -11,7 +12,13 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        android:theme="@style/AppTheme">
+
+        <!--Google MAP API key-->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyBsrb-XjGWafuOr61to_VcnBoe1--JDyDk" />
+
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -19,26 +26,46 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AppDetailView">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ListApplications" />
-        </activity>
-        <activity android:name=".ListApplications">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
-        </activity>
-        <activity android:name=".PreferencesActivity">
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/title_activity_settings"
+            android:theme="@style/AppTheme" />
+        <activity android:name=".PerAppViewActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
-        <activity android:name=".SubstituteAppActivity">
+        <activity
+            android:name=".additionalInfoActivities.AdditionalInfoCMSActivity"
+            android:launchMode="singleTop">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".AppDetailView" />
+                android:value=".PerAppViewActivity" />
         </activity>
+        <activity
+            android:name=".additionalInfoActivities.AdditionalInfoTrackersActivity"
+            android:launchMode="singleTop">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".PerAppViewActivity" />
+        </activity>
+        <activity
+            android:name=".additionalInfoActivities.AdditionalInfoMapViewActivity"
+            android:launchMode="singleTop">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".PerAppViewActivity" />
+        </activity>
+        <activity
+            android:name=".additionalInfoActivities.AdditionalInfoForParentsActivity"
+            android:launchMode="singleTop">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".PerAppViewActivity" />
+        </activity>
+        <activity android:name=".AppSelectorActivity"></activity>
+
+
     </application>
 
 </manifest>

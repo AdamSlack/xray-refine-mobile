@@ -1,5 +1,6 @@
 package org.sociam.koalahero;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AppOpsManager;
 import android.app.NotificationChannel;
@@ -7,11 +8,14 @@ import android.app.NotificationManager;
 import android.arch.core.util.Function;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.os.Build;
 import android.os.Process;
 import android.provider.Settings;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -55,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static final int APP_USAGE_PERMISSION_INTENT = 1;
     public static final int SETTINGS_REQUEST_CODE = 298;
+    public static final int AUDIO_PERMISSION_REQUEST_CODE = 118;
 
     public static String PACKAGE_NAME;
     private AppModel appModel;
@@ -132,6 +137,8 @@ public class MainActivity extends AppCompatActivity {
             else{
                 // how to handle not granting permission????
             }
+        } else if (requestCode == AUDIO_PERMISSION_REQUEST_CODE) {
+
         } else if (requestCode == SETTINGS_REQUEST_CODE) {
 
             if( resultCode == RESULT_OK) {
@@ -341,6 +348,17 @@ public class MainActivity extends AppCompatActivity {
         );
 
 
+        // Microphone Permission
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.RECORD_AUDIO},
+                    AUDIO_PERMISSION_REQUEST_CODE);
+
+        }
+
+        // Prepare AppModel
         appModel.loadData( this );
         appModel.index();
         appModel.createAlphabeticalIndex();

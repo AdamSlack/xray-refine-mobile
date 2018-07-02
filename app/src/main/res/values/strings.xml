@@ -44,6 +44,11 @@
     <string name="sort_weekly">Week</string>
     <string name="sort_monthly">Month</string>
 
+    <!-- Audio -->
+    <string name="audio_permission_message">It appears you have not given the app permission to access your microphone.
+        If you are participating in the study, then this is required.
+        The app will only record audio when you have pressed the button to start and will stop when you press it again to stop.</string>
+
     <!-- Notifications -->
     <string name="channel_name">Koala Hero</string>
     <string name="channel_description">Notificatiosn from Koala Hero</string>

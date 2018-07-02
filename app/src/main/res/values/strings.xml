@@ -6,6 +6,7 @@
     <string name="xray_apps_negi">https://negi.io/api/apps</string><!-- <<<<< Try switching to this is other X-Ray is too slow -->
     <string name="alt_xray_app_negi">https://negi.io/api/alt/</string>
 
+    <string name="genere_host_averages_negi">https://negi.io/api/stats/genre_host_averages</string>
     <string name="xray_apps">http://hapax.xyz/xray/api/apps</string><!-- <<<<<<<<< Slow As heck -->
 
     <!-- Tracker Mapper API-->

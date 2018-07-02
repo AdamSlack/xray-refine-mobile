@@ -87,8 +87,8 @@ public class AdditionalInfoMapViewActivity extends AppCompatActivity implements 
             for(GeoJsonFeature f : this.layer.getFeatures()) {
                 String code = f.getId();
                 String twoISO = ccConverter.iso3CountryCodeToIso2CountryCode(code);
-                System.out.println(code + " -- " + twoISO);
                 if(twoISO != null && app.localeCounts.containsKey(twoISO)) {
+                    System.out.println(code + " -- " + twoISO);
                     GeoJsonPolygonStyle style = new GeoJsonPolygonStyle();
                     style.setFillColor(getApplicationContext().getResources().getColor(R.color.colorRed));
                     style.setStrokeColor(getApplicationContext().getResources().getColor(R.color.colorRedDark));

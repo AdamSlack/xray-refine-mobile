@@ -8,6 +8,7 @@ import org.sociam.koalahero.JsonParsers.JsonArrayParser;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -185,4 +186,51 @@ public class XRayJsonParser {
         }
         return developerInfo;
     }
+
+    private ArrayList<AppGenreHostInfo> parseGenreHostAverages(JsonReader jr) {
+        ArrayList<AppGenreHostInfo> genreHostInfos = new ArrayList<>();
+        try {
+            jr.beginArray();
+            while (jr.hasNext()) {
+                genreHostInfos.add(this.parseGeneraHostInfo(jr));
+            }
+        }
+        catch (IOException exc) {
+
+        }
+        return  genreHostInfos;
+    }
+
+    private AppGenreHostInfo parseGeneraHostInfo(JsonReader jr) {
+
+        AppGenreHostInfo genreHostInfo = new AppGenreHostInfo();
+
+        try {
+            jr.beginObject();
+            while (jr.hasNext()) {
+                String name = jr.nextName();
+                if(name.equals("category")) {
+                    genreHostInfo.setCategory(jr.nextString());
+                }
+                else if(name.equals("hostCount")) {
+                    genreHostInfo.hostCount = jr.nextInt();
+                }
+                else if(name.equals("appCount")) {
+                    genreHostInfo.appCount = jr.nextInt();
+                }
+                else if (name.equals("genreAvg")) {
+                    genreHostInfo.genreAvgHosts = jr.nextDouble();
+                }
+                else {
+                    jr.skipValue();
+                }
+            }
+        }
+        catch (IOException exc) {
+
+        }
+
+        return genreHostInfo;
+    }
+
 }

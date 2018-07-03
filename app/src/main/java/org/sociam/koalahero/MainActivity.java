@@ -11,6 +11,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.os.AsyncTask;
+
 import android.os.Build;
 import android.os.Process;
 import android.provider.Settings;
@@ -27,7 +29,9 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -102,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }
+
 
 
 
@@ -284,6 +289,22 @@ public class MainActivity extends AppCompatActivity {
         );
     }
 
+    private class HostLoadingTask extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            return null;
+        }
+    }
+
+    private void loadAppHostCompanyMappings() {
+        TrackerMapperAPI TMAPI = TrackerMapperAPI.getInstance(getApplicationContext());
+
+
+
+
+    }
+
     private void loadXRayAppData(final String... packageNames) {
         // Begin Query for apps installed on phone.
         new XRayAPI.XRayAppData(
@@ -325,7 +346,18 @@ public class MainActivity extends AppCompatActivity {
     private void beginLoading() {
         setContentView(R.layout.loading_screen);
         // Set loading screen anim.
-
+        // Set loading screen anim.
+        WebView animWebView = (WebView) findViewById(R.id.loading_screen_web_view);
+        animWebView.loadUrl("file:///android_asset/Loading_icon.gif");
+        animWebView.setVerticalScrollBarEnabled(false);
+        animWebView.setHorizontalScrollBarEnabled(false);
+        animWebView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v,  MotionEvent event) {
+                return (event.getAction() == MotionEvent.ACTION_MOVE);
+            }
+        });
+        animWebView.setBackgroundColor(Color.TRANSPARENT);
 
         // Retrieve App Package Names
         final ArrayList<String> appPackageNames = AppsInspector.getInstalledApps(getPackageManager());

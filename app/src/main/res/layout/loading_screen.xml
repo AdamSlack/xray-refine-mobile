@@ -31,11 +31,10 @@
 
     <WebView
         android:id="@+id/loading_screen_web_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="250dp"
+        android:layout_height="150dp"
         android:layout_marginBottom="8dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginStart="32dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         app:layout_constraintBottom_toTopOf="@+id/loading_screen_message"
         app:layout_constraintEnd_toEndOf="parent"

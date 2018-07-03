@@ -70,18 +70,7 @@ public class AdditionalInfoMapViewActivity extends AppCompatActivity implements 
 
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-        Bundle mapViewBundle = outState.getBundle(MAP_VIEW_BUNDLE_KEY);
-        if (mapViewBundle == null) {
-            mapViewBundle = new Bundle();
-            outState.putBundle(MAP_VIEW_BUNDLE_KEY, mapViewBundle);
-        }
-
-        mapView.onSaveInstanceState(mapViewBundle);
-    }
+//
 
     @Override
     public void onMapReady(GoogleMap map) {
@@ -92,7 +81,13 @@ public class AdditionalInfoMapViewActivity extends AppCompatActivity implements 
             this.layer = new GeoJsonLayer(gmap, R.raw.country_data, getApplicationContext());
             ArrayList<GeoJsonFeature> features = new ArrayList<>();
             for(GeoJsonFeature f : this.layer.getFeatures()) {
+                GeoJsonPolygonStyle s = new GeoJsonPolygonStyle();
+                s.setFillColor(0x00000000);
+                s.setStrokeColor(0x00000000);
+                f.setPolygonStyle(s);
                 features.add(f);
+            }
+            for(GeoJsonFeature f : features) {
                 this.layer.removeFeature(f);
             }
 

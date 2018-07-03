@@ -30,17 +30,19 @@ public class TrackerMapperAPI {
        return INSTANCE;
     }
 
-    public void executeTrackerMapperRequest(Function<TrackerMapperCompany, Void> onProgressFunc, String... hostNames) {
-         new TrackerMapperRequest(onProgressFunc).execute(hostNames);
+    public void executeTrackerMapperRequest(Function<Void, Void> onCompletionFunc,Function<TrackerMapperCompany, Void> onProgressFunc, String... hostNames) {
+         new TrackerMapperRequest(onCompletionFunc, onProgressFunc).execute(hostNames);
     }
 
     private class TrackerMapperRequest extends AsyncTask<String, TrackerMapperCompany, Void> {
         private Function<TrackerMapperCompany, Void> progressFunction = null;
+        private Function<Void, Void> completionFunction = null;
 
         private TrackerMapperRequest(){}
 
-        public TrackerMapperRequest(Function<TrackerMapperCompany, Void> progressFunction) {
+        public TrackerMapperRequest(Function<Void, Void> completionFunction, Function<TrackerMapperCompany, Void> progressFunction) {
             this.progressFunction = progressFunction;
+            this.completionFunction = completionFunction;
         }
 
         private TrackerMapperCompany requestHostsCompany(String hostName) {
@@ -72,6 +74,12 @@ public class TrackerMapperAPI {
         protected void onProgressUpdate(TrackerMapperCompany... companyNames) {
             super.onProgressUpdate(companyNames);
             this.progressFunction.apply(companyNames[0]);
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+
         }
 
         @Override

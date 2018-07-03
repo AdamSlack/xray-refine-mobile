@@ -62,24 +62,32 @@ public class App implements Comparable<App>,Comparator<App> {
     public void mapXRayHostNames(final Context context) {
         TrackerMapperAPI TMAPI = TrackerMapperAPI.getInstance(context);
         TMAPI.executeTrackerMapperRequest(
-                new Function<TrackerMapperCompany, Void>() {
-                    @Override
-                    public Void apply(TrackerMapperCompany input) {
-                        if(!companies.containsKey(input.companyName)) {
-                            companies.put(input.companyName, input);
-                        }
-                        companies.get(input.companyName).occurrences += 1;
 
+            new Function<Void, Void>() {
+                @Override
+                public Void apply(Void input) {
+                    return null;
+                }
+            },
 
-                        if(!localeCounts.containsKey(input.locale)) {
-                            localeCounts.put(input.locale, 0);
-                        }
-                        localeCounts.put(input.locale, localeCounts.get(input.locale) + 1);
-
-
-                        return null;
+            new Function<TrackerMapperCompany, Void>() {
+                @Override
+                public Void apply(TrackerMapperCompany input) {
+                    if(!companies.containsKey(input.companyName)) {
+                        companies.put(input.companyName, input);
                     }
-                },
+                    companies.get(input.companyName).occurrences += 1;
+
+
+                    if(!localeCounts.containsKey(input.locale)) {
+                        localeCounts.put(input.locale, 0);
+                    }
+                    localeCounts.put(input.locale, localeCounts.get(input.locale) + 1);
+
+
+                    return null;
+                }
+            },
             xRayAppInfo.hosts.toArray(new String[xRayAppInfo.hosts.size()])
         );
     }

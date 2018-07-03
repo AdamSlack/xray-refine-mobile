@@ -92,7 +92,7 @@ public class AppsInspector {
         pird.phoneInfo.retrievalDatetime = new Date();
 
         KoalaAPI koalaAPI = KoalaAPI.getInstance();
-        koalaAPI.executePhoneInformationRequest(context, pird);
+        koalaAPI.executePhoneInformationRequest(pird);
     }
 
     public static void logInteractionInfo(Context context, String appPageViewName, String associatedAppID, String eventType, JSONData additionalData) {

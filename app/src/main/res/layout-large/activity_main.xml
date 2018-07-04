@@ -67,12 +67,31 @@
             android:gravity="center"
             android:numColumns="auto_fit"
             android:stretchMode="columnWidth"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/not_recording_message"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/info_bar"
             android:horizontalSpacing="0dp"
             android:verticalSpacing="0dp"/>
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/not_recording_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorRed"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:padding="5dp">
+
+            <TextView
+                android:id="@+id/not_recording_message_text"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorWhite"
+                android:textSize="18sp"
+                android:text="@string/not_recording_message"
+                android:gravity="center"/>
+
+        </android.support.constraint.ConstraintLayout>
 
         <include layout="@layout/recording_dot" />
 

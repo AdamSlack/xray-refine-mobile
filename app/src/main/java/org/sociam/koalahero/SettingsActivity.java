@@ -6,6 +6,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
@@ -28,6 +29,7 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         appModel = AppModel.getInstance();
 
@@ -74,54 +76,6 @@ public class SettingsActivity extends AppCompatActivity {
         setupDisplayModeListeners();
     }
 
-    public void save(View veiw){
-
-        Intent intent = new Intent();
-
-        // Display Mode
-        int checkedId = radioDisplayModeGroup.getCheckedRadioButtonId();
-        switch( checkedId ){
-            case R.id.view_top_10:
-                intent.putExtra("DISPLAY_MODE","TOP_10");
-                setResult(RESULT_OK,intent);
-                break;
-            case R.id.view_all:
-                intent.putExtra("DISPLAY_MODE","ALL");
-                setResult(RESULT_OK,intent);
-                break;
-            case R.id.view_selected:
-                intent.putExtra("DISPLAY_MODE","SELECTED");
-                setResult(RESULT_OK,intent);
-                break;
-
-        }
-
-        // Sort Mode
-        checkedId = radioSortModeGroup.getCheckedRadioButtonId();
-        switch( checkedId ){
-            case R.id.sort_daily:
-                intent.putExtra("SORT_MODE","DAY");
-                setResult(RESULT_OK,intent);
-                break;
-            case R.id.sort_weekly:
-                intent.putExtra("SORT_MODE","WEEK");
-                setResult(RESULT_OK,intent);
-                break;
-            case R.id.sort_monthly:
-                intent.putExtra("SORT_MODE","MONTH");
-                setResult(RESULT_OK,intent);
-                break;
-
-        }
-
-
-
-        finish();
-    }
-
-
-
-
     public void setupDisplayModeListeners(){
 
         // Setup listeners
@@ -131,10 +85,44 @@ public class SettingsActivity extends AppCompatActivity {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
 
                 if( group.equals(radioDisplayModeGroup)) {
+
+                    switch( checkedId ){
+                        case R.id.view_top_10:
+                            appModel.setDisplayMode(AppDisplayMode.TOP_TEN);
+                            break;
+                        case R.id.view_all:
+                            appModel.setDisplayMode(AppDisplayMode.All);
+                            break;
+                        case R.id.view_selected:
+                            appModel.setDisplayMode(AppDisplayMode.SELECTED);
+                            break;
+
+                    }
+
                     isSortModeGroupEnabled(checkedId == R.id.view_top_10);
 
                 }
 
+            }
+        });
+
+
+        radioSortModeGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
+
+                switch( checkedId ){
+                    case R.id.sort_daily:
+                        appModel.setSortMode(Interval.DAY);
+                        break;
+                    case R.id.sort_weekly:
+                        appModel.setSortMode(Interval.WEEK);
+                        break;
+                    case R.id.sort_monthly:
+                        appModel.setSortMode(Interval.MONTH);
+                        break;
+
+                }
             }
         });
 
@@ -149,5 +137,14 @@ public class SettingsActivity extends AppCompatActivity {
         b.setEnabled(bool);
         b = (RadioButton) findViewById(R.id.sort_monthly);
         b.setEnabled(bool);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

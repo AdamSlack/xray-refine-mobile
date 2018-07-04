@@ -89,17 +89,6 @@
     </RadioGroup>
 
 
-    <Button
-        android:id="@+id/save_settings"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Save Settings"
-        android:onClick="save"
-        android:layout_marginBottom="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
-
 
     <include layout="@layout/recording_dot" />
 

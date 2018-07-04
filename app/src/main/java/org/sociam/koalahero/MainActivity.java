@@ -17,6 +17,7 @@ import android.os.Build;
 import android.os.Process;
 import android.provider.Settings;
 import android.support.constraint.ConstraintLayout;
+import android.support.constraint.ConstraintSet;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -479,9 +480,11 @@ public class MainActivity extends AppCompatActivity {
             snackbar.show();
         }
 
+
     }
 
     private AppAdapter appAdapter;
+
     public void updateGridView(){
 
         TextView message = (TextView) findViewById( R.id.noAppsMessage );
@@ -502,6 +505,22 @@ public class MainActivity extends AppCompatActivity {
                 displayMode.setText("Showing All");
                 break;
         }
+
+        ConstraintLayout cl = (ConstraintLayout) findViewById(R.id.not_recording_message);
+        if( !audioRecorder.isRecording()
+                && ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED ) {
+            cl.setVisibility(View.VISIBLE);
+        } else {
+            cl.setVisibility(View.GONE);
+        }
+        cl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                launchAudioRecordingMenu();
+            }
+        });
+
+        audioRecorder.updateRecordingUI(this);
     }
 
     @Override
@@ -557,9 +576,10 @@ public class MainActivity extends AppCompatActivity {
 
         if( appModel.isReady() ) {
             updateGridView();
+
+
         }
 
-        audioRecorder.updateRecordingUI(this);
     }
 
 

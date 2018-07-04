@@ -50,6 +50,8 @@
         If you are participating in the study, then this is required.
         The app will only record audio when you have pressed the button to start and will stop when you press it again to stop.</string>
 
+    <string name="not_recording_message">Microphone NOT Recording.\nPlease remember to start recording.</string>
+
     <!-- Notifications -->
     <string name="channel_name">Koala Hero</string>
     <string name="channel_description">Notificatiosn from Koala Hero</string>

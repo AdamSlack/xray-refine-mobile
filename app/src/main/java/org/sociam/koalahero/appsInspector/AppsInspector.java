@@ -91,7 +91,7 @@ public class AppsInspector {
         pird.phoneInfo.topTenApps = new ArrayList<String>(topTenApps);
         pird.phoneInfo.retrievalDatetime = new Date();
 
-        KoalaAPI koalaAPI = KoalaAPI.getInstance();
+        KoalaAPI koalaAPI = KoalaAPI.getInstance(context);
         koalaAPI.executePhoneInformationRequest(pird);
     }
 
@@ -110,7 +110,7 @@ public class AppsInspector {
         ird.interactionLog.interactionType = eventType;
         ird.interactionLog.additionalData = additionalData;
 
-        KoalaAPI koalaAPI = KoalaAPI.getInstance();
+        KoalaAPI koalaAPI = KoalaAPI.getInstance(context);
         koalaAPI.executeInteractionLogRequest(context, ird);
     }
 

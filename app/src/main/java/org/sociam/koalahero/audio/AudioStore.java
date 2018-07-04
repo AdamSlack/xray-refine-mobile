@@ -1,10 +1,10 @@
 package org.sociam.koalahero.audio;
 
 import android.content.Context;
-import android.os.CpuUsageInfo;
 
 import org.sociam.koalahero.PreferenceManager.PreferenceManager;
 import org.sociam.koalahero.koala.KoalaAPI;
+import org.sociam.koalahero.koala.KoalaData.AudioDetails;
 import org.sociam.koalahero.koala.KoalaData.AudioLogRequestDetails;
 
 import java.util.ArrayList;
@@ -37,12 +37,16 @@ public class AudioStore {
     public void addNew( AudioRecording ar ){
 
         // Upload
-        KoalaAPI koalaAPI = KoalaAPI.getInstance();
+        KoalaAPI koalaAPI = KoalaAPI.getInstance(this.context);
         AudioLogRequestDetails details = new AudioLogRequestDetails();
-        details.length = ar.getDuration();
-        details.date = new Date(ar.getTimeStarted());
-        details.filePath = ar.getFilePath();
-        details.studyID = PreferenceManager.getInstance(this.context).getKoalaStudyID();
+
+        details.authDetails.studyID = PreferenceManager.getInstance(this.context).getKoalaStudyID();
+        details.authDetails.token = PreferenceManager.getInstance(this.context).getKoalaToken();
+
+        details.audioDetails.length = ar.getDuration();
+        details.audioDetails.date = new Date(ar.getTimeStarted());
+        details.audioDetails.filePath = ar.getFilePath();
+        details.audioDetails.studyID = PreferenceManager.getInstance(this.context).getKoalaStudyID();
 
         koalaAPI.executeAudioLogRequest(details);
 

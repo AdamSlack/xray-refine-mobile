@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
         this.PACKAGE_NAME = getApplicationContext().getPackageName();
         this.preferenceManager = PreferenceManager.getInstance(getApplicationContext());
         this.appModel = AppModel.getInstance();
-        this.koalaAPI = KoalaAPI.getInstance();
+        this.koalaAPI = KoalaAPI.getInstance(getApplicationContext());
         this.audioRecorder = AudioRecorder.getINSTANCE( this );
 
         AppsInspector.logInteractionInfo(

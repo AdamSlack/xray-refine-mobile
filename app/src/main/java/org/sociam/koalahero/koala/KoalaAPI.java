@@ -2,13 +2,12 @@ package org.sociam.koalahero.koala;
 
 import android.arch.core.util.Function;
 import android.content.Context;
-import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.util.JsonReader;
 
 import org.json.JSONException;
-import org.json.JSONObject;
 import org.sociam.koalahero.R;
+import org.sociam.koalahero.koala.KoalaData.AudioDetails;
 import org.sociam.koalahero.koala.KoalaData.AudioLogRequestDetails;
 import org.sociam.koalahero.koala.KoalaData.InteractionRequestDetails;
 import org.sociam.koalahero.koala.KoalaData.PhoneInfoRequestDetails;
@@ -25,14 +24,19 @@ import java.net.URL;
 
 public class KoalaAPI {
     private static KoalaAPI INSTANCE;
+    private Context context;
 
     private KoalaAPI() {
 
     }
 
-    public static KoalaAPI getInstance() {
+    private KoalaAPI(Context context){
+        this.context = context;
+    }
+
+    public static KoalaAPI getInstance(Context context) {
         if (INSTANCE == null) {
-            return new KoalaAPI();
+            return new KoalaAPI(context);
         }
         return INSTANCE;
     }
@@ -71,7 +75,7 @@ public class KoalaAPI {
 
 
     public void executeAudioLogRequest(AudioLogRequestDetails details) {
-
+        new LogAudioFileRequest().execute(details);
     }
 
     private class LogAudioFileRequest extends AsyncTask<AudioLogRequestDetails, Void, Void> {
@@ -81,7 +85,7 @@ public class KoalaAPI {
             AudioLogRequestDetails deets = details[0];
             SuccessResponse res = new SuccessResponse();
             try {
-                URL endpoint = new URL(Resources.getSystem().getString(R.string.xray_koala_phone_info));
+                URL endpoint = new URL(context.getString(R.string.xray_koala_phone_info));
 
                 HttpURLConnection conn = (HttpURLConnection) endpoint.openConnection();
                 conn.setDoInput (true);
@@ -139,7 +143,7 @@ public class KoalaAPI {
             PhoneInfoRequestDetails deets = phoneInfoRequestDetails[0];
             SuccessResponse res = new SuccessResponse();
             try {
-                URL endpoint = new URL(Resources.getSystem().getString(R.string.xray_koala_phone_info));
+                URL endpoint = new URL(context.getString(R.string.xray_koala_phone_info));
 
                 HttpURLConnection conn = (HttpURLConnection) endpoint.openConnection();
                 conn.setDoInput (true);

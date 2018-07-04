@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.AsyncTask;
 
 import android.os.Build;
@@ -347,18 +348,21 @@ public class MainActivity extends AppCompatActivity {
     private void beginLoading() {
         setContentView(R.layout.loading_screen);
         // Set loading screen anim.
-        // Set loading screen anim.
-        WebView animWebView = (WebView) findViewById(R.id.loading_screen_web_view);
-        animWebView.loadUrl("file:///android_asset/Loading_icon.gif");
-        animWebView.setVerticalScrollBarEnabled(false);
-        animWebView.setHorizontalScrollBarEnabled(false);
-        animWebView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v,  MotionEvent event) {
-                return (event.getAction() == MotionEvent.ACTION_MOVE);
-            }
-        });
-        animWebView.setBackgroundColor(Color.TRANSPARENT);
+//        WebView animWebView = (WebView) findViewById(R.id.loading_screen_web_view);
+//        animWebView.loadUrl("file:///android_asset/Loading_icon.gif");
+//        animWebView.setVerticalScrollBarEnabled(false);
+//        animWebView.setHorizontalScrollBarEnabled(false);
+//        animWebView.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v,  MotionEvent event) {
+//                return (event.getAction() == MotionEvent.ACTION_MOVE);
+//            }
+//        });
+//        animWebView.setBackgroundColor(Color.TRANSPARENT);
+        ImageView loadingAnimationImageView = (ImageView) findViewById(R.id.loadingAnimationImageView);
+        loadingAnimationImageView.setBackgroundResource(R.drawable.loading_animation);
+        AnimationDrawable koalaAnim = (AnimationDrawable) loadingAnimationImageView.getBackground();
+        koalaAnim.start();
 
         // Retrieve App Package Names
         final ArrayList<String> appPackageNames = AppsInspector.getInstalledApps(getPackageManager());

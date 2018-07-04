@@ -41,7 +41,7 @@ public class AudioRecorder {
         recordingDir = new File(con.getFilesDir().getPath() + "/recordings/" );
         if( !recordingDir.exists()) recordingDir.mkdir();
 
-        audioStore = AudioStore.getInstance();
+        audioStore = AudioStore.getInstance(con);
     }
 
     private MediaRecorder recorder;

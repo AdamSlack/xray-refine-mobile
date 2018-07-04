@@ -19,6 +19,7 @@
     <string name="xray_koala_auth">http://hapax.xyz/xray-koala/auth</string>
     <string name="xray_koala_interaction">http://hapax.xyz/xray-koala/koala/interaction</string>
     <string name="xray_koala_phone_info">http://hapax.xyz/xray-koala/koala/phone_info</string>
+    <string name="xray_koala_audio">http://hapax.xyz/xray-koala/koala/audio</string>
 
     <!-- Loading Screen -->
     <string name="loading_screen_title">Koala Hero</string>

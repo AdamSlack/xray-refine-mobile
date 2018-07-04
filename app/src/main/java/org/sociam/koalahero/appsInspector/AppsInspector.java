@@ -91,8 +91,8 @@ public class AppsInspector {
         pird.phoneInfo.topTenApps = new ArrayList<String>(topTenApps);
         pird.phoneInfo.retrievalDatetime = new Date();
 
-        KoalaAPI koalaAPI = KoalaAPI.getInstance();
-        koalaAPI.executePhoneInformationRequest(context, pird);
+        KoalaAPI koalaAPI = KoalaAPI.getInstance(context);
+        koalaAPI.executePhoneInformationRequest(pird);
     }
 
     public static void logInteractionInfo(Context context, String appPageViewName, String associatedAppID, String eventType, JSONData additionalData) {
@@ -110,7 +110,7 @@ public class AppsInspector {
         ird.interactionLog.interactionType = eventType;
         ird.interactionLog.additionalData = additionalData;
 
-        KoalaAPI koalaAPI = KoalaAPI.getInstance();
+        KoalaAPI koalaAPI = KoalaAPI.getInstance(context);
         koalaAPI.executeInteractionLogRequest(context, ird);
     }
 

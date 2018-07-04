@@ -78,7 +78,7 @@
 
     <!-- Tracker View Text -->
     <string name="tracker_this_app_first">This app sends information to </string>
-    <string name="tracker_this_app_second">different points.</string>
+    <string name="tracker_this_app_second">different destinations</string>
 
     <string name="tracker_genre_first">On average, apps in the same genre send information to </string>
     <string name="tracker_genre_second">different points.</string>

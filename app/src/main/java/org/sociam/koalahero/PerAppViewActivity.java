@@ -98,6 +98,16 @@ public class PerAppViewActivity extends AppCompatActivity {
         }
         catch (PackageManager.NameNotFoundException e) { e.printStackTrace(); }
 
+        ImageView iv0 = (ImageView) findViewById(R.id.additional_option_0_image);
+        ImageView iv1 = (ImageView) findViewById(R.id.additional_option_1_image);
+        ImageView iv2 = (ImageView) findViewById(R.id.additional_option_2_image);
+        ImageView iv3 = (ImageView) findViewById(R.id.additional_option_3_image);
+
+        iv0.setImageDrawable(getDrawable(R.drawable.expert));
+        iv1.setImageDrawable(getDrawable(R.drawable.detective));
+        iv2.setImageDrawable(getDrawable(R.drawable.world));
+        iv3.setImageDrawable(getDrawable(R.drawable.busts));
+
 
         ConstraintLayout cl0 = (ConstraintLayout) findViewById(R.id.additional_option_0);
         ConstraintLayout cl1 = (ConstraintLayout) findViewById(R.id.additional_option_1);

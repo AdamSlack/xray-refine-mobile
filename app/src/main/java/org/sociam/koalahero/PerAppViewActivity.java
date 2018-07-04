@@ -5,13 +5,12 @@ import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
-import android.media.Rating;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -23,12 +22,10 @@ import org.sociam.koalahero.additionalInfoActivities.AdditionalInfoTrackersActiv
 import org.sociam.koalahero.appsInspector.App;
 import org.sociam.koalahero.audio.AudioRecorder;
 import org.sociam.koalahero.gridAdapters.AdditionalInformationAdapter;
-import org.sociam.koalahero.gridAdapters.AppAdapter;
 import org.sociam.koalahero.appsInspector.AppModel;
+import org.sociam.koalahero.gridAdapters.HeightAdjustingGridView;
 import org.sociam.koalahero.xray.XRayAppInfo;
-import org.w3c.dom.Text;
 
-import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -102,55 +99,93 @@ public class PerAppViewActivity extends AppCompatActivity {
         catch (PackageManager.NameNotFoundException e) { e.printStackTrace(); }
 
 
-        // Additional Information
-        List<String> additionalInfoCategories = new ArrayList<String>(); // Add or remove as appropriate
-        additionalInfoCategories.add("Experts Say");
-        additionalInfoCategories.add("Trackers");
-        additionalInfoCategories.add("MapView");
-        additionalInfoCategories.add("ForParents");
+        ConstraintLayout cl0 = (ConstraintLayout) findViewById(R.id.additional_option_0);
+        ConstraintLayout cl1 = (ConstraintLayout) findViewById(R.id.additional_option_1);
+        ConstraintLayout cl2 = (ConstraintLayout) findViewById(R.id.additional_option_2);
+        ConstraintLayout cl3 = (ConstraintLayout) findViewById(R.id.additional_option_3);
 
-
-        final String[] categories = new String[additionalInfoCategories.size()];
-        for( int i = 0 ; i < categories.length; i++ )
-            categories[i] = additionalInfoCategories.get(i);
-
-        GridView gridview = (GridView) findViewById(R.id.additionalInfoGridView);
-        gridview.setAdapter(new AdditionalInformationAdapter(this,categories));
-
-        gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View v,
-                                    int position, long id) {
-
-                System.out.println("Position: " + position);
-
-                String chosen = categories[position];
-
-                // Launch Per App View Activity
+        cl0.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
                 Intent intent = new Intent(context, AdditionalInfoCMSActivity.class);
-                boolean start = true;
-
-                switch( chosen ){
-                    case "Experts Say":
-                        intent = new Intent(context, AdditionalInfoCMSActivity.class);
-                        break;
-                    case "Trackers":
-                        intent = new Intent(context, AdditionalInfoTrackersActivity.class);
-                        break;
-                    case "MapView":
-                        intent = new Intent(context, AdditionalInfoMapViewActivity.class);
-                        break;
-                    case "ForParents":
-                        intent = new Intent(context, AdditionalInfoForParentsActivity.class);
-                        break;
-                    default:
-                        start = false;
-                }
-
-                if( start ){
-                    startActivity(intent);
-                }
-
+                startActivity(intent);
             }
         });
+
+        cl1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, AdditionalInfoTrackersActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        cl2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, AdditionalInfoMapViewActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        cl3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, AdditionalInfoForParentsActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
+        // Additional Information
+//        List<String> additionalInfoCategories = new ArrayList<String>(); // Add or remove as appropriate
+//        additionalInfoCategories.add("Experts Say");
+//        additionalInfoCategories.add("Trackers");
+//        additionalInfoCategories.add("MapView");
+//        additionalInfoCategories.add("ForParents");
+//
+//
+//        final String[] categories = new String[additionalInfoCategories.size()];
+//        for( int i = 0 ; i < categories.length; i++ )
+//            categories[i] = additionalInfoCategories.get(i);
+//
+//        HeightAdjustingGridView gridview = (HeightAdjustingGridView) findViewById(R.id.additionalInfoGridView);
+//        gridview.setAdapter(new AdditionalInformationAdapter(this,categories));
+//
+//        gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            public void onItemClick(AdapterView<?> parent, View v,
+//                                    int position, long id) {
+//
+//                System.out.println("Position: " + position);
+//
+//                String chosen = categories[position];
+//
+//                // Launch Per App View Activity
+//                Intent intent = new Intent(context, AdditionalInfoCMSActivity.class);
+//                boolean start = true;
+//
+//                switch( chosen ){
+//                    case "Experts Say":
+//                        intent = new Intent(context, AdditionalInfoCMSActivity.class);
+//                        break;
+//                    case "Trackers":
+//                        intent = new Intent(context, AdditionalInfoTrackersActivity.class);
+//                        break;
+//                    case "MapView":
+//                        intent = new Intent(context, AdditionalInfoMapViewActivity.class);
+//                        break;
+//                    case "ForParents":
+//                        intent = new Intent(context, AdditionalInfoForParentsActivity.class);
+//                        break;
+//                    default:
+//                        start = false;
+//                }
+//
+//                if( start ){
+//                    startActivity(intent);
+//                }
+//
+//            }
+//        });
     }
 }

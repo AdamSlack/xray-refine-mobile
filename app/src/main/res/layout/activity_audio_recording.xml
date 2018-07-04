@@ -41,7 +41,7 @@
             android:layout_marginEnd="4dp"
             android:layout_marginTop="0dp"
             android:text="Delete Local Recordings"
-            android:textSize="10dp"
+            android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/delete_all_button"
             app:layout_constraintTop_toTopOf="parent" />
@@ -53,6 +53,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="No Audio Recordings"
+        android:textSize="18sp"
         app:layout_constraintTop_toBottomOf="@id/audio_bar"
         android:gravity="center"
         android:padding="20dp"
@@ -83,6 +84,7 @@
             android:padding="5dp"
             android:text="@string/audio_permission_message"
             android:textColor="@color/colorWhite"
+            android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -117,6 +119,7 @@
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
             android:paddingTop="5dp"
+            android:textSize="14sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:text="Audio Title"/>
@@ -136,6 +139,7 @@
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textSize="14sp"
             app:layout_constraintTop_toBottomOf="@id/audio_player_title"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -154,18 +158,21 @@
 
         <ImageView
             android:id="@+id/record_button"
-            android:layout_width="wrap_content"
-            android:layout_height="120dp"
-            app:layout_constraintStart_toStartOf="parent"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="14dp"
+            app:layout_constraintBottom_toBottomOf="@+id/recording_time"
             app:layout_constraintEnd_toEndOf="parent"
-            android:paddingBottom="10dp"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/recording_time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="0dp"
-            android:textSize="14dp"
+            android:textSize="14sp"
             android:gravity="center"
             android:text="0:00"
             android:textColor="@color/colorWhite"

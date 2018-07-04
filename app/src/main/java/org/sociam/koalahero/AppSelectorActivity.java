@@ -19,6 +19,7 @@ import org.sociam.koalahero.audio.AudioRecorder;
 import org.sociam.koalahero.gridAdapters.AdditionalInformationAdapter;
 
 import org.sociam.koalahero.gridAdapters.SelectionAdapter;
+import org.w3c.dom.Text;
 
 public class AppSelectorActivity extends AppCompatActivity {
 
@@ -40,6 +41,15 @@ public class AppSelectorActivity extends AppCompatActivity {
         final Context context = this;
 
         AudioRecorder.getINSTANCE(this).updateRecordingUI(this);
+
+        TextView unselectAll = (TextView) findViewById(R.id.unselect_all);
+        unselectAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                appModel.unselectAll();
+                updateGrid();
+            }
+        });
 
 
         GridView gridview = (GridView) findViewById(R.id.selectionGridView);
@@ -110,4 +120,5 @@ public class AppSelectorActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
 }

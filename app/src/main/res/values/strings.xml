@@ -55,6 +55,7 @@
 
     <!-- App Inspect View -->
     <string name="developed_by">Developed By:</string>
+    <string name="play_store_details">Google Play Store Information</string>
     <string name="xray_rating">Rating</string>
     <string name="number_of_downloads">Downloads</string>
     <string name="pegi_label">Age Rating</string>

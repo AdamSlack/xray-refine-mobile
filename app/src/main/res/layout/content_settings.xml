@@ -16,7 +16,7 @@
         android:text="@string/view_radio_group"
         app:layout_constraintTop_toTopOf="parent"
         android:padding="10dp"
-        android:textSize="20dp"/>
+        android:textSize="18sp"/>
 
     <RadioGroup
         android:id="@+id/settings_display_mode"
@@ -56,7 +56,7 @@
         android:text="@string/sort_radio_group"
         app:layout_constraintTop_toBottomOf="@id/settings_display_mode"
         android:padding="10dp"
-        android:textSize="20dp"/>
+        android:textSize="18sp"/>
 
     <RadioGroup
         android:id="@+id/settings_sort_mode"

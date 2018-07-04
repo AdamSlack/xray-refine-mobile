@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:text="APP NAME"
         android:gravity="center"
-        android:textSize="10dp"
+        android:textSize="10sp"
 
         />
 

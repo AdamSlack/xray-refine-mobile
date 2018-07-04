@@ -131,6 +131,14 @@ public class AppModel {
         }
     }
 
+    public void unselectAll(){
+
+        for( String key: installedApps.keySet()){
+            installedApps.get(key).setSelectedToDisplay(false);
+        }
+
+    }
+
     // === Top 10 Apps ===
 
     public ArrayList<String> getTopTen(){

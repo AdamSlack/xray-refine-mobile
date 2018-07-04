@@ -52,7 +52,7 @@
         android:layout_marginStart="0dp"
         android:gravity="center"
         android:text="APP NAME"
-        android:textSize="10dp"
+        android:textSize="10sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/imageContainer" />

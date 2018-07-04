@@ -82,4 +82,5 @@ public class AdditionalInformationAdapter extends BaseAdapter {
         return grid;
     }
 
+
 }

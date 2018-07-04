@@ -21,7 +21,7 @@ public class AudioLogRequestDetails extends JSONData{
         JSONObject json = new JSONObject();
 
         json.put("auth_details", this.authDetails.toJSONData());
-        json.put("interaction", this.audioDetails.toJSONData());
+        json.put("audio_info", this.audioDetails.toJSONData());
 
         return json;
     }

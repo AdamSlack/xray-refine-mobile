@@ -85,7 +85,7 @@ public class KoalaAPI {
             AudioLogRequestDetails deets = details[0];
             SuccessResponse res = new SuccessResponse();
             try {
-                URL endpoint = new URL(context.getString(R.string.xray_koala_phone_info));
+                URL endpoint = new URL(context.getString(R.string.xray_koala_audio));
 
                 HttpURLConnection conn = (HttpURLConnection) endpoint.openConnection();
                 conn.setDoInput (true);

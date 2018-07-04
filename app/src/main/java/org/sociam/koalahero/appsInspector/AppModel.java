@@ -194,6 +194,22 @@ public class AppModel {
         return alphabeticalIndex;
     }
 
+    private String[] usageIndex;
+    public void createUsageIndex(){
+        List<App> apps = new ArrayList<App>(installedApps.values());
+        Collections.sort(apps);
+        Collections.reverse(apps);
+
+        usageIndex = new String[ apps.size() ];
+        for( int i = 0 ; i < usageIndex.length; i++ ){
+            usageIndex[i] = apps.get(i).getxRayAppInfo().app;
+        }
+    }
+
+    public String[] getUsageIndex(){
+        return usageIndex;
+    }
+
     // === Index for Grid ===
     public void index(){
 

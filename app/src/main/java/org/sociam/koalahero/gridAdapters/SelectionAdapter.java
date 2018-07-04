@@ -38,27 +38,15 @@ public class SelectionAdapter extends BaseAdapter {
         this.appModel = appModel;
         this.activity = activity;
 
-        try {
-            imsTick = context.getAssets().open("circleTick.png");
-            dTick = Drawable.createFromStream(imsTick, null);
-            imsNoTick = context.getAssets().open("circleNoTick.png");
-            dNoTick = Drawable.createFromStream(imsNoTick, null);
-        } catch (IOException e){
-            e.printStackTrace();
-        }
     }
 
-    private InputStream imsTick;
-    private InputStream imsNoTick;
-    private Drawable dTick;
-    private Drawable dNoTick;
 
     public int getCount() {
         return appModel.getTotalNumberApps();
     }
 
     public Object getItem(int position) {
-        return appModel.getAllInstalledApps().get(position);
+        return appModel.getApp(appModel.getUsageIndex()[position]);
     }
 
     public long getItemId(int position) {
@@ -67,13 +55,12 @@ public class SelectionAdapter extends BaseAdapter {
 
     public View getView(final int position, View convertView, ViewGroup parent) {
 
-        App app = appModel.getApp(appModel.getAlphabeticalIndex()[position]);
+        App app = appModel.getApp(appModel.getUsageIndex()[position]);
         //App app = appModel.getAllInstalledApps().get(position);
         XRayAppInfo xRayAppInfo = app.getxRayAppInfo();
 
         ImageView appIconView, selectedIcon;
         TextView appNameView;
-        CheckBox selectedBox;
 
         View grid;
         if( convertView == null) {
@@ -100,16 +87,14 @@ public class SelectionAdapter extends BaseAdapter {
 
             // Tick
             selectedIcon =  (ImageView) grid.findViewById(R.id.selected_icon);
-
             if( app.isSelectedToDisplay() )
-                selectedIcon.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_check_box_checked));
+                selectedIcon.setImageResource(R.drawable.circle_tick);
             else
-                selectedIcon.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_check_box_outline_blank));
+                selectedIcon.setImageResource(R.drawable.circle_no_tick);
 
 
         }
         catch (PackageManager.NameNotFoundException e) { e.printStackTrace(); }
-
 
         return grid;
     }

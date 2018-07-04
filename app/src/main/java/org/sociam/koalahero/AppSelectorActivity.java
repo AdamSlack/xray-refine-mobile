@@ -57,7 +57,8 @@ public class AppSelectorActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
 
-                App app = appModel.getApp(appModel.getAlphabeticalIndex()[position]);
+                App app = appModel.getApp(appModel.getUsageIndex()[position]);
+
 
                 boolean newToDisplay = !app.isSelectedToDisplay();
 

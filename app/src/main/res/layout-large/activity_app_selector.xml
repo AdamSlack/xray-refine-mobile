@@ -27,7 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="0 of 10 Selected"
-            android:textSize="12sp"
+            android:textSize="18sp"
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
@@ -35,7 +35,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Ordered By Most Used"
-            android:textSize="12sp"
+            android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"/>
 
     </android.support.constraint.ConstraintLayout>
@@ -64,7 +64,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Unselect All"
-            android:textSize="14sp" />
+            android:textSize="22sp" />
 
     </android.support.constraint.ConstraintLayout>
 

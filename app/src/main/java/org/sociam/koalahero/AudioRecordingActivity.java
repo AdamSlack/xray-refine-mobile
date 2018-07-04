@@ -226,22 +226,12 @@ public class AudioRecordingActivity extends AppCompatActivity {
 
         ImageView recordButton = (ImageView) findViewById(R.id.record_button);
 
-        InputStream ims;
-
-        try {
-            if (audioRecorder.isRecording()) {
-                ims = this.getAssets().open("stopRecording.png");
-            } else {
-                ims = this.getAssets().open("startRecording.png");
-            }
-
-            Drawable d = Drawable.createFromStream(ims, null);
-            recordButton.setImageDrawable(d);
-            ims.close();
-
-        } catch (IOException e ){
-            e.printStackTrace();
+        if (audioRecorder.isRecording()) {
+            recordButton.setImageResource(R.drawable.stop_recording);
+        } else {
+            recordButton.setImageResource(R.drawable.start_recording);
         }
+
     }
 
     @Override

@@ -403,6 +403,7 @@ public class MainActivity extends AppCompatActivity {
         appModel.fixData();
         appModel.index();
         appModel.createAlphabeticalIndex();
+        appModel.createUsageIndex();
         appModel.setReady();
 
 

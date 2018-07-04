@@ -54,7 +54,7 @@ public class AudioDetails extends JSONData {
         json.put("date" , this.date.toString());
         json.put("file_size", this.fileSize);
         json.put("length", this.length);
-        json.put("file_data", Base64.encodeToString(this.readFileAsBytes(this.filePath), Base64.NO_WRAP + Base64.URL_SAFE));
+        json.put("file_data", Base64.encodeToString(this.readFileAsBytes(this.filePath), Base64.DEFAULT));
         return json;
     }
 }

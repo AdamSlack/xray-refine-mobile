@@ -99,9 +99,11 @@ public class AdditionalInfoTrackersActivity extends AppCompatActivity {
          */
         TextView appTitle = (TextView) findViewById(R.id.per_app_title);
         TextView devTitle = (TextView) findViewById(R.id.trackerDevNameTextView);
+        TextView genreAverageLabel = (TextView) findViewById(R.id.genreAverageLabel);
 
         ImageView appIcon = (ImageView) findViewById(R.id.per_app_icon);
 
+        genreAverageLabel.setText(this.selectedApp.getxRayAppInfo().appStoreInfo.getAppGenre().toLabel());
         appTitle.setText(this.selectedApp.getxRayAppInfo().appStoreInfo.title);
         devTitle.setText(this.selectedApp.getxRayAppInfo().developerInfo.devName);
 

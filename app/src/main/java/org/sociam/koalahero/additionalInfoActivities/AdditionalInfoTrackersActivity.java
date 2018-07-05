@@ -75,7 +75,6 @@ public class AdditionalInfoTrackersActivity extends AppCompatActivity {
         ImageView ratingIconIV = (ImageView) findViewById(R.id.hostRatingImage);
         TextView scoreCommentTV = (TextView) findViewById(R.id.scoreCommentTV);
 
-
         Integer genreAverageHostCount = (int) thisAppsGenreInfo.genreAvgHosts;
         Integer thisAppHostCount = hostNames.size();
 
@@ -110,15 +109,31 @@ public class AdditionalInfoTrackersActivity extends AppCompatActivity {
         /**
          *  Barchart Setup
          */
+
+        double avgGenreHosts = 0;
+        double maxGenreAvg = 0;
+        for(AppGenreHostInfo genre : appGenreHostInfos.values()) {
+            double currAvg = genre.genreAvgHosts;
+
+            avgGenreHosts += currAvg;
+            if(currAvg > maxGenreAvg) {
+                maxGenreAvg = currAvg;
+            }
+        }
+        if(thisAppHostCount > maxGenreAvg) {
+            maxGenreAvg = thisAppHostCount;
+        }
+        avgGenreHosts = avgGenreHosts / appGenreHostInfos.keySet().size();
+
         ArrayList<Integer> barValues = new ArrayList<>();
         barValues.add(thisAppHostCount);
         barValues.add(genreAverageHostCount );
-        barValues.add(0);
+        barValues.add((int) avgGenreHosts);
 
-        ArrayList<String> axisLabels = new ArrayList<String>(Arrays.asList("This App", "Genre Avg", "All Apps Avg"));
+        ArrayList<String> axisLabels = new ArrayList<String>(Arrays.asList("This App", "Genre Average", "Average of all Apps"));
 
         BarData bd = this.buildBarData(barValues, axisLabels);
-        this.buildHostBarChart(bd, axisLabels);
+        this.buildHostBarChart(bd, axisLabels, (int) maxGenreAvg);
 
         /**
          * Set information read from device
@@ -135,7 +150,7 @@ public class AdditionalInfoTrackersActivity extends AppCompatActivity {
         }
     }
 
-    private void buildHostBarChart(BarData barData, final ArrayList<String> labels){
+    private void buildHostBarChart(BarData barData, final ArrayList<String> labels, int maxValue){
         BarChart barChart = (BarChart) findViewById(R.id.hostBarChart);
         barChart.setData(barData);
         barChart.setFitBars(true);
@@ -145,6 +160,10 @@ public class AdditionalInfoTrackersActivity extends AppCompatActivity {
                 return labels.get((int) value);
             }
         });
+
+        barChart.getAxisLeft().setAxisMaximum(maxValue);
+        barChart.getAxisLeft().setAxisMinimum(0);
+        barChart.getAxisRight().setEnabled(false);
         barChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
         barChart.getXAxis().setDrawLabels(true);
         barChart.getXAxis().setDrawGridLines(false);

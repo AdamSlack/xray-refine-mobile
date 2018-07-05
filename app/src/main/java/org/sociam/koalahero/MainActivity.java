@@ -371,7 +371,7 @@ public class MainActivity extends AppCompatActivity {
         // Init Progress Bar.
         pb = (ProgressBar) findViewById(R.id.loading_screen_progress_bar);
         pb.setMax(appPackageNames.size());
-        pb.setProgressTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary)));
+        pb.setProgressTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorWhite)));
 
         // Init Loading Message
         loading_bar_message = (TextView) findViewById(R.id.loading_bar_message);

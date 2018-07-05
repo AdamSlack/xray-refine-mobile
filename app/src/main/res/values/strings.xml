@@ -26,7 +26,7 @@
     <string name="loading_screen_message">Loading Apps</string>
 
     <!-- Drawer Menu -->
-    <string name="drawer_header_title">Header Title</string>
+    <string name="drawer_header_title">- Koala Hero</string>
     <string name="nav_app_selection">Select Apps</string>
 
     <string name="recording_not_active">Click to Record</string>

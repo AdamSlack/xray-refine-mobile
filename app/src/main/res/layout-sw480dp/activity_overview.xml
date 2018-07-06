@@ -32,6 +32,8 @@
                 android:text="@string/where_data_sent"
                 android:padding="5dp"
                 android:textSize="14sp"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
                 android:gravity="center"/>
 
             <com.github.mikephil.charting.charts.BarChart
@@ -133,6 +135,14 @@
                     />
 
             </android.support.constraint.ConstraintLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/map_data_sent"
+                android:textSize="14sp"
+                android:padding="8dp"
+                android:gravity="center"/>
 
             <WebView
                 android:id="@+id/web_view"

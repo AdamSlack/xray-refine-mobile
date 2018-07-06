@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import org.sociam.koalahero.appsInspector.App;
 import org.sociam.koalahero.appsInspector.AppModel;
 import org.sociam.koalahero.appsInspector.CountryCodeConverter;
+import org.sociam.koalahero.charts.DecimalRemover;
 import org.sociam.koalahero.xray.AppGenre;
 import org.sociam.koalahero.xray.AppGenreHostInfo;
 import org.sociam.koalahero.xray.XRayAPI;
@@ -31,6 +32,7 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 
 
 import java.lang.reflect.Field;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -184,6 +186,7 @@ public class OverviewActivity extends AppCompatActivity {
 
     private void buildHostBarChart(BarData barData, final ArrayList<String> labels, int maxValue){
         BarChart barChart = (BarChart) findViewById(R.id.bar_chart);
+        barData.setValueFormatter(new DecimalRemover(new DecimalFormat("###,###,###")));
         barChart.setData(barData);
         barChart.setFitBars(true);
         barChart.getXAxis().setValueFormatter(new IAxisValueFormatter() {
@@ -224,4 +227,5 @@ public class OverviewActivity extends AppCompatActivity {
 
         return bd;
     }
+
 }

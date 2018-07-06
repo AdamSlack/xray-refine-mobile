@@ -22,6 +22,7 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 import org.sociam.koalahero.R;
 import org.sociam.koalahero.appsInspector.App;
 import org.sociam.koalahero.appsInspector.AppModel;
+import org.sociam.koalahero.charts.DecimalRemover;
 import org.sociam.koalahero.trackerMapper.TrackerMapperCompany;
 import org.sociam.koalahero.xray.AppGenre;
 import org.sociam.koalahero.xray.AppGenreHostInfo;
@@ -30,6 +31,7 @@ import org.sociam.koalahero.xray.XRayJsonParser;
 import org.w3c.dom.Text;
 
 import java.io.Console;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -155,6 +157,7 @@ public class AdditionalInfoTrackersActivity extends AppCompatActivity {
 
     private void buildHostBarChart(BarData barData, final ArrayList<String> labels, int maxValue){
         BarChart barChart = (BarChart) findViewById(R.id.hostBarChart);
+        barData.setValueFormatter(new DecimalRemover(new DecimalFormat("###,###,###")));
         barChart.setData(barData);
         barChart.setFitBars(true);
         barChart.getXAxis().setValueFormatter(new IAxisValueFormatter() {

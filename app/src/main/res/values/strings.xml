@@ -91,10 +91,13 @@
 
     <!-- Overview -->
     <string name="profile_for">My App Privacy Profile</string>
-    <string name="where_data_sent">How many places are my apps sending my data to?</string>
+    <string name="where_data_sent">How many different places are my apps sending my data to?</string>
+    <string name="map_data_sent">How many different places in each country are my apps sending my data to?</string>
+
+    <string name="goto_overview">See Apps Overview</string>
 
     <!-- Map -->
-    <string name="places_data_sent">Number of places data is sent to</string>
+    <string name="places_data_sent">How many different places in each country is data sent to?</string>
 
 
     <!-- TODO: Remove or change this placeholder text -->

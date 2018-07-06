@@ -543,6 +543,13 @@ public class MainActivity extends AppCompatActivity {
             snackbar.show();
         }
 
+        Button overviewButton = (Button) findViewById(R.id.goto_overview);
+        overviewButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                launchOverview();
+            }
+        });
 
     }
 

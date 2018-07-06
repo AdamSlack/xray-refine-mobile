@@ -14,14 +14,37 @@
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:theme="@style/ToolBarStyle" />
 
-    <include layout="@layout/recording_dot" />
-    <com.google.android.gms.maps.MapView
-        android:id="@+id/mapView"
-        android:layout_width="0dp"
+
+    <!--<com.google.android.gms.maps.MapView-->
+        <!--android:id="@+id/mapView"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="0dp"-->
+        <!--app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--app:layout_constraintEnd_toEndOf="parent"-->
+        <!--app:layout_constraintStart_toStartOf="parent"-->
+        <!--app:layout_constraintTop_toBottomOf="@+id/toolbar" />-->
+
+    <TextView
+        android:id="@+id/places_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/places_data_sent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textSize="14sp"
+        android:padding="5dp"/>
+
+
+    <WebView
+        android:id="@+id/map_view"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/places_message"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+        app:layout_constraintEnd_toEndOf="parent"></WebView>
+
+    <include layout="@layout/recording_dot" />
 
 </android.support.constraint.ConstraintLayout>

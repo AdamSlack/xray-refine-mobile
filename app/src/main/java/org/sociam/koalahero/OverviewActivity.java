@@ -161,10 +161,6 @@ public class OverviewActivity extends AppCompatActivity {
             }
         }
 
-        System.out.println(rows);
-
-
-
         String data = "";
 
         data += "<html><head><script type='text/javascript' src='https://www.google.com/jsapi'></script> <script type='text/javascript'> google.load('visualization', '1', {'packages': ['geochart']});google.setOnLoadCallback(drawRegionsMap);";

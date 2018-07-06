@@ -90,6 +90,9 @@
     <!-- Overview -->
     <string name="profile_for">Privacy Profile For</string>
 
+    <!-- Map -->
+    <string name="places_data_sent">Number of places data is sent to</string>
+
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

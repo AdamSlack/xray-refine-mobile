@@ -34,7 +34,6 @@ public class CSMGuidanceAdapter extends ArrayAdapter {
         }
 
         TextView categoryName = (TextView) convertView.findViewById(R.id.guidanceTitleTextView);
-        TextView categoryRating = (TextView) convertView.findViewById(R.id.guidanceCategoryRatingTextView);
         ImageView guidanceRatingIcon = (ImageView) convertView.findViewById(R.id.guidanceRatingIcon);
         TextView ratingLabelDescription = (TextView) convertView.findViewById(R.id.ratingLabelDescription);
 
@@ -42,7 +41,6 @@ public class CSMGuidanceAdapter extends ArrayAdapter {
         String description = guidance.description;
 
         categoryName.setText(this.getGuidanceCategoryString(guidance.category));
-        categoryRating.setText(String.valueOf(rating));
 
         if(rating == 5) {
             guidanceRatingIcon.setImageDrawable(convertView.getContext().getDrawable(R.drawable.happy_face));

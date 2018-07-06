@@ -40,6 +40,7 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:text="@string/profile_for"
+                    android:textSize="14sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -136,6 +137,13 @@
 
             </android.support.constraint.ConstraintLayout>
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/where_data_sent"
+                android:padding="5dp"
+                android:textSize="14sp"
+                android:gravity="center"/>
 
             <com.github.mikephil.charting.charts.BarChart
                 android:id="@+id/bar_chart"

@@ -59,7 +59,6 @@ public class AudioDetails extends JSONData {
 
 
         byte[] fileData = Base64.encode(this.readFileAsBytes(this.filePath), Base64.DEFAULT);
-        System.out.println(new String(fileData));
 
         json.put("file_data", new String(fileData));
         return json;

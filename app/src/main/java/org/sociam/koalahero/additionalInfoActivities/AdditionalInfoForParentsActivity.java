@@ -18,6 +18,9 @@ import org.sociam.koalahero.gridAdapters.CompanyListingAdapter;
 import org.sociam.koalahero.trackerMapper.TrackerMapperAPI;
 import org.sociam.koalahero.trackerMapper.TrackerMapperCompany;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class AdditionalInfoForParentsActivity extends AppCompatActivity {
@@ -35,8 +38,20 @@ public class AdditionalInfoForParentsActivity extends AppCompatActivity {
         this.appModel = AppModel.getInstance();
         this.packageName = this.appModel.selectedAppPackageName;
         this.app = this.appModel.getApp(this.packageName);
-        this.companies = this.app.companies.values()
-                .toArray(new TrackerMapperCompany[this.app.companies.values().size()]);
+
+        ArrayList<TrackerMapperCompany> companyArrayList = new ArrayList<>(this.app.companies.values());
+
+        Collections.sort(
+                companyArrayList,
+                new Comparator<TrackerMapperCompany>() {
+                    @Override
+                    public int compare(TrackerMapperCompany company, TrackerMapperCompany t1) {
+                        return company.categories.size() > t1.categories.size() ? -1 : 1;
+                    }
+                }
+        );
+
+        this.companies = companyArrayList.toArray(new TrackerMapperCompany[companyArrayList.size()]);
 
         AudioRecorder.getINSTANCE(this).updateRecordingUI(this);
 

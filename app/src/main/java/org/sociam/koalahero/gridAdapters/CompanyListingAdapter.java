@@ -60,16 +60,45 @@ public class CompanyListingAdapter extends BaseAdapter {
         companyNameTV = (TextView) grid.findViewById(R.id.companyNameTV);
         companyNameTV.setText(company.companyName);
 
+        // Flag Icon
+
+        TextView companyViewUnicode = (TextView) grid.findViewById(R.id.companyViewUnicode);
+        System.out.println(company.locale);
+        if(company.locale != null && company.locale.length() == 2) {
+            companyViewUnicode.setText(this.codeToEmojiString(company.locale.toUpperCase()));
+        }
+        else {
+            companyViewUnicode.setText("☠");
+        }
+
+
+        // Purposes.
         RecyclerView rv = (RecyclerView) grid.findViewById(R.id.companyPurposeListView);
 
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
         rv.setLayoutManager(mLayoutManager);
 
-        CompanyPurposeListAdapter cpla = new CompanyPurposeListAdapter(company.categories.toArray(new String[company.categories.size()]));
+        String[] purposeArray = company.categories.toArray(new String[company.categories.size()+1]);
+        if(purposeArray[0] == null) {
+            purposeArray[0] = "Unknown";
+        }
+        CompanyPurposeListAdapter cpla = new CompanyPurposeListAdapter(purposeArray);
         rv.setAdapter(cpla);
 
 
         return grid;
     }
+
+    public String codeToEmojiString(String code) {
+        // StackOverflow - https://stackoverflow.com/questions/42234666/get-emoji-flag-by-country-code
+        int flagOffset = 0x1F1E6;
+        int asciiOffset = 0x41;
+
+        int firstChar = Character.codePointAt(code, 0) - asciiOffset + flagOffset;
+        int secondChar = Character.codePointAt(code, 1) - asciiOffset + flagOffset;
+
+        return new String(Character.toChars(firstChar))  + new String(Character.toChars(secondChar));
+    }
+
 }
 

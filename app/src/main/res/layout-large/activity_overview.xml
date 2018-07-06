@@ -137,7 +137,7 @@
             <WebView
                 android:id="@+id/web_view"
                 android:layout_width="match_parent"
-                android:layout_height="400dp"
+                android:layout_height="500dp"
                 android:layout_marginBottom="8dp"></WebView>
 
 

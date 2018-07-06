@@ -112,30 +112,31 @@ public class AdditionalInfoTrackersActivity extends AppCompatActivity {
          *  Barchart Setup
          */
 
-        double avgGenreHosts = 0;
-        double maxGenreAvg = 0;
-        for(AppGenreHostInfo genre : appGenreHostInfos.values()) {
-            double currAvg = genre.genreAvgHosts;
+        int maxChartValue = 0;
 
-            avgGenreHosts += currAvg;
-            if(currAvg > maxGenreAvg) {
-                maxGenreAvg = currAvg;
-            }
+        int totalApps = 0;
+        int totalHosts = 0;
+        for( AppGenre appGenre : appGenreHostInfos.keySet()){
+
+            AppGenreHostInfo info = appGenreHostInfos.get(appGenre);
+            totalApps += info.appCount;
+            totalHosts += info.hostCount;
         }
-        if(thisAppHostCount > maxGenreAvg) {
-            maxGenreAvg = thisAppHostCount;
-        }
-        avgGenreHosts = avgGenreHosts / appGenreHostInfos.keySet().size();
+        int totalAvg = totalHosts/totalApps ;
+        maxChartValue = totalAvg;
+
+        if( genreAverageHostCount > maxChartValue ) maxChartValue = genreAverageHostCount;
+        if( thisAppHostCount > maxChartValue) maxChartValue = thisAppHostCount;
 
         ArrayList<Integer> barValues = new ArrayList<>();
         barValues.add(thisAppHostCount);
         barValues.add(genreAverageHostCount );
-        barValues.add((int) avgGenreHosts);
+        barValues.add((int) totalAvg);
 
         ArrayList<String> axisLabels = new ArrayList<String>(Arrays.asList("This App", "Genre Average", "Average of all Apps"));
 
         BarData bd = this.buildBarData(barValues, axisLabels);
-        this.buildHostBarChart(bd, axisLabels, (int) maxGenreAvg);
+        this.buildHostBarChart(bd, axisLabels, (int) maxChartValue);
 
         /**
          * Set information read from device

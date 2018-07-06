@@ -61,6 +61,19 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:text="No Apps To Show"/>
 
+        <Button
+            android:id="@+id/goto_overview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/goto_overview"
+            android:textSize="18sp"
+            android:padding="10dp"
+            android:layout_margin="10dp"
+            android:textColor="@color/colorAccent"
+            app:layout_constraintTop_toBottomOf="@id/info_bar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
         <GridView
             android:id="@+id/appGridView"
             android:layout_width="match_parent"
@@ -71,7 +84,7 @@
             app:layout_constraintBottom_toTopOf="@id/not_recording_message"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/info_bar"
+            app:layout_constraintTop_toBottomOf="@id/goto_overview"
             android:horizontalSpacing="0dp"
             android:verticalSpacing="0dp"/>
 

@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".OverviewActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:theme="@style/ToolBarStyle" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/where_data_sent"
+                android:padding="5dp"
+                android:textSize="20sp"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:gravity="center"/>
+
+            <com.github.mikephil.charting.charts.BarChart
+                android:id="@+id/bar_chart"
+                android:layout_width="match_parent"
+                android:layout_height="400dp"
+                android:layout_marginTop="8dp" />
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/icons"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="10dp">
+
+                <ImageView
+                    android:id="@+id/icon_0"
+                    android:layout_width="@dimen/overview_icon_large"
+                    android:layout_height="@dimen/overview_icon_large"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintEnd_toStartOf="@id/icon_1"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <ImageView
+                    android:id="@+id/icon_1"
+                    android:layout_width="@dimen/overview_icon_large"
+                    android:layout_height="@dimen/overview_icon_large"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintEnd_toStartOf="@id/icon_2"
+                    app:layout_constraintStart_toEndOf="@id/icon_0"
+                    />
+
+                <ImageView
+                    android:id="@+id/icon_2"
+                    android:layout_width="@dimen/overview_icon_large"
+                    android:layout_height="@dimen/overview_icon_large"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintEnd_toStartOf="@id/icon_3"
+                    app:layout_constraintStart_toEndOf="@id/icon_1" />
+
+                <ImageView
+                    android:id="@+id/icon_3"
+                    android:layout_width="@dimen/overview_icon_large"
+                    android:layout_height="@dimen/overview_icon_large"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintEnd_toStartOf="@id/icon_4"
+                    app:layout_constraintStart_toEndOf="@id/icon_2"
+                    />
+
+                <ImageView
+                    android:id="@+id/icon_4"
+                    android:layout_width="@dimen/overview_icon_large"
+                    android:layout_height="@dimen/overview_icon_large"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintEnd_toStartOf="@id/icon_5"
+                    app:layout_constraintStart_toEndOf="@id/icon_3" />
+
+                <ImageView
+                    android:id="@+id/icon_5"
+                    android:layout_width="@dimen/overview_icon_large"
+                    android:layout_height="@dimen/overview_icon_large"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintEnd_toStartOf="@id/icon_6"
+                    app:layout_constraintStart_toEndOf="@id/icon_4" />
+
+                <ImageView
+                    android:id="@+id/icon_6"
+                    android:layout_width="@dimen/overview_icon_large"
+                    android:layout_height="@dimen/overview_icon_large"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintEnd_toStartOf="@id/icon_7"
+                    app:layout_constraintStart_toEndOf="@id/icon_5" />
+
+                <ImageView
+                    android:id="@+id/icon_7"
+                    android:layout_width="@dimen/overview_icon_large"
+                    android:layout_height="@dimen/overview_icon_large"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintEnd_toStartOf="@id/icon_8"
+                    app:layout_constraintStart_toEndOf="@id/icon_6" />
+
+                <ImageView
+                    android:id="@+id/icon_8"
+                    android:layout_width="@dimen/overview_icon_large"
+                    android:layout_height="@dimen/overview_icon_large"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintEnd_toStartOf="@id/icon_9"
+                    app:layout_constraintStart_toEndOf="@id/icon_7" />
+
+                <ImageView
+                    android:id="@+id/icon_9"
+                    android:layout_width="@dimen/overview_icon_large"
+                    android:layout_height="@dimen/overview_icon_large"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/icon_8"
+                    />
+
+            </android.support.constraint.ConstraintLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/map_data_sent"
+                android:textSize="20sp"
+                android:padding="8dp"
+                android:gravity="center"/>
+
+            <WebView
+                android:id="@+id/web_view"
+                android:layout_width="match_parent"
+                android:layout_height="500dp"
+                android:layout_marginBottom="8dp"></WebView>
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</android.support.constraint.ConstraintLayout>

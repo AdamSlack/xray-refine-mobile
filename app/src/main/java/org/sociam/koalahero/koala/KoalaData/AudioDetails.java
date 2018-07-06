@@ -2,6 +2,9 @@ package org.sociam.koalahero.koala.KoalaData;
 
 import android.util.Base64;
 
+import com.google.android.gms.common.util.IOUtils;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.sociam.koalahero.PreferenceManager.PreferenceManager;
@@ -36,9 +39,8 @@ public class AudioDetails extends JSONData {
         int size = (int) file.length();
         byte[] bytes = new byte[size];
         try {
-            BufferedInputStream buf = new BufferedInputStream(new FileInputStream(file));
-            buf.read(bytes, 0, bytes.length);
-            buf.close();
+            bytes = IOUtils.toByteArray(new FileInputStream(file));
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -54,7 +56,12 @@ public class AudioDetails extends JSONData {
         json.put("date" , this.date.toString());
         json.put("file_size", this.fileSize);
         json.put("length", this.length);
-        json.put("file_data", Base64.encodeToString(this.readFileAsBytes(this.filePath), Base64.DEFAULT));
+
+
+        byte[] fileData = Base64.encode(this.readFileAsBytes(this.filePath), Base64.DEFAULT);
+        System.out.println(new String(fileData));
+
+        json.put("file_data", new String(fileData));
         return json;
     }
 }

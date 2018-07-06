@@ -165,8 +165,7 @@ public class OverviewActivity extends AppCompatActivity {
 
         data += "<html><head><script type='text/javascript' src='https://www.google.com/jsapi'></script> <script type='text/javascript'> google.load('visualization', '1', {'packages': ['geochart']});google.setOnLoadCallback(drawRegionsMap);";
         data += " function drawRegionsMap() { var data = new google.visualization.DataTable();data.addColumn('string', 'Country');data.addColumn('number', 'Number of Hosts');data.addRows([" + rows + "]);";
-        data += "var options = {};var chart = new google.visualization.GeoChart(document.getElementById('chart_div'));chart.draw(data, options); };</script></head><body style='padding: 10px 0;'><div id='chart_div' style='width: 100%;'></div></body></html> ";
-
+        data += "var options = {colorAxis: {colors: ['#398239', '#ca0300']}};var chart = new google.visualization.GeoChart(document.getElementById('chart_div'));chart.draw(data, options); };</script></head><body style='padding: 10px 0;'><div id='chart_div' style='width: 100%;'></div></body></html> ";
 
         WebView wv = (WebView) findViewById(R.id.web_view);
         //wv.loadUrl("file:///android_asset/geo.html");

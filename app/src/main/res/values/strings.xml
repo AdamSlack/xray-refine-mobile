@@ -11,6 +11,7 @@
 
     <!-- Tracker Mapper API-->
     <string name="xray_tracker_mapper_api">http://hapax.xyz/tracker_mapper/host/</string>
+    <string name="xray_tracker_mapper_bulk_api">http://hapax.xyz/tracker_mapper/hosts</string>
 
     <!-- CSM API-->
     <string name="xray_csm_api">http://hapax.xyz/csm/apps/</string>

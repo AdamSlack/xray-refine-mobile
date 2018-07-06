@@ -19,6 +19,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
             android:text="Hapax Solutions Ltd."
+            android:textColor="@color/colorAccent"
             android:textSize="20sp"
             app:layout_constraintStart_toEndOf="@+id/companyViewUnicode"
             app:layout_constraintTop_toTopOf="parent" />

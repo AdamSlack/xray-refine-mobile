@@ -10,6 +10,24 @@ import java.util.ArrayList;
 
 public class TrackerMapperJsonParser {
 
+    public ArrayList<TrackerMapperCompany> parseCompanies(JsonReader jsonReader) {
+        ArrayList<TrackerMapperCompany> companies = new ArrayList<>();
+        try {
+            if(jsonReader.peek() == JsonToken.BEGIN_ARRAY) {
+                jsonReader.beginArray();
+                while(jsonReader.hasNext()) {
+                    companies.add(this.parseCompany(jsonReader));
+                }
+                jsonReader.endArray();
+            }
+        }
+        catch (IOException exc) {
+
+        }
+        return companies;
+
+    }
+
     public TrackerMapperCompany parseCompany(JsonReader jsonReader) {
         TrackerMapperCompany company = new TrackerMapperCompany();
         try {

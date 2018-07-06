@@ -314,7 +314,7 @@ public class MainActivity extends AppCompatActivity {
                 new Function<Void, Void>() {
                     @Override
                     public Void apply(Void VOID) {
-                        loadCSMData();
+                        loadCompanyData(packageNames);
                         return null;
                     }
                 },
@@ -343,6 +343,62 @@ public class MainActivity extends AppCompatActivity {
                 // App Context.
                 getApplicationContext()
         ).execute(packageNames);
+    }
+
+    private void loadCompanyData(final String... packageNames) {
+        TrackerMapperAPI TMAPI = TrackerMapperAPI.getInstance(getApplicationContext());
+        pb.setProgress(0);
+
+        String loading_string =
+                String.valueOf("App Company Info: " + 0) +
+                        " out of " +
+                        String.valueOf(appModel.getInstalledAppsKeys().size());
+
+        loading_bar_message.setText(loading_string);
+
+        TMAPI.executeTrackerMapperBulkRequest(
+
+                new Function<Void, Void>() {
+                    @Override
+                    public Void apply(Void input) {
+                        loadCSMData();
+                        return null;
+                    }
+                },
+
+                new Function<ArrayList<TrackerMapperCompany>, Void>() {
+
+                    @Override
+                    public Void apply(ArrayList<TrackerMapperCompany> input) {
+                        App app = appModel.getApp(input.get(0).appPackageName);
+                        for(TrackerMapperCompany company : input) {
+                            if (!app.companies.containsKey(company.companyName)) {
+                                app.companies.put(company.companyName, company);
+                            }
+                            app.companies.get(company.companyName).occurrences += 1;
+
+
+                            if (!app.localeCounts.containsKey(company.locale)) {
+                                app.localeCounts.put(company.locale, 0);
+                            }
+                            app.localeCounts.put(company.locale, app.localeCounts.get(company.locale) + 1);
+
+                        }
+
+                        pb.setProgress(pb.getProgress() + 1);
+
+                        String loading_string = String.valueOf(
+                                "App Company Info: " + pb.getProgress()) +
+                                " out of " +
+                                String.valueOf(appModel.getInstalledAppsKeys().size()
+                                );
+                        loading_bar_message.setText(loading_string);
+
+                        return null;
+                    }
+                },
+                packageNames
+        );
     }
 
     private void beginLoading() {

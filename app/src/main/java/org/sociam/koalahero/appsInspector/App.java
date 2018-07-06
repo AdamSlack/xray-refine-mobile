@@ -11,6 +11,7 @@ import org.sociam.koalahero.trackerMapper.TrackerMapperAPI;
 import org.sociam.koalahero.trackerMapper.TrackerMapperCompany;
 import org.sociam.koalahero.xray.XRayAppInfo;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 
@@ -51,46 +52,11 @@ public class App implements Comparable<App>,Comparator<App> {
         this.companies = new HashMap<>();
 
         this.csmAppInfo = new CSMAppInfo();
-        this.mapXRayHostNames(context);
 
         this.localeCounts = new HashMap<>();
 
     }
 
-
-
-    public void mapXRayHostNames(final Context context) {
-        TrackerMapperAPI TMAPI = TrackerMapperAPI.getInstance(context);
-        TMAPI.executeTrackerMapperRequest(
-
-            new Function<Void, Void>() {
-                @Override
-                public Void apply(Void input) {
-                    return null;
-                }
-            },
-
-            new Function<TrackerMapperCompany, Void>() {
-                @Override
-                public Void apply(TrackerMapperCompany input) {
-                    if(!companies.containsKey(input.companyName)) {
-                        companies.put(input.companyName, input);
-                    }
-                    companies.get(input.companyName).occurrences += 1;
-
-
-                    if(!localeCounts.containsKey(input.locale)) {
-                        localeCounts.put(input.locale, 0);
-                    }
-                    localeCounts.put(input.locale, localeCounts.get(input.locale) + 1);
-
-
-                    return null;
-                }
-            },
-            xRayAppInfo.hosts.toArray(new String[xRayAppInfo.hosts.size()])
-        );
-    }
 
     public CSMAppInfo getCsmAppInfo() {
         return csmAppInfo;

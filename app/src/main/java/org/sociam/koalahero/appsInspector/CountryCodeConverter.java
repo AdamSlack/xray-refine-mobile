@@ -38,5 +38,10 @@ public class CountryCodeConverter {
         Locale locale = new Locale("", iso2CountryCode);
         return locale.getISO3Country();
     }
+
+    public String iso2CountryCodeToName( String iso2CountryCode){
+        Locale locale = new Locale("", iso2CountryCode);
+        return locale.getDisplayName();
+    }
 }
 

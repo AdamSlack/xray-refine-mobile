@@ -28,6 +28,8 @@
     <!-- Drawer Menu -->
     <string name="drawer_header_title">- Koala Hero</string>
     <string name="nav_app_selection">Select Apps</string>
+    <string name="nav_overview">Apps Overview</string>
+    <string name="nav_recording">Recording Menu</string>
 
     <string name="recording_not_active">Click to Record</string>
     <string name="recording_active">Recording Audio...</string>
@@ -84,6 +86,9 @@
 
     <string name="tracker_genre_first">On average, apps in the same genre send information to </string>
     <string name="tracker_genre_second">different points.</string>
+
+    <!-- Overview -->
+    <string name="profile_for">Privacy Profile For</string>
 
 
     <!-- TODO: Remove or change this placeholder text -->

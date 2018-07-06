@@ -429,6 +429,9 @@ public class MainActivity extends AppCompatActivity {
                             case R.id.nav_recording:
                                 launchAudioRecordingMenu();
                                 break;
+                            case R.id.nav_overview:
+                                launchOverview();
+                                break;
                         }
 
                         mDrawerLayout.closeDrawers();
@@ -573,6 +576,13 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent( this ,AudioRecordingActivity.class);
         startActivity(intent);
     }
+
+    private void launchOverview(){
+        Intent intent = new Intent( this ,OverviewActivity.class);
+        startActivity(intent);
+    }
+
+
 
     @Override
     public void onResume() {

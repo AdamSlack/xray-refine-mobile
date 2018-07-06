@@ -49,6 +49,7 @@
 
         </android.support.constraint.ConstraintLayout>
 
+
         <TextView
             android:id="@+id/noAppsMessage"
             android:layout_width="match_parent"

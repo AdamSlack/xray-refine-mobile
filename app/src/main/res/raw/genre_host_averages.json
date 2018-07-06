@@ -1,0 +1,296 @@
+[
+  {
+    "category": "EVENTS",
+    "hostCount": 30544,
+    "appCount": 1848,
+    "genreAvg": 16.528138528138527
+  },
+  {
+    "category": "COMICS",
+    "hostCount": 28269,
+    "appCount": 1654,
+    "genreAvg": 17.0912938331318
+  },
+  {
+    "category": "PRODUCTIVITY",
+    "hostCount": 359425,
+    "appCount": 24099,
+    "genreAvg": 14.9145192746587
+  },
+  {
+    "category": "WEATHER",
+    "hostCount": 67689,
+    "appCount": 3377,
+    "genreAvg": 20.044122001776724
+  },
+  {
+    "category": "SHOPPING",
+    "hostCount": 268197,
+    "appCount": 13101,
+    "genreAvg": 20.471490725898786
+  },
+  {
+    "category": "GAME_MUSIC",
+    "hostCount": 29854,
+    "appCount": 1582,
+    "genreAvg": 18.871049304677623
+  },
+  {
+    "category": "FINANCE",
+    "hostCount": 264939,
+    "appCount": 17932,
+    "genreAvg": 14.774648672763774
+  },
+  {
+    "category": "DATING",
+    "hostCount": 21734,
+    "appCount": 961,
+    "genreAvg": 22.616024973985432
+  },
+  {
+    "category": "PARENTING",
+    "hostCount": 15961,
+    "appCount": 773,
+    "genreAvg": 20.648124191461836
+  },
+  {
+    "category": "MEDICAL",
+    "hostCount": 135988,
+    "appCount": 10385,
+    "genreAvg": 13.094655753490612
+  },
+  {
+    "category": "MUSIC_AND_AUDIO",
+    "hostCount": 1172618,
+    "appCount": 60628,
+    "genreAvg": 19.341195487233623
+  },
+  {
+    "category": "PERSONALIZATION",
+    "hostCount": 693138,
+    "appCount": 37873,
+    "genreAvg": 18.301639690544715
+  },
+  {
+    "category": "BUSINESS",
+    "hostCount": 848777,
+    "appCount": 48386,
+    "genreAvg": 17.541788947216137
+  },
+  {
+    "category": "GAME_CARD",
+    "hostCount": 79307,
+    "appCount": 3977,
+    "genreAvg": 19.94141312547146
+  },
+  {
+    "category": "GAME_SIMULATION",
+    "hostCount": 405056,
+    "appCount": 16369,
+    "genreAvg": 24.7453112590873
+  },
+  {
+    "category": "MAPS_AND_NAVIGATION",
+    "hostCount": 173913,
+    "appCount": 10341,
+    "genreAvg": 16.817812590658544
+  },
+  {
+    "category": "GAME_ARCADE",
+    "hostCount": 382283,
+    "appCount": 22850,
+    "genreAvg": 16.730109409190373
+  },
+  {
+    "category": "AUTO_AND_VEHICLES",
+    "hostCount": 39148,
+    "appCount": 2266,
+    "genreAvg": 17.276257722859665
+  },
+  {
+    "category": "GAME_RACING",
+    "hostCount": 166988,
+    "appCount": 7670,
+    "genreAvg": 21.771577574967406
+  },
+  {
+    "category": "ENTERTAINMENT",
+    "hostCount": 1431250,
+    "appCount": 76578,
+    "genreAvg": 18.690093760610097
+  },
+  {
+    "category": "LIFESTYLE",
+    "hostCount": 969427,
+    "appCount": 55586,
+    "genreAvg": 17.440128809412442
+  },
+  {
+    "category": "SPORTS",
+    "hostCount": 368184,
+    "appCount": 17200,
+    "genreAvg": 21.406046511627906
+  },
+  {
+    "category": "GAME_ADVENTURE",
+    "hostCount": 210894,
+    "appCount": 11205,
+    "genreAvg": 18.821419009370818
+  },
+  {
+    "category": "VIDEO_PLAYERS",
+    "hostCount": 179624,
+    "appCount": 10497,
+    "genreAvg": 17.11193674383157
+  },
+  {
+    "category": "GAME_BOARD",
+    "hostCount": 62918,
+    "appCount": 3525,
+    "genreAvg": 17.849078014184396
+  },
+  {
+    "category": "TOOLS",
+    "hostCount": 650181,
+    "appCount": 55424,
+    "genreAvg": 11.731037095842956
+  },
+  {
+    "category": "GAME_SPORTS",
+    "hostCount": 99229,
+    "appCount": 4913,
+    "genreAvg": 20.197231833910035
+  },
+  {
+    "category": "GAME_TRIVIA",
+    "hostCount": 142546,
+    "appCount": 5638,
+    "genreAvg": 25.28307910606598
+  },
+  {
+    "category": "GAME_CASUAL",
+    "hostCount": 544293,
+    "appCount": 27162,
+    "genreAvg": 20.03876739562624
+  },
+  {
+    "category": "COMMUNICATION",
+    "hostCount": 271824,
+    "appCount": 18637,
+    "genreAvg": 14.58518001824328
+  },
+  {
+    "category": "FOOD_AND_DRINK",
+    "hostCount": 133678,
+    "appCount": 6831,
+    "genreAvg": 19.569316351925046
+  },
+  {
+    "category": "LIBRARIES_AND_DEMO",
+    "hostCount": 25485,
+    "appCount": 2482,
+    "genreAvg": 10.267929089443998
+  },
+  {
+    "category": "BOOKS_AND_REFERENCE",
+    "hostCount": 840332,
+    "appCount": 54536,
+    "genreAvg": 15.408757517969782
+  },
+  {
+    "category": "GAME_ROLE_PLAYING",
+    "hostCount": 89287,
+    "appCount": 3139,
+    "genreAvg": 28.444409047467346
+  },
+  {
+    "category": "HOUSE_AND_HOME",
+    "hostCount": 26372,
+    "appCount": 1796,
+    "genreAvg": 14.683741648106905
+  },
+  {
+    "category": "ART_AND_DESIGN",
+    "hostCount": 67379,
+    "appCount": 4846,
+    "genreAvg": 13.904044572843583
+  },
+  {
+    "category": "GAME_CASINO",
+    "hostCount": 102193,
+    "appCount": 3893,
+    "genreAvg": 26.25044952478808
+  },
+  {
+    "category": "HEALTH_AND_FITNESS",
+    "hostCount": 401051,
+    "appCount": 24084,
+    "genreAvg": 16.652175718319217
+  },
+  {
+    "category": "EDUCATION",
+    "hostCount": 1123152,
+    "appCount": 75193,
+    "genreAvg": 14.9369223198968
+  },
+  {
+    "category": "TRAVEL_AND_LOCAL",
+    "hostCount": 576441,
+    "appCount": 28198,
+    "genreAvg": 20.44262004397475
+  },
+  {
+    "category": "BEAUTY",
+    "hostCount": 37999,
+    "appCount": 2118,
+    "genreAvg": 17.9409820585458
+  },
+  {
+    "category": "GAME_ACTION",
+    "hostCount": 348701,
+    "appCount": 15522,
+    "genreAvg": 22.464952969978096
+  },
+  {
+    "category": "PHOTOGRAPHY",
+    "hostCount": 418394,
+    "appCount": 20915,
+    "genreAvg": 20.00449438202247
+  },
+  {
+    "category": "GAME_PUZZLE",
+    "hostCount": 415950,
+    "appCount": 22360,
+    "genreAvg": 18.602415026833633
+  },
+  {
+    "category": "GAME_STRATEGY",
+    "hostCount": 74893,
+    "appCount": 3516,
+    "genreAvg": 21.300625711035266
+  },
+  {
+    "category": "GAME_WORD",
+    "hostCount": 65112,
+    "appCount": 2762,
+    "genreAvg": 23.574221578566256
+  },
+  {
+    "category": "NEWS_AND_MAGAZINES",
+    "hostCount": 663359,
+    "appCount": 24911,
+    "genreAvg": 26.629159808919756
+  },
+  {
+    "category": "SOCIAL",
+    "hostCount": 344243,
+    "appCount": 17784,
+    "genreAvg": 19.356893837156996
+  },
+  {
+    "category": "GAME_EDUCATIONAL",
+    "hostCount": 168934,
+    "appCount": 10623,
+    "genreAvg": 15.9026640308764
+  }
+]

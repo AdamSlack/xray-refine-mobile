@@ -1,3 +1,5 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
+
+    <dimen name="overview_icon">18dp</dimen>
 </resources>

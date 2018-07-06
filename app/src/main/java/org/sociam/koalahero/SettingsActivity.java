@@ -42,7 +42,6 @@ public class SettingsActivity extends AppCompatActivity {
         switch (displayMode){
             case All:
                 b = (RadioButton) findViewById(R.id.view_all);
-                b.setChecked(true);
                 break;
             case TOP_TEN:
                 b = (RadioButton) findViewById(R.id.view_top_10);

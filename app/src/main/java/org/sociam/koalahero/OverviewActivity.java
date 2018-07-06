@@ -96,7 +96,8 @@ public class OverviewActivity extends AppCompatActivity {
 
             try {
                 ApplicationInfo appInfo = getPackageManager().getApplicationInfo(a.getxRayAppInfo().app,0);
-                axisLabels.add( (String) getPackageManager().getApplicationLabel(appInfo) );
+                axisLabels.add("");
+                //axisLabels.add( (String) getPackageManager().getApplicationLabel(appInfo) );
             }
             catch (PackageManager.NameNotFoundException e) { e.printStackTrace(); }
 
@@ -132,8 +133,9 @@ public class OverviewActivity extends AppCompatActivity {
             totalHosts += info.hostCount;
         }
 
-        barValues.add( totalHosts/totalApps );
-        axisLabels.add( "Average of All Apps");
+        //barValues.add( totalHosts/totalApps );
+        //axisLabels.add( "Average of All Apps");
+        //axisLabels.add("");
 
 
 
@@ -227,6 +229,7 @@ public class OverviewActivity extends AppCompatActivity {
         barChart.getXAxis().setLabelCount(barData.getEntryCount());
         barChart.getDescription().setEnabled(false);
         barChart.setScaleEnabled(false);
+        barChart.getLegend().setEnabled(false);
 
         barChart.invalidate();
     }

@@ -51,16 +51,16 @@
 
                 <ImageView
                     android:id="@+id/icon_0"
-                    android:layout_width="@dimen/overview_icon"
-                    android:layout_height="@dimen/overview_icon"
+                    android:layout_width="@dimen/overview_icon_large"
+                    android:layout_height="@dimen/overview_icon_large"
                     android:layout_marginTop="8dp"
                     app:layout_constraintEnd_toStartOf="@id/icon_1"
                     app:layout_constraintStart_toStartOf="parent" />
 
                 <ImageView
                     android:id="@+id/icon_1"
-                    android:layout_width="@dimen/overview_icon"
-                    android:layout_height="@dimen/overview_icon"
+                    android:layout_width="@dimen/overview_icon_large"
+                    android:layout_height="@dimen/overview_icon_large"
                     android:layout_marginTop="8dp"
                     app:layout_constraintEnd_toStartOf="@id/icon_2"
                     app:layout_constraintStart_toEndOf="@id/icon_0"
@@ -68,16 +68,16 @@
 
                 <ImageView
                     android:id="@+id/icon_2"
-                    android:layout_width="@dimen/overview_icon"
-                    android:layout_height="@dimen/overview_icon"
+                    android:layout_width="@dimen/overview_icon_large"
+                    android:layout_height="@dimen/overview_icon_large"
                     android:layout_marginTop="8dp"
                     app:layout_constraintEnd_toStartOf="@id/icon_3"
                     app:layout_constraintStart_toEndOf="@id/icon_1" />
 
                 <ImageView
                     android:id="@+id/icon_3"
-                    android:layout_width="@dimen/overview_icon"
-                    android:layout_height="@dimen/overview_icon"
+                    android:layout_width="@dimen/overview_icon_large"
+                    android:layout_height="@dimen/overview_icon_large"
                     android:layout_marginTop="8dp"
                     app:layout_constraintEnd_toStartOf="@id/icon_4"
                     app:layout_constraintStart_toEndOf="@id/icon_2"
@@ -85,48 +85,48 @@
 
                 <ImageView
                     android:id="@+id/icon_4"
-                    android:layout_width="@dimen/overview_icon"
-                    android:layout_height="@dimen/overview_icon"
+                    android:layout_width="@dimen/overview_icon_large"
+                    android:layout_height="@dimen/overview_icon_large"
                     android:layout_marginTop="8dp"
                     app:layout_constraintEnd_toStartOf="@id/icon_5"
                     app:layout_constraintStart_toEndOf="@id/icon_3" />
 
                 <ImageView
                     android:id="@+id/icon_5"
-                    android:layout_width="@dimen/overview_icon"
-                    android:layout_height="@dimen/overview_icon"
+                    android:layout_width="@dimen/overview_icon_large"
+                    android:layout_height="@dimen/overview_icon_large"
                     android:layout_marginTop="8dp"
                     app:layout_constraintEnd_toStartOf="@id/icon_6"
                     app:layout_constraintStart_toEndOf="@id/icon_4" />
 
                 <ImageView
                     android:id="@+id/icon_6"
-                    android:layout_width="@dimen/overview_icon"
-                    android:layout_height="@dimen/overview_icon"
+                    android:layout_width="@dimen/overview_icon_large"
+                    android:layout_height="@dimen/overview_icon_large"
                     android:layout_marginTop="8dp"
                     app:layout_constraintEnd_toStartOf="@id/icon_7"
                     app:layout_constraintStart_toEndOf="@id/icon_5" />
 
                 <ImageView
                     android:id="@+id/icon_7"
-                    android:layout_width="@dimen/overview_icon"
-                    android:layout_height="@dimen/overview_icon"
+                    android:layout_width="@dimen/overview_icon_large"
+                    android:layout_height="@dimen/overview_icon_large"
                     android:layout_marginTop="8dp"
                     app:layout_constraintEnd_toStartOf="@id/icon_8"
                     app:layout_constraintStart_toEndOf="@id/icon_6" />
 
                 <ImageView
                     android:id="@+id/icon_8"
-                    android:layout_width="@dimen/overview_icon"
-                    android:layout_height="@dimen/overview_icon"
+                    android:layout_width="@dimen/overview_icon_large"
+                    android:layout_height="@dimen/overview_icon_large"
                     android:layout_marginTop="8dp"
                     app:layout_constraintEnd_toStartOf="@id/icon_9"
                     app:layout_constraintStart_toEndOf="@id/icon_7" />
 
                 <ImageView
                     android:id="@+id/icon_9"
-                    android:layout_width="@dimen/overview_icon"
-                    android:layout_height="@dimen/overview_icon"
+                    android:layout_width="@dimen/overview_icon_large"
+                    android:layout_height="@dimen/overview_icon_large"
                     android:layout_marginTop="8dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/icon_8"

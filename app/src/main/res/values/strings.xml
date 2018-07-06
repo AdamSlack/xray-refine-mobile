@@ -88,7 +88,7 @@
     <string name="tracker_genre_second">different points.</string>
 
     <!-- Overview -->
-    <string name="profile_for">Privacy Profile For</string>
+    <string name="profile_for">My App Privacy Profile</string>
     <string name="where_data_sent">How many places are my apps sending my data to?</string>
 
     <!-- Map -->

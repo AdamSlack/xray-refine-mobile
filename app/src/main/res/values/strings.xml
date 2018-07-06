@@ -71,6 +71,7 @@
     <string name="csm_says">Experts Say:</string>
     <string name="age_rating_label">Recommended for:</string>
     <string name="csm_rating_label">Expert Rating:</string>
+    <string name="cms_details">Common Sense Media Information</string>
 
     <!-- Common Sense guidance Titles -->
     <string name="drugs_guidance_title">Drinking, Drugs, and Smoking</string>

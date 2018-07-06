@@ -97,7 +97,6 @@ public class OverviewActivity extends AppCompatActivity {
             try {
                 ApplicationInfo appInfo = getPackageManager().getApplicationInfo(a.getxRayAppInfo().app,0);
                 axisLabels.add("");
-                //axisLabels.add( (String) getPackageManager().getApplicationLabel(appInfo) );
             }
             catch (PackageManager.NameNotFoundException e) { e.printStackTrace(); }
 
@@ -123,21 +122,6 @@ public class OverviewActivity extends AppCompatActivity {
         XRayAPI xRayAPI = XRayAPI.getInstance();
         HashMap<AppGenre, AppGenreHostInfo> appGenreHostInfos = xRayAPI.readGenreHostInfo(getApplicationContext());
 
-        int totalApps = 0;
-        int totalHosts = 0;
-
-        for( AppGenre appGenre : appGenreHostInfos.keySet()){
-
-            AppGenreHostInfo info = appGenreHostInfos.get(appGenre);
-            totalApps += info.appCount;
-            totalHosts += info.hostCount;
-        }
-
-        //barValues.add( totalHosts/totalApps );
-        //axisLabels.add( "Average of All Apps");
-        //axisLabels.add("");
-
-
 
         BarData bd = this.buildBarData(barValues, axisLabels);
         this.buildHostBarChart(bd, axisLabels, (int) nMax);
@@ -145,16 +129,11 @@ public class OverviewActivity extends AppCompatActivity {
 
         // =============== MAP ===============
 
-
-            //System.out.println(code + " " +  hostCountriesCount.get(code));
-
         CountryCodeConverter ccC = new CountryCodeConverter();
-
 
         String rows = "";
         int n = 0;
         for (String code: hostCountriesCount.keySet()){
-            //['Germany', 200]
 
             if( code != "-99") {
                 if (n > 0) rows += ",";
@@ -201,11 +180,6 @@ public class OverviewActivity extends AppCompatActivity {
             return -1;
         }
     }
-
-
-
-
-
 
 
     private void buildHostBarChart(BarData barData, final ArrayList<String> labels, int maxValue){

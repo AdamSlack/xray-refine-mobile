@@ -1,6 +1,7 @@
 package org.sociam.koalahero;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
@@ -27,7 +28,10 @@ import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.highlight.Highlight;
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 
@@ -39,6 +43,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class OverviewActivity extends AppCompatActivity {
+
+    private static final int BARCHART_MAX_OFFSET = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,7 +104,7 @@ public class OverviewActivity extends AppCompatActivity {
 
             try {
                 ApplicationInfo appInfo = getPackageManager().getApplicationInfo(a.getxRayAppInfo().app,0);
-                axisLabels.add("");
+                axisLabels.add(a.getPackageName());
             }
             catch (PackageManager.NameNotFoundException e) { e.printStackTrace(); }
 
@@ -196,17 +202,38 @@ public class OverviewActivity extends AppCompatActivity {
             }
         });
 
-        barChart.getAxisLeft().setAxisMaximum(maxValue);
+        barChart.getAxisLeft().setAxisMaximum(maxValue + BARCHART_MAX_OFFSET);
         barChart.getAxisLeft().setAxisMinimum(0);
         barChart.getAxisRight().setEnabled(false);
+
+
         barChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
         barChart.getXAxis().setDrawLabels(true);
         barChart.getXAxis().setLabelRotationAngle(90);
         barChart.getXAxis().setDrawGridLines(false);
         barChart.getXAxis().setLabelCount(barData.getEntryCount());
+        barChart.getXAxis().setDrawLabels(false);
+
         barChart.getDescription().setEnabled(false);
         barChart.setScaleEnabled(false);
         barChart.getLegend().setEnabled(false);
+
+
+        barChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
+            @Override
+            public void onValueSelected(Entry e, Highlight h) {
+                BarEntry be = (BarEntry) e;
+                appModel.selectedAppPackageName = (String) e.getData();
+                Intent intent = new Intent(getApplicationContext(), PerAppViewActivity.class);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onNothingSelected() {
+
+            }
+        });
+
 
         barChart.invalidate();
     }

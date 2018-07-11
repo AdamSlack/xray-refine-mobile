@@ -56,6 +56,18 @@ public class App implements Comparable<App>,Comparator<App> {
         this.localeCounts = new HashMap<>();
 
     }
+    public App(XRayAppInfo xRayAppInfo){
+        this.xRayAppInfo = xRayAppInfo;
+        this.selectedToDisplay = false;
+        this.inTop10 = false;
+
+        usageTimes = new java.util.HashMap<Interval,Long>();
+
+        this.csmAppInfo = new CSMAppInfo();
+
+        this.localeCounts = new HashMap<>();
+
+    }
 
 
     public CSMAppInfo getCsmAppInfo() {

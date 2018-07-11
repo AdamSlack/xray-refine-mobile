@@ -5,6 +5,8 @@
     <string name="xray_api_icons_negi">https://negi.io/api/icons</string>
     <string name="xray_apps_negi">https://negi.io/api/apps</string><!-- <<<<< Try switching to this is other X-Ray is too slow -->
     <string name="alt_xray_app_negi">https://negi.io/api/alt/</string>
+    <string name="xray_app_search">https://negi.io/api/apps?isFull=true&amp;onlyAnalyzed=true&amp;title=</string>
+
 
     <string name="genere_host_averages_negi">https://negi.io/api/stats/genre_host_averages</string>
     <string name="xray_apps">http://hapax.xyz/xray/api/apps</string><!-- <<<<<<<<< Slow As heck -->
@@ -31,6 +33,7 @@
     <string name="nav_app_selection">Select Apps</string>
     <string name="nav_overview">Apps Overview</string>
     <string name="nav_recording">Recording Menu</string>
+    <string name="search_nav_item">Search For an App</string>
 
     <string name="recording_not_active">Click to Record</string>
     <string name="recording_active">Recording Audio...</string>

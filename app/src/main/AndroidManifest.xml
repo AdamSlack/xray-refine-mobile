@@ -65,7 +65,8 @@
         </activity>
         <activity android:name=".AppSelectorActivity" />
         <activity android:name=".AudioRecordingActivity" />
-        <activity android:name=".OverviewActivity"></activity>
+        <activity android:name=".OverviewActivity" />
+        <activity android:name=".SearchActivity"></activity>
     </application>
 
 </manifest>

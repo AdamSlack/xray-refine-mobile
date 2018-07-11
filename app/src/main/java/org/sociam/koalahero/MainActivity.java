@@ -28,6 +28,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -47,6 +48,8 @@ import org.sociam.koalahero.audio.AudioRecorder;
 import org.sociam.koalahero.gridAdapters.AppAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+
+import com.google.android.gms.common.internal.safeparcel.SafeParcelable;
 
 import org.sociam.koalahero.PreferenceManager.PreferenceManager;
 import org.sociam.koalahero.appsInspector.AppModel;
@@ -488,6 +491,8 @@ public class MainActivity extends AppCompatActivity {
                             case R.id.nav_overview:
                                 launchOverview();
                                 break;
+                            case R.id.app_search:
+                                launchActivity(SearchActivity.class);
                         }
 
                         mDrawerLayout.closeDrawers();
@@ -631,18 +636,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void launchAppSelector(){
-        Intent intent = new Intent( this ,AppSelectorActivity.class);
-        startActivity(intent);
+        this.launchActivity(AppSelectorActivity.class);
     }
 
     private void launchAudioRecordingMenu(){
-        Intent intent = new Intent( this ,AudioRecordingActivity.class);
-        startActivity(intent);
+        this.launchActivity(AudioRecordingActivity.class);
     }
 
     private void launchOverview(){
-        Intent intent = new Intent( this ,OverviewActivity.class);
-        startActivity(intent);
+        this.launchActivity(OverviewActivity.class);
+    }
+
+    private void launchActivity(Class activity) {
+        Intent i = new Intent(this, activity);
+        startActivity(i);
     }
 
 
@@ -650,11 +657,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-
         if( appModel.isReady() ) {
             updateGridView();
-
-
         }
 
     }

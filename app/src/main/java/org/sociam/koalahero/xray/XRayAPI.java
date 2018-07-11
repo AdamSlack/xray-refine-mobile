@@ -5,12 +5,20 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.JsonReader;
 
+import org.json.JSONException;
 import org.sociam.koalahero.R;
+import org.sociam.koalahero.appsInspector.App;
+import org.sociam.koalahero.koala.KoalaAPI;
+import org.sociam.koalahero.koala.KoalaData.AudioLogRequestDetails;
+import org.sociam.koalahero.koala.KoalaData.SuccessResponse;
+import org.sociam.koalahero.koala.KoalaJsonParser;
 
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -48,6 +56,92 @@ public class XRayAPI {
         }
         return INSTANCE;
     }
+
+    public void executeAppSearchRequest(
+            String searchTerm,
+            Context c,
+            Function<Void, Void> resultFunction,
+            Function<ArrayList<App>, Void> progressFunction
+    ) {
+        new AppSearchRequest(c, resultFunction, progressFunction).execute(searchTerm);
+    }
+
+    private class AppSearchRequest extends AsyncTask<String, ArrayList<App>, Void> {
+
+        private Context context;
+        private Function<Void, Void> resultFunction;
+        private Function<ArrayList<App>, Void> progressFunction;
+
+        public AppSearchRequest(
+                Context c,
+                Function<Void, Void> resultFunction,
+                Function<ArrayList<App>, Void> progressFunction
+        ) {
+            this.context = c;
+            this.resultFunction = resultFunction;
+            this.progressFunction = progressFunction;
+        }
+
+
+
+        private AppSearchRequest(){}
+
+        // Intended to be used to add the app to the App Model.
+        @Override
+        protected void onProgressUpdate(ArrayList<App>...  apps) {
+            super.onProgressUpdate(apps);
+            this.progressFunction.apply(apps[0]);
+        }
+
+        // Intended to be used to swap intents after the model has been built
+        @Override
+        protected void onPostExecute(Void thisIsVoid) {
+            super.onPostExecute(thisIsVoid);
+            this.resultFunction.apply(null);
+        }
+
+        @Override
+        protected Void doInBackground(String... searchTerms) {
+            String searchTerm = searchTerms[0];
+            try {
+                ArrayList<App> searchResults = new ArrayList<>();
+                String xrayAPIString = context.getResources().getString(R.string.xray_app_search);
+                URL APIEndpoint = new URL(xrayAPIString + searchTerm);
+
+                HttpsURLConnection conn = (HttpsURLConnection) APIEndpoint.openConnection();
+                conn.setRequestProperty("User-Agent", "org.sociam.koalaHero");
+                conn.setRequestProperty("Content-Type", "application/json");
+                conn.setRequestProperty("Accept", "application/json");
+
+                if (conn.getResponseCode() == 200) {
+                    InputStreamReader responseBodyReader = new InputStreamReader(conn.getInputStream(), "UTF-8");
+                    XRayJsonParser xrayReader = new XRayJsonParser();
+                    List<XRayAppInfo> apps = xrayReader.readAppArray(responseBodyReader);
+                    for (XRayAppInfo app : apps) {
+                        App searchResult = new App(app);
+                        searchResult.getxRayAppInfo().title = app.appStoreInfo.title;
+                        searchResults.add(searchResult);
+                    }
+                    publishProgress(searchResults);
+                    responseBodyReader.close();
+                }
+                conn.disconnect();
+
+            }
+            catch(MalformedURLException exc) {
+                // Handle Malformed
+                System.out.println("Malformed URL Exception:" + exc.toString());
+            }
+            catch (IOException exc) {
+                System.out.println("IO Exception:" + exc.toString());
+            }
+
+            return null;
+        }
+
+
+    }
+
 
     public HashMap<AppGenre, AppGenreHostInfo> readGenreHostInfo(Context context) {
         HashMap<AppGenre, AppGenreHostInfo> genreHostInfos = new HashMap<AppGenre, AppGenreHostInfo>();
@@ -96,6 +190,13 @@ public class XRayAPI {
             this.progressFunction.apply(apps[0]);
         }
 
+        // Intended to be used to swap intents after the model has been built
+        @Override
+        protected void onPostExecute(Void thisIsVoid) {
+            super.onPostExecute(thisIsVoid);
+            this.resultFunction.apply(null);
+        }
+
         // Requests Apps for each app string passed to the method.
         @Override
         protected Void doInBackground(String... appIDStrings) {
@@ -133,11 +234,6 @@ public class XRayAPI {
             return null;
         }
 
-        // Intended to be used to swap intents after the model has been built
-        @Override
-        protected void onPostExecute(Void thisIsVoid) {
-            super.onPostExecute(thisIsVoid);
-            this.resultFunction.apply(null);
-        }
+
     }
 }

@@ -4,7 +4,8 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.GridView;
 
-public class HeightAdjustingGridView extends GridView {
+public class
+HeightAdjustingGridView extends GridView {
     public HeightAdjustingGridView(Context context) {
         super(context);
     }

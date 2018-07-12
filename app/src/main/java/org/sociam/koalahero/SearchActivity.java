@@ -58,6 +58,7 @@ public class SearchActivity extends AppCompatActivity {
                 AppModel appModel = AppModel.getInstance();
                 App selectedApp = (App) adapterView.getItemAtPosition(i);
                 appModel.selectedAppPackageName = selectedApp.getPackageName();
+                loadAdditionalAppData();
             }
         });
     }

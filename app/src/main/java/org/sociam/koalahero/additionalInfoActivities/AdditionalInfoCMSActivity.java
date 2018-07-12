@@ -124,6 +124,7 @@ public class AdditionalInfoCMSActivity extends AppCompatActivity {
         try {
             ApplicationInfo appInfo = getPackageManager().getApplicationInfo(xRayAppInfo.app, 0);
             // App Name
+
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }

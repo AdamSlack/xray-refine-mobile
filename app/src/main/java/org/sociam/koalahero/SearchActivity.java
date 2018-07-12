@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
+
 public class SearchActivity extends AppCompatActivity {
 
     SearchView searchBar;
@@ -63,6 +64,7 @@ public class SearchActivity extends AppCompatActivity {
                 selectedApp.setCsmAppInfo(new CSMAppInfo());
                 appModel.selectedAppPackageName = selectedApp.getPackageName();
                 loadAdditionalAppData();
+
             }
         });
     }

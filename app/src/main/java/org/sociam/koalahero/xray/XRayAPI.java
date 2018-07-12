@@ -82,8 +82,6 @@ public class XRayAPI {
             this.progressFunction = progressFunction;
         }
 
-
-
         private AppSearchRequest(){}
 
         // Intended to be used to add the app to the App Model.

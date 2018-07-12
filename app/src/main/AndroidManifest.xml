@@ -66,7 +66,11 @@
         <activity android:name=".AppSelectorActivity" />
         <activity android:name=".AudioRecordingActivity" />
         <activity android:name=".OverviewActivity" />
-        <activity android:name=".SearchActivity"></activity>
+        <activity android:name=".SearchActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
     </application>
 
 </manifest>

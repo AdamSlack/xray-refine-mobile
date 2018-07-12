@@ -13,12 +13,18 @@ public class XRayAppInfo {
     public XRayAppStoreInfo appStoreInfo;
     public ArrayList<String> hosts;
     public DeveloperInfo developerInfo;
+    public String storeType;
+    public String version;
+    public String region;
 
     public XRayAppInfo() {
+        storeType = "";
         title = "";
         app = "";
         appStoreInfo = new XRayAppStoreInfo();
         hosts = new ArrayList<>();
+        region = "";
+        version = "";
     }
 
     public XRayAppInfo(String title, String app) {
@@ -27,6 +33,10 @@ public class XRayAppInfo {
         this.appStoreInfo = new XRayAppStoreInfo(title);
         this.hosts = new ArrayList<>();
         this.developerInfo = new DeveloperInfo();
+        this.storeType = "";
+        this.region = "";
+        this.version = "";
+
     }
 
     public XRayAppInfo(String app, XRayAppStoreInfo appStoreInfo, ArrayList<String> hosts) {
@@ -35,14 +45,20 @@ public class XRayAppInfo {
         this.appStoreInfo = appStoreInfo;
         this.hosts = hosts;
         this.developerInfo = new DeveloperInfo();
+        this.storeType = "";
+        this.region = "";
+        this.version = "";
     }
 
     public XRayAppInfo(String title, String app, XRayAppStoreInfo appStoreInfo) {
         this.title = title;
         this.app = app;
         this.appStoreInfo = appStoreInfo;
+        this.storeType = "";
         this.hosts = new ArrayList<>();
         this.developerInfo = new DeveloperInfo();
+        this.region = "";
+        this.version = "";
     }
 }
 

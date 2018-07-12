@@ -12,6 +12,7 @@ import android.widget.SearchView;
 import org.sociam.koalahero.appsInspector.App;
 import org.sociam.koalahero.gridAdapters.SearchResultAdapter;
 import org.sociam.koalahero.xray.XRayAPI;
+import org.sociam.koalahero.xray.XRayAppInfo;
 
 import java.util.ArrayList;
 
@@ -65,38 +66,41 @@ public class SearchActivity extends AppCompatActivity {
             public boolean onQueryTextChange(String s) {
                 // don't do anything if query changes.
                 // Could make use of XRay's Search Term for autocomplete suggestions.
-                XRayAPI xRayAPI = XRayAPI.getInstance();
 
-                if(appSearchRequest != null && !appSearchRequest.isCancelled()) {
-                    appSearchRequest.cancel(true);
-                    setSearchResultsListViewAdapter(new App[0]);
-                }
-
-                appSearchRequest = xRayAPI.createNewAppSearchRequest(
-                        getApplicationContext(),
-                        new Function<Void, Void>() {
-                            @Override
-                            public Void apply(Void input) {
-                                // End Loading Anim, if there is one.
-                                return null;
-                            }
-                        },
-                        new Function<ArrayList<App>, Void>() {
-                            @Override
-                            public Void apply(ArrayList<App> input) {
-                                // Refresh Array List
-                                if(input.size() == 0) {
-                                    App blank = new App();
-                                    blank.getxRayAppInfo().title = "No Results Found.";
-                                    input.add(blank);
-                                }
-                                setSearchResultsListViewAdapter(input.toArray(new App[input.size()]));
-                                return null;
-                            }
-                        }
-                );
-
-                appSearchRequest.execute(s);
+                // Searching on update i think is a bit too much. especially for the interaction logs.
+//                XRayAPI xRayAPI = XRayAPI.getInstance();
+//
+//                if(appSearchRequest != null && !appSearchRequest.isCancelled()) {
+//                    appSearchRequest.cancel(true);
+//                    setSearchResultsListViewAdapter(new App[0]);
+//                }
+//
+//                appSearchRequest = xRayAPI.createNewAppSearchRequest(
+//                        getApplicationContext(),
+//                        new Function<Void, Void>() {
+//                            @Override
+//                            public Void apply(Void input) {
+//                                // End Loading Anim, if there is one.
+//                                return null;
+//                            }
+//                        },
+//                        new Function<ArrayList<App>, Void>() {
+//                            @Override
+//                            public Void apply(ArrayList<App> input) {
+//                                // Refresh Array List
+//                                if(input.size() == 0) {
+//                                    App blank = new App();
+//                                    blank.setXRayAppInfo(new XRayAppInfo());
+//                                    blank.getxRayAppInfo().title = "No Results Found.";
+//                                    input.add(blank);
+//                                }
+//                                setSearchResultsListViewAdapter(input.toArray(new App[input.size()]));
+//                                return null;
+//                            }
+//                        }
+//                );
+//
+//                appSearchRequest.execute(s);
                 return false;
             }
 

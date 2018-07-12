@@ -29,20 +29,21 @@
 
     <RatingBar
         android:id="@+id/searchResultRating"
-        style="@style/Base.Widget.AppCompat.RatingBar.Small"
-        android:theme="@style/RatingBarStyle"
+        style="@style/searchRatingStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:backgroundTint="@color/colorAccent"
         android:numStars="5"
+        android:progressTint="@color/colorSecondary"
         android:rating="4.5"
         android:scaleX="0.75"
         android:scaleY="0.75"
         android:stepSize="0.01"
+        android:theme="@style/RatingBarStyle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/searchResultIcon"
-        app:layout_constraintTop_toBottomOf="@+id/searchResultTitle"/>
+        app:layout_constraintTop_toBottomOf="@+id/searchResultTitle" />
 
 </android.support.constraint.ConstraintLayout>

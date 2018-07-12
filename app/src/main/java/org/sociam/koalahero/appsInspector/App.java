@@ -69,6 +69,9 @@ public class App implements Comparable<App>,Comparator<App> {
 
     }
 
+    public void setXRayAppInfo(XRayAppInfo xRayAppInfo) {
+        this.xRayAppInfo = xRayAppInfo;
+    }
 
     public CSMAppInfo getCsmAppInfo() {
         return csmAppInfo;

@@ -2,6 +2,7 @@ package org.sociam.koalahero;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.widget.SearchView;
 
 public class SearchActivity extends AppCompatActivity {
@@ -13,6 +14,10 @@ public class SearchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Search for an App.");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         this.searchBar = (SearchView) findViewById(R.id.searchBar);
 

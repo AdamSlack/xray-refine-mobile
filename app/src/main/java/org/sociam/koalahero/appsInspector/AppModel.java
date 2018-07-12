@@ -49,8 +49,11 @@ public class AppModel {
     public boolean isReady() { return appModelReady; }
     public void setReady(){ appModelReady = true; }
 
-    // List of all apps
+    // Map of all apps
     private HashMap<String, App> installedApps = new HashMap<String,App>();
+
+    // Map of App Search Results, max 10.
+    public HashMap<String, App> searchResults = new HashMap<String, App>();
 
     // Current Selected App
     public String selectedAppPackageName;

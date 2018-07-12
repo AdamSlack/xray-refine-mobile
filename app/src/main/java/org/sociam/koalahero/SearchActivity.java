@@ -5,12 +5,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SearchView;
 
 import org.sociam.koalahero.appsInspector.App;
+import org.sociam.koalahero.appsInspector.AppModel;
 import org.sociam.koalahero.gridAdapters.SearchResultAdapter;
+import org.sociam.koalahero.trackerMapper.TrackerMapperAPI;
 import org.sociam.koalahero.xray.XRayAPI;
 import org.sociam.koalahero.xray.XRayAppInfo;
 
@@ -43,6 +46,18 @@ public class SearchActivity extends AppCompatActivity {
 
     private void initialiseSearchResultListView() {
         this.searchResultsListView = (ListView) findViewById(R.id.searchResultListView);
+        this.searchResultsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                // Load CSM and Host Mapping Information.
+
+            }
+        });
+    }
+
+    private void loadAdditionalAppData() {
+        TrackerMapperAPI trackerMapperAPI = TrackerMapperAPI.getInstance(getApplicationContext());
+        //trackerMapperAPI.executeTrackerMapperRequest();
     }
 
     private void setSearchResultsListViewAdapter(App[] results) {
@@ -68,39 +83,43 @@ public class SearchActivity extends AppCompatActivity {
                 // Could make use of XRay's Search Term for autocomplete suggestions.
 
                 // Searching on update i think is a bit too much. especially for the interaction logs.
-//                XRayAPI xRayAPI = XRayAPI.getInstance();
-//
-//                if(appSearchRequest != null && !appSearchRequest.isCancelled()) {
-//                    appSearchRequest.cancel(true);
-//                    setSearchResultsListViewAdapter(new App[0]);
-//                }
-//
-//                appSearchRequest = xRayAPI.createNewAppSearchRequest(
-//                        getApplicationContext(),
-//                        new Function<Void, Void>() {
-//                            @Override
-//                            public Void apply(Void input) {
-//                                // End Loading Anim, if there is one.
-//                                return null;
-//                            }
-//                        },
-//                        new Function<ArrayList<App>, Void>() {
-//                            @Override
-//                            public Void apply(ArrayList<App> input) {
-//                                // Refresh Array List
-//                                if(input.size() == 0) {
-//                                    App blank = new App();
-//                                    blank.setXRayAppInfo(new XRayAppInfo());
-//                                    blank.getxRayAppInfo().title = "No Results Found.";
-//                                    input.add(blank);
-//                                }
-//                                setSearchResultsListViewAdapter(input.toArray(new App[input.size()]));
-//                                return null;
-//                            }
-//                        }
-//                );
-//
-//                appSearchRequest.execute(s);
+
+                /*
+                XRayAPI xRayAPI = XRayAPI.getInstance();
+
+                if(appSearchRequest != null && !appSearchRequest.isCancelled()) {
+                    appSearchRequest.cancel(true);
+                    setSearchResultsListViewAdapter(new App[0]);
+                }
+
+                appSearchRequest = xRayAPI.createNewAppSearchRequest(
+                        getApplicationContext(),
+                        new Function<Void, Void>() {
+                            @Override
+                            public Void apply(Void input) {
+                                // End Loading Anim, if there is one.
+                                return null;
+                            }
+                        },
+                        new Function<ArrayList<App>, Void>() {
+                            @Override
+                            public Void apply(ArrayList<App> input) {
+                                // Refresh Array List
+                                if(input.size() == 0) {
+                                    App blank = new App();
+                                    blank.setXRayAppInfo(new XRayAppInfo());
+                                    blank.getxRayAppInfo().title = "No Results Found.";
+                                    input.add(blank);
+                                }
+                                setSearchResultsListViewAdapter(input.toArray(new App[input.size()]));
+                                return null;
+                            }
+                        }
+                );
+
+                appSearchRequest.execute(s);
+                */
+
                 return false;
             }
 
@@ -128,6 +147,9 @@ public class SearchActivity extends AppCompatActivity {
                             @Override
                             public Void apply(ArrayList<App> input) {
                                 // Refresh Array List
+                                for(App app : input) {
+                                    AppModel.getInstance().searchResults.put(app.getxRayAppInfo().app, app);
+                                }
                                 setSearchResultsListViewAdapter(input.toArray(new App[input.size()]));
                                 return null;
                             }

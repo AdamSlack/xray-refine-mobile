@@ -104,17 +104,26 @@ public class AdditionalInfoCMSActivity extends AppCompatActivity {
             }
         });
 
+        if(xRayAppInfo.icon != null) {
+            iconImageView.setImageDrawable(xRayAppInfo.icon);
+        }
+        else {
+            // Set information read from device
+            try {
+                ApplicationInfo appInfo = getPackageManager().getApplicationInfo(xRayAppInfo.app, 0);
+                Drawable icon = getPackageManager().getApplicationIcon(appInfo);
+                iconImageView.setImageDrawable(icon);
+            } catch (PackageManager.NameNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+
         // Set information read from device
         try {
-            ApplicationInfo appInfo = getPackageManager().getApplicationInfo(xRayAppInfo.app,0);
-
+            ApplicationInfo appInfo = getPackageManager().getApplicationInfo(xRayAppInfo.app, 0);
             // App Name
             titleTextView.setText(getPackageManager().getApplicationLabel(appInfo));
-            // App Icon
-            Drawable icon = getPackageManager().getApplicationIcon(appInfo);
-            iconImageView.setImageDrawable(icon);
-        }
-        catch (PackageManager.NameNotFoundException e) {
+        } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
     }

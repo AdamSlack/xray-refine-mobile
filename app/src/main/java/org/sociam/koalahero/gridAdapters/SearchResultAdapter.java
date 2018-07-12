@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import org.sociam.koalahero.R;
 import org.sociam.koalahero.appsInspector.App;
+import org.sociam.koalahero.appsInspector.AppModel;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -100,12 +101,12 @@ public class SearchResultAdapter extends BaseAdapter {
 
     private class DownloadImageTask extends AsyncTask<String,Bitmap, Void> {
 
-        private int position;
-
+        private int progressCounter = 0;
         @Override
         protected Void doInBackground(String... urls) {
-            for (this.position=0; this.position < urls.length; this.position++) {
-                String urldisplay = urls[this.position];
+            for (int i=0; i < urls.length; i++) {
+                progressCounter = i;
+                String urldisplay = urls[i];
                 Bitmap mIcon = null;
                 try {
                     InputStream in = new java.net.URL(urldisplay).openStream();
@@ -121,14 +122,19 @@ public class SearchResultAdapter extends BaseAdapter {
         @Override
         protected void onProgressUpdate(Bitmap... values) {
             super.onProgressUpdate(values);
-            if (this.position < icons.length) {
-                icons[this.position] = new BitmapDrawable(context.getResources(), values[0]);
+            if (progressCounter -1 < icons.length && progressCounter - 1 >= 0) {
+                icons[progressCounter-1] = new BitmapDrawable(context.getResources(), values[0]);
+
+                // lookup in App app model search results, and set the icon to what was just obtained.
+                // seems like a real mess.
+                AppModel.getInstance().searchResults.get(searchResults[progressCounter-1].getxRayAppInfo().app).getxRayAppInfo().icon = icons[progressCounter-1];
+
             }
         }
 
         @Override
         protected void onPostExecute(Void aVoid) {
-
+            notifyDataSetChanged();
         }
     }
 

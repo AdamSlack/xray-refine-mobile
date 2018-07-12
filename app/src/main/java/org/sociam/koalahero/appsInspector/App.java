@@ -21,6 +21,7 @@ public class App implements Comparable<App>,Comparator<App> {
     private boolean selectedToDisplay;
     private boolean inTop10;
 
+
     // Day, Week, and Monthly Usage times for this app.
     private java.util.Map<Interval,Long> usageTimes;
 

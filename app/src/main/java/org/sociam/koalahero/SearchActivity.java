@@ -13,6 +13,7 @@ import android.widget.SearchView;
 
 import org.sociam.koalahero.appsInspector.App;
 import org.sociam.koalahero.appsInspector.AppModel;
+import org.sociam.koalahero.csm.CSMAppInfo;
 import org.sociam.koalahero.gridAdapters.SearchResultAdapter;
 import org.sociam.koalahero.trackerMapper.TrackerMapperAPI;
 import org.sociam.koalahero.trackerMapper.TrackerMapperCompany;
@@ -23,6 +24,7 @@ import java.io.Console;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 
 public class SearchActivity extends AppCompatActivity {
 
@@ -57,6 +59,8 @@ public class SearchActivity extends AppCompatActivity {
                 // Load CSM and Host Mapping Information.
                 AppModel appModel = AppModel.getInstance();
                 App selectedApp = (App) adapterView.getItemAtPosition(i);
+                selectedApp.companies = new HashMap<>();
+                selectedApp.setCsmAppInfo(new CSMAppInfo());g
                 appModel.selectedAppPackageName = selectedApp.getPackageName();
                 loadAdditionalAppData();
             }

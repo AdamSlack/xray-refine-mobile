@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.widget.TextView;
 
 import org.sociam.koalahero.R;
+import org.sociam.koalahero.xray.XRayAppInfo;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -70,7 +71,17 @@ public class AppModel {
     }
 
     public App getApp( String packageName ){
-        return installedApps.get(packageName);
+        if(installedApps.containsKey(packageName)){
+            return installedApps.get(packageName);
+        }
+        else if(searchResults.containsKey(packageName)){
+            return searchResults.get(packageName);
+        }
+        else{
+            App blankApp = new App();
+            blankApp.setXRayAppInfo(new XRayAppInfo());
+            return blankApp;
+        }
     }
 
     public App getApp( int index ){

@@ -1,6 +1,7 @@
 package org.sociam.koalahero;
 
 import android.arch.core.util.Function;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -50,7 +51,11 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 // Load CSM and Host Mapping Information.
-
+                AppModel appModel = AppModel.getInstance();
+                App selectedApp = (App) adapterView.getItemAtPosition(i);
+                appModel.selectedAppPackageName = selectedApp.getPackageName();
+                Intent intent = new Intent(getApplicationContext(), PerAppViewActivity.class);
+                startActivity(intent);
             }
         });
     }

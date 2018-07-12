@@ -21,6 +21,8 @@ public class SearchActivity extends AppCompatActivity {
     Button searchButton;
     ListView searchResultsListView;
 
+    XRayAPI.AppSearchRequest appSearchRequest = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,15 +65,13 @@ public class SearchActivity extends AppCompatActivity {
             public boolean onQueryTextChange(String s) {
                 // don't do anything if query changes.
                 // Could make use of XRay's Search Term for autocomplete suggestions.
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextSubmit(String query) {
                 XRayAPI xRayAPI = XRayAPI.getInstance();
 
-                xRayAPI.executeAppSearchRequest(
-                        query,
+                if(appSearchRequest != null && !appSearchRequest.isCancelled()) {
+                    appSearchRequest.cancel(true);
+                }
+
+                appSearchRequest = xRayAPI.createNewAppSearchRequest(
                         getApplicationContext(),
                         new Function<Void, Void>() {
                             @Override
@@ -89,6 +89,39 @@ public class SearchActivity extends AppCompatActivity {
                             }
                         }
                 );
+
+                appSearchRequest.execute(s);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                XRayAPI xRayAPI = XRayAPI.getInstance();
+
+                if(appSearchRequest != null && !appSearchRequest.isCancelled()) {
+                    appSearchRequest.cancel(true);
+                }
+
+                appSearchRequest = xRayAPI.createNewAppSearchRequest(
+                        getApplicationContext(),
+                        new Function<Void, Void>() {
+                            @Override
+                            public Void apply(Void input) {
+                                // End Loading Anim, if there is one.
+                                return null;
+                            }
+                        },
+                        new Function<ArrayList<App>, Void>() {
+                            @Override
+                            public Void apply(ArrayList<App> input) {
+                                // Refresh Array List
+                                setSearchResultsListViewAdapter(input.toArray(new App[input.size()]));
+                                return null;
+                            }
+                        }
+                );
+
+                appSearchRequest.execute(query);
 
                 return true;
             }

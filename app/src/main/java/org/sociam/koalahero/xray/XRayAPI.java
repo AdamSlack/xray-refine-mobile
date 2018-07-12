@@ -57,6 +57,15 @@ public class XRayAPI {
         return INSTANCE;
     }
 
+
+    public AppSearchRequest createNewAppSearchRequest(
+            Context c,
+            Function<Void, Void> resultFunction,
+            Function<ArrayList<App>, Void> progressFunction
+    ) {
+        return new AppSearchRequest(c, resultFunction, progressFunction);
+    }
+
     public void executeAppSearchRequest(
             String searchTerm,
             Context c,
@@ -66,7 +75,7 @@ public class XRayAPI {
         new AppSearchRequest(c, resultFunction, progressFunction).execute(searchTerm);
     }
 
-    private class AppSearchRequest extends AsyncTask<String, ArrayList<App>, Void> {
+    public class AppSearchRequest extends AsyncTask<String, ArrayList<App>, Void> {
 
         private Context context;
         private Function<Void, Void> resultFunction;

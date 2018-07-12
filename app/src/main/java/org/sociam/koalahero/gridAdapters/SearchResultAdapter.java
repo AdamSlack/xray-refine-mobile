@@ -19,6 +19,7 @@ import org.sociam.koalahero.R;
 import org.sociam.koalahero.appsInspector.App;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class SearchResultAdapter extends BaseAdapter {
@@ -32,12 +33,28 @@ public class SearchResultAdapter extends BaseAdapter {
     private RatingBar searchResultRating;
 
     private App[] searchResults;
-//    private Drawable[] icons;
+    private Drawable[] icons;
+    private String[] URLs;
 
     public SearchResultAdapter(Context c, App[] searchResults) {
         context = c;
         layoutInflator = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.searchResults = searchResults;
+        this.icons = new Drawable[searchResults.length];
+        this.URLs = new String[searchResults.length];
+
+        for(int i = 0; i < searchResults.length; i++) {
+            if (!searchResults[i].getxRayAppInfo().title.equals("No Results Found.")) {
+                String packageName = searchResults[i].getxRayAppInfo().app;
+                String storeType = searchResults[i].getxRayAppInfo().storeType;
+                String version = searchResults[i].getxRayAppInfo().version;
+                String region = searchResults[i].getxRayAppInfo().region;
+
+                this.URLs[i] = "https://negi.io/api/icons/" + packageName + "/" + storeType + "/" + region + "/" + version + "/" + "icon.png";
+            }
+        }
+
+        new DownloadImageTask().execute(this.URLs);
 
 //        this.icons = new Drawable[searchResults.length];
 //        Arrays.fill(icons, context.getDrawable(R.mipmap.ic_launcher));
@@ -74,45 +91,43 @@ public class SearchResultAdapter extends BaseAdapter {
 
         searchResultTitle.setText(searchResult.getxRayAppInfo().title);
         searchResultRating.setRating((float) searchResult.getxRayAppInfo().appStoreInfo.rating);
+        searchResultImage.setImageDrawable(this.icons[position]);
 
-        if(!searchResult.getxRayAppInfo().title.equals("No Results Found.")) {
-            String packageName = searchResult.getxRayAppInfo().app;
-            String storeType = searchResult.getxRayAppInfo().storeType;
-            String version = searchResult.getxRayAppInfo().version;
-            String region = searchResult.getxRayAppInfo().region;
-
-            String URL = "https://negi.io/api/icons/" + packageName + "/" + storeType + "/" + region + "/" + version + "/" + "icon.png";
-            new DownloadImageTask(position).execute(URL);
-        }
         return grid;
     }
 
 
     // Code snippet lifted from https://stackoverflow.com/questions/5776851/load-image-from-url
 
-    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
+    private class DownloadImageTask extends AsyncTask<String,Bitmap, Void> {
 
         private int position;
 
-        private DownloadImageTask(){}
-        private DownloadImageTask(int position) {
-            this.position = position;
-        }
-
-        protected Bitmap doInBackground(String... urls) {
-            String urldisplay = urls[0];
-            Bitmap mIcon11 = null;
-            try {
-                InputStream in = new java.net.URL(urldisplay).openStream();
-                mIcon11 = BitmapFactory.decodeStream(in);
-            } catch (Exception e) {
-                e.printStackTrace();
+        @Override
+        protected Void doInBackground(String... urls) {
+            for (this.position=0; this.position < urls.length; this.position++) {
+                String urldisplay = urls[this.position];
+                Bitmap mIcon = null;
+                try {
+                    InputStream in = new java.net.URL(urldisplay).openStream();
+                    mIcon = BitmapFactory.decodeStream(in);
+                    publishProgress(mIcon);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
-            return mIcon11;
+            return null;
         }
 
-        protected void onPostExecute(Bitmap result) {
-            searchResultImage.setImageBitmap(result);
+        @Override
+        protected void onProgressUpdate(Bitmap... values) {
+            super.onProgressUpdate(values);
+            icons[this.position] = new BitmapDrawable(context.getResources(), values[0]);
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+
         }
     }
 

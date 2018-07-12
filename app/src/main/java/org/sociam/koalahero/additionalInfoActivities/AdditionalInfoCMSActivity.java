@@ -104,6 +104,8 @@ public class AdditionalInfoCMSActivity extends AppCompatActivity {
             }
         });
 
+        titleTextView.setText(xRayAppInfo.title);
+        
         if(xRayAppInfo.icon != null) {
             iconImageView.setImageDrawable(xRayAppInfo.icon);
         }
@@ -122,7 +124,6 @@ public class AdditionalInfoCMSActivity extends AppCompatActivity {
         try {
             ApplicationInfo appInfo = getPackageManager().getApplicationInfo(xRayAppInfo.app, 0);
             // App Name
-            titleTextView.setText(getPackageManager().getApplicationLabel(appInfo));
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }

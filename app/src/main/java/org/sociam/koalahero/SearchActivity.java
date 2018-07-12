@@ -76,7 +76,6 @@ public class SearchActivity extends AppCompatActivity {
         TrackerMapperAPI trackerMapperAPI = TrackerMapperAPI.getInstance(getApplicationContext());
         final AppModel appModel = AppModel.getInstance();
 
-        ArrayList<String> hosts = appModel.getApp(appModel.selectedAppPackageName).getxRayAppInfo().hosts;
 
         trackerMapperAPI.executeTrackerMapperBulkRequest(
                 new Function<Void, Void>() {
@@ -109,7 +108,7 @@ public class SearchActivity extends AppCompatActivity {
                         return null;
                     }
                 },
-                hosts.toArray(new String[hosts.size()])
+                appModel.selectedAppPackageName
         );
     }
 

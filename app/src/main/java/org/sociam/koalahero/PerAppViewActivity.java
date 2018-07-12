@@ -83,20 +83,26 @@ public class PerAppViewActivity extends AppCompatActivity {
         // Set Developer name.
         developerName.setText(xRayAppInfo.developerInfo.devName);
 
-        try {
-            ApplicationInfo deviceAppInfo = getPackageManager().getApplicationInfo(xRayAppInfo.app,0);
+        // Set Title
+        titleTextView.setText(xRayAppInfo.title);
 
-            // App Name and Summary
-            titleTextView.setText(getPackageManager().getApplicationLabel(deviceAppInfo));
-            summaryTextView.setText(xRayAppInfo.appStoreInfo.summary);
+        // Set Summary
+        summaryTextView.setText(xRayAppInfo.appStoreInfo.summary);
 
-            // App Icon
-            Drawable icon = getPackageManager().getApplicationIcon(deviceAppInfo);
-            iconImageView.setImageDrawable(icon);
-
-
+        if(xRayAppInfo.icon != null) {
+            iconImageView.setImageDrawable(xRayAppInfo.icon);
         }
-        catch (PackageManager.NameNotFoundException e) { e.printStackTrace(); }
+        else {
+            // Set information read from device
+            try {
+                ApplicationInfo appInfo = getPackageManager().getApplicationInfo(xRayAppInfo.app, 0);
+                Drawable icon = getPackageManager().getApplicationIcon(appInfo);
+                iconImageView.setImageDrawable(icon);
+            } catch (PackageManager.NameNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+
 
         ImageView iv0 = (ImageView) findViewById(R.id.additional_option_0_image);
         ImageView iv1 = (ImageView) findViewById(R.id.additional_option_1_image);

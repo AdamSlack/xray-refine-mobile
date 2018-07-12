@@ -69,6 +69,9 @@ public class AdditionalInfoForParentsActivity extends AppCompatActivity {
         TextView appTitle = (TextView) findViewById(R.id.per_app_title);
         ImageView appIcon = (ImageView) findViewById(R.id.per_app_icon);
 
+
+        appTitle.setText(app.getxRayAppInfo().title);
+
         if(app.getxRayAppInfo().icon != null) {
             appIcon.setImageDrawable(app.getxRayAppInfo().icon);
         }
@@ -86,8 +89,6 @@ public class AdditionalInfoForParentsActivity extends AppCompatActivity {
         // Set information read from device
         try {
             ApplicationInfo appInfo = getPackageManager().getApplicationInfo(app.getxRayAppInfo().app, 0);
-            // App Name
-            appTitle.setText(getPackageManager().getApplicationLabel(appInfo));
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }

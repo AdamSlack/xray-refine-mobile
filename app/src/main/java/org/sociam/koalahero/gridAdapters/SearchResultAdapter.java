@@ -41,6 +41,7 @@ public class SearchResultAdapter extends BaseAdapter {
         layoutInflator = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.searchResults = searchResults;
         this.icons = new Drawable[searchResults.length];
+        Arrays.fill(this.icons, context.getDrawable(R.mipmap.ic_launcher));
         this.URLs = new String[searchResults.length];
 
         for(int i = 0; i < searchResults.length; i++) {
@@ -56,8 +57,6 @@ public class SearchResultAdapter extends BaseAdapter {
 
         new DownloadImageTask().execute(this.URLs);
 
-//        this.icons = new Drawable[searchResults.length];
-//        Arrays.fill(icons, context.getDrawable(R.mipmap.ic_launcher));
     }
 
     public int getCount() {
@@ -122,7 +121,9 @@ public class SearchResultAdapter extends BaseAdapter {
         @Override
         protected void onProgressUpdate(Bitmap... values) {
             super.onProgressUpdate(values);
-            icons[this.position] = new BitmapDrawable(context.getResources(), values[0]);
+            if (this.position < icons.length) {
+                icons[this.position] = new BitmapDrawable(context.getResources(), values[0]);
+            }
         }
 
         @Override

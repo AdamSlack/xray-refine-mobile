@@ -60,7 +60,7 @@ public class SearchActivity extends AppCompatActivity {
                 AppModel appModel = AppModel.getInstance();
                 App selectedApp = (App) adapterView.getItemAtPosition(i);
                 selectedApp.companies = new HashMap<>();
-                selectedApp.setCsmAppInfo(new CSMAppInfo());g
+                selectedApp.setCsmAppInfo(new CSMAppInfo());
                 appModel.selectedAppPackageName = selectedApp.getPackageName();
                 loadAdditionalAppData();
             }

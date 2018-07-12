@@ -15,10 +15,14 @@ import org.sociam.koalahero.appsInspector.App;
 import org.sociam.koalahero.appsInspector.AppModel;
 import org.sociam.koalahero.gridAdapters.SearchResultAdapter;
 import org.sociam.koalahero.trackerMapper.TrackerMapperAPI;
+import org.sociam.koalahero.trackerMapper.TrackerMapperCompany;
 import org.sociam.koalahero.xray.XRayAPI;
 import org.sociam.koalahero.xray.XRayAppInfo;
 
+import java.io.Console;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class SearchActivity extends AppCompatActivity {
 
@@ -54,15 +58,54 @@ public class SearchActivity extends AppCompatActivity {
                 AppModel appModel = AppModel.getInstance();
                 App selectedApp = (App) adapterView.getItemAtPosition(i);
                 appModel.selectedAppPackageName = selectedApp.getPackageName();
-                Intent intent = new Intent(getApplicationContext(), PerAppViewActivity.class);
-                startActivity(intent);
             }
         });
     }
 
+    private void launchAppInspectionActivity() {
+        Intent intent = new Intent(getApplicationContext(), PerAppViewActivity.class);
+        startActivity(intent);
+    }
+
     private void loadAdditionalAppData() {
         TrackerMapperAPI trackerMapperAPI = TrackerMapperAPI.getInstance(getApplicationContext());
-        //trackerMapperAPI.executeTrackerMapperRequest();
+        final AppModel appModel = AppModel.getInstance();
+
+        ArrayList<String> hosts = appModel.getApp(appModel.selectedAppPackageName).getxRayAppInfo().hosts;
+
+        trackerMapperAPI.executeTrackerMapperBulkRequest(
+                new Function<Void, Void>() {
+                    @Override
+                    public Void apply(Void input) {
+                        launchAppInspectionActivity();
+                        return null;
+                    }
+                },
+
+                new Function<ArrayList<TrackerMapperCompany>, Void>() {
+                    @Override
+                    public Void apply(ArrayList<TrackerMapperCompany> input) {
+                        App app = appModel.getApp(input.get(0).appPackageName);
+                        for(TrackerMapperCompany company : input) {
+                            if (!app.companies.containsKey(company.companyName)) {
+                                app.companies.put(company.companyName, company);
+                            }
+                            app.companies.get(company.companyName).occurrences += 1;
+
+
+                            if (!app.localeCounts.containsKey(company.locale)) {
+                                app.localeCounts.put(company.locale, 0);
+                            }
+
+                            app.localeCounts.put(company.locale, app.localeCounts.get(company.locale) + 1);
+
+                            System.out.println(company.companyName + "--" + company.locale);
+                        }
+                        return null;
+                    }
+                },
+                hosts.toArray(new String[hosts.size()])
+        );
     }
 
     private void setSearchResultsListViewAdapter(App[] results) {

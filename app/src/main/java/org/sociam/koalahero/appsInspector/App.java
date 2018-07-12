@@ -21,6 +21,7 @@ public class App implements Comparable<App>,Comparator<App> {
     private boolean selectedToDisplay;
     private boolean inTop10;
 
+
     // Day, Week, and Monthly Usage times for this app.
     private java.util.Map<Interval,Long> usageTimes;
 
@@ -56,7 +57,22 @@ public class App implements Comparable<App>,Comparator<App> {
         this.localeCounts = new HashMap<>();
 
     }
+    public App(XRayAppInfo xRayAppInfo){
+        this.xRayAppInfo = xRayAppInfo;
+        this.selectedToDisplay = false;
+        this.inTop10 = false;
 
+        usageTimes = new java.util.HashMap<Interval,Long>();
+
+        this.csmAppInfo = new CSMAppInfo();
+
+        this.localeCounts = new HashMap<>();
+
+    }
+
+    public void setXRayAppInfo(XRayAppInfo xRayAppInfo) {
+        this.xRayAppInfo = xRayAppInfo;
+    }
 
     public CSMAppInfo getCsmAppInfo() {
         return csmAppInfo;

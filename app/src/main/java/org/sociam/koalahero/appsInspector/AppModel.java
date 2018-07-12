@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.widget.TextView;
 
 import org.sociam.koalahero.R;
+import org.sociam.koalahero.xray.XRayAppInfo;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -49,8 +50,11 @@ public class AppModel {
     public boolean isReady() { return appModelReady; }
     public void setReady(){ appModelReady = true; }
 
-    // List of all apps
+    // Map of all apps
     private HashMap<String, App> installedApps = new HashMap<String,App>();
+
+    // Map of App Search Results, max 10.
+    public HashMap<String, App> searchResults = new HashMap<String, App>();
 
     // Current Selected App
     public String selectedAppPackageName;
@@ -67,7 +71,17 @@ public class AppModel {
     }
 
     public App getApp( String packageName ){
-        return installedApps.get(packageName);
+        if(installedApps.containsKey(packageName)){
+            return installedApps.get(packageName);
+        }
+        else if(searchResults.containsKey(packageName)){
+            return searchResults.get(packageName);
+        }
+        else{
+            App blankApp = new App();
+            blankApp.setXRayAppInfo(new XRayAppInfo());
+            return blankApp;
+        }
     }
 
     public App getApp( int index ){

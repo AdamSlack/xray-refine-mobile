@@ -143,15 +143,18 @@ public class AdditionalInfoTrackersActivity extends AppCompatActivity {
         /**
          * Set information read from device
          */
-        try {
-            ApplicationInfo appInfo = getPackageManager().getApplicationInfo(this.selectedApp.getxRayAppInfo().app,0);
-
-            // App Icon
-            Drawable icon = getPackageManager().getApplicationIcon(appInfo);
-            appIcon.setImageDrawable(icon);
+        if(this.selectedApp.getxRayAppInfo().icon != null) {
+            appIcon.setImageDrawable(this.selectedApp.getxRayAppInfo().icon);
         }
-        catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
+        else {
+            // Set information read from device
+            try {
+                ApplicationInfo appInfo = getPackageManager().getApplicationInfo(this.selectedApp.getxRayAppInfo().app, 0);
+                Drawable icon = getPackageManager().getApplicationIcon(appInfo);
+                appIcon.setImageDrawable(icon);
+            } catch (PackageManager.NameNotFoundException e) {
+                e.printStackTrace();
+            }
         }
     }
 

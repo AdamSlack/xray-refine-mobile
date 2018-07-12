@@ -64,6 +64,15 @@ public class XRayJsonParser {
                 else if(name.equals("icon")) {
                     xRayAppInfo.iconURI = jsonReader.nextString();
                 }
+                else if(name.equals("string")) {
+                    xRayAppInfo.storeType = jsonReader.nextString();
+                }
+                else if (name.equals("ver")) {
+                    xRayAppInfo.version = jsonReader.nextString();
+                }
+                else if (name.equals("region")) {
+                    xRayAppInfo.region = jsonReader.nextString();
+                }
                 else{
                     jsonReader.skipValue();
                 }

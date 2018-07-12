@@ -69,6 +69,7 @@ public class SearchActivity extends AppCompatActivity {
 
                 if(appSearchRequest != null && !appSearchRequest.isCancelled()) {
                     appSearchRequest.cancel(true);
+                    setSearchResultsListViewAdapter(new App[0]);
                 }
 
                 appSearchRequest = xRayAPI.createNewAppSearchRequest(
@@ -84,6 +85,11 @@ public class SearchActivity extends AppCompatActivity {
                             @Override
                             public Void apply(ArrayList<App> input) {
                                 // Refresh Array List
+                                if(input.size() == 0) {
+                                    App blank = new App();
+                                    blank.getxRayAppInfo().title = "No Results Found.";
+                                    input.add(blank);
+                                }
                                 setSearchResultsListViewAdapter(input.toArray(new App[input.size()]));
                                 return null;
                             }
@@ -100,7 +106,10 @@ public class SearchActivity extends AppCompatActivity {
 
                 if(appSearchRequest != null && !appSearchRequest.isCancelled()) {
                     appSearchRequest.cancel(true);
+                    setSearchResultsListViewAdapter(new App[0]);
                 }
+
+                // Begin loading anim...
 
                 appSearchRequest = xRayAPI.createNewAppSearchRequest(
                         getApplicationContext(),
